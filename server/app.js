@@ -1,5 +1,4 @@
-const { NODE_ENV, SERVER_PORT } = process.env
-if (NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 const express = require('express')
@@ -14,7 +13,7 @@ app.use(cors())
 // api routes
 // app.use(`/api/${API_VERSION}`, require('./routes'))
 app.get('/', (req, res) => {
-  res.send(`Hi ${SERVER_PORT}`)
+  res.send(`Hi ${process.env.SERVER_PORT}`)
 })
 // page not found
 app.use((req, res) => {
