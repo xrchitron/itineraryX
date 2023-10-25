@@ -10,7 +10,7 @@ script:
   - docker run -e CI=true xrchitron/express-test npm test
 
 after_success:
-  # - docker build -t xrchitron/itineraryx-client ./client
+  # - docker build -t xrchitron/itineraryx-client ./client 
   - docker build -t xrchitron/itineraryx-nginx ./nginx
   - docker build -t xrchitron/itineraryx-server ./server
   - docker build -t xrchitron/itineraryx-worker ./worker
