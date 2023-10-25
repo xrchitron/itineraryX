@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const cors = require('cors')
-const { SERVER_PORT, API_VERSION } = process.env
+const { SERVER_PORT } = process.env
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: true }))
@@ -12,7 +12,7 @@ app.use(cors())
 
 // api routes
 // app.use(`/api/${API_VERSION}`, require('./routes'))
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
   res.send('Hi')
 })
 // page not found
