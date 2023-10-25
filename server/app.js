@@ -12,7 +12,7 @@ app.use(cors())
 
 // api routes
 // app.use(`/api/${API_VERSION}`, require('./routes'))
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.send('Hi')
 })
 // page not found
