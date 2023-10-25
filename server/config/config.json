@@ -11,13 +11,11 @@
     "password": null,
     "database": "database_test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "operatorsAliases": false,
   },
   "production": {
-    "username": "mysqldb",
-    "password": "mysql_password",
-    "database": "itineraryX",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "use_env_variable": "PROD_DATABASE_URL",
+    "operatorsAliases": false,
   }
 }
