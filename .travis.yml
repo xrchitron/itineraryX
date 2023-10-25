@@ -1,0 +1,35 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t xrchitron/vue-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true xrchitron/vue-test npm test
+
+after_success:
+  - docker build -t xrchitron/itineraryX-client ./client
+  - docker build -t xrchitron/itineraryX-nginx ./nginx
+  - docker build -t xrchitron/itineraryX-server ./server
+  - docker build -t xrchitron/itineraryX-worker ./worker
+  #Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  #Take those images and push them to docker hub
+  - docker push xrchitron/itineraryX-client
+  - docker push xrchitron/itineraryX-nginx
+  - docker push xrchitron/itineraryX-server
+  - docker push xrchitron/itineraryX-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: 'ap-northeast-1'
+  app: 'itineraryX-docker'
+  env: 'ItineraryX-docker-env'
+  bucket_name: 'elasticbeanstalk-ap-northeast-1-343534424551' #S3 bucket name
+  bucket_path: 'docker-itineraryX' #same as app name
+  on:
+    branch: main
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
