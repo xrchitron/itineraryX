@@ -10,26 +10,26 @@ script:
   - docker run -e CI=true xrchitron/vue-test npm test
 
 after_success:
-  - docker build -t xrchitron/itineraryX-client ./client
-  - docker build -t xrchitron/itineraryX-nginx ./nginx
-  - docker build -t xrchitron/itineraryX-server ./server
-  - docker build -t xrchitron/itineraryX-worker ./worker
+  - docker build -t xrchitron/itineraryx-client ./client
+  - docker build -t xrchitron/itineraryx-nginx ./nginx
+  - docker build -t xrchitron/itineraryx-server ./server
+  - docker build -t xrchitron/itineraryx-worker ./worker
   #Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   #Take those images and push them to docker hub
-  - docker push xrchitron/itineraryX-client
-  - docker push xrchitron/itineraryX-nginx
-  - docker push xrchitron/itineraryX-server
-  - docker push xrchitron/itineraryX-worker
+  - docker push xrchitron/itineraryx-client
+  - docker push xrchitron/itineraryx-nginx
+  - docker push xrchitron/itineraryx-server
+  - docker push xrchitron/itineraryx-worker
 
-deploy:
-  provider: elasticbeanstalk
-  region: 'ap-northeast-1'
-  app: 'itineraryX-docker'
-  env: 'ItineraryX-docker-env'
-  bucket_name: 'elasticbeanstalk-ap-northeast-1-343534424551' #S3 bucket name
-  bucket_path: 'docker-itineraryX' #same as app name
-  on:
-    branch: main
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
+# deploy:
+#   provider: elasticbeanstalk
+#   region: 'ap-northeast-1'
+#   app: 'itineraryx-docker'
+#   env: 'Itineraryx-docker-env'
+#   bucket_name: 'elasticbeanstalk-ap-northeast-1-343534424551' #S3 bucket name
+#   bucket_path: 'docker-itineraryx' #same as app name
+#   on:
+#     branch: main
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key: $AWS_SECRET_KEY
