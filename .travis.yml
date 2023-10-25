@@ -4,20 +4,20 @@ services:
   - docker
 
 before_install:
-  - docker build -t xrchitron/vue-test -f ./client/Dockerfile.dev ./client
+  - docker build -t xrchitron/express-test -f ./server/Dockerfile.dev ./server
 
 script:
-  - docker run -e CI=true xrchitron/vue-test npm test
+  - docker run -e CI=true xrchitron/express-test npm test
 
 after_success:
-  - docker build -t xrchitron/itineraryx-client ./client
+  # - docker build -t xrchitron/itineraryx-client ./client
   - docker build -t xrchitron/itineraryx-nginx ./nginx
   - docker build -t xrchitron/itineraryx-server ./server
   - docker build -t xrchitron/itineraryx-worker ./worker
   #Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   #Take those images and push them to docker hub
-  - docker push xrchitron/itineraryx-client
+  # - docker push xrchitron/itineraryx-client
   - docker push xrchitron/itineraryx-nginx
   - docker push xrchitron/itineraryx-server
   - docker push xrchitron/itineraryx-worker
