@@ -10,10 +10,10 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 3000,
     hmr:{
-      protocol: 'wss',
+      protocol: 'ws',
       // host: 'localhost',
       host: 'itineraryx.ap-northeast-1.elasticbeanstalk.com',
-      port: 5000,
+      port: 8080,
       path: '/ws',
       timeout: 20000,
       overlay: true,
