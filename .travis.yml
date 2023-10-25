@@ -22,14 +22,14 @@ after_success:
   - docker push xrchitron/itineraryx-server
   - docker push xrchitron/itineraryx-worker
 
-# deploy:
-#   provider: elasticbeanstalk
-#   region: 'ap-northeast-1'
-#   app: 'itineraryx-docker'
-#   env: 'Itineraryx-docker-env'
-#   bucket_name: 'elasticbeanstalk-ap-northeast-1-343534424551' #S3 bucket name
-#   bucket_path: 'docker-itineraryx' #same as app name
-#   on:
-#     branch: main
-#   access_key_id: $AWS_ACCESS_KEY
-#   secret_access_key: $AWS_SECRET_KEY
+deploy:
+  provider: elasticbeanstalk
+  region: 'ap-northeast-1'
+  app: 'itineraryx'
+  env: 'Itineraryx-env'
+  bucket_name: 'elasticbeanstalk-ap-northeast-1-343534424551'
+  bucket_path: 'itineraryx'
+  on:
+    branch: main
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY

@@ -3,28 +3,28 @@
   "containerDefinitions": [
     {
       "name": "client",
-      "image": "xrchitron/itineraryX-client",
+      "image": "xrchitron/itineraryx-client",
       "hostname": "client",
       "essential": false,
       "memory": 128
     },
     {
       "name": "server",
-      "image": "xrchitron/itineraryX-server",
+      "image": "xrchitron/itineraryx-server",
       "hostname": "api",
       "essential": false,
       "memory": 128
     },
     {
       "name": "worker",
-      "image": "xrchitron/itineraryX-worker",
+      "image": "xrchitron/itineraryx-worker",
       "hostname": "worker",
       "essential": false,
       "memory": 128
     },
     {
       "name": "nginx",
-      "image": "xrchitron/itineraryX-nginx",
+      "image": "xrchitron/itineraryx-nginx",
       "hostname": "nginx",
       "essential": true,
       "portMappings": [
