@@ -6,16 +6,15 @@ services:
       - MYSQL_ROOT_PASSWORD=mysql_password
   redis:
     image: 'redis:latest'
-  # nginx:
-  #   depends_on:
-  #     - api
-  #     # - client
-  #   restart: always
-  #   build:
-  #     dockerfile: Dockerfile.dev
-  #     context: ./nginx
-  #   ports:
-  #     - '80:80'
+    nginx:
+      depends_on:
+        - api
+      restart: always
+      build:
+        dockerfile: Dockerfile.dev
+        context: ./nginx
+      ports:
+        - '80:80'
   api:
     build:
       dockerfile: Dockerfile.dev
