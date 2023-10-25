@@ -21,14 +21,14 @@ after_success:
   - docker push xrchitron/itineraryx-nginx
   - docker push xrchitron/itineraryx-server
   - docker push xrchitron/itineraryx-worker
-
+#try to deploy to AWS
 deploy:
   provider: elasticbeanstalk
   region: 'ap-northeast-1'
-  app: 'itineraryx'
-  env: 'Itineraryx-env'
+  app: 'itinerary-x'
+  env: 'Itinerary-x-env'
   bucket_name: 'elasticbeanstalk-ap-northeast-1-343534424551'
-  bucket_path: 'itineraryx'
+  bucket_path: 'itinerary-x'
   on:
     branch: main
   access_key_id: $AWS_ACCESS_KEY
