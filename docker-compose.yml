@@ -31,8 +31,10 @@ services:
       - MYSQL_PASSWORD=mysql_password
       - MYSQL_PORT=3306
       - SERVER_PORT=3000
-      - API_VERSION = v1
-      - NODE_ENV = development
+      - API_VERSION=v1
+      - NODE_ENV=development
+    env_file:
+      - .env
   # client: 
   #   build:
   #     dockerfile: Dockerfile.dev

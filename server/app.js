@@ -18,7 +18,7 @@ app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, 'public/404.html'))
 })
 
-const server = app.listen(process.env.SERVER_PORT, () => {
+const server = app.listen(3000, () => {
   console.log(`Server is listening on port ${process.env.SERVER_PORT}`)
 })
 // try to deploy again
