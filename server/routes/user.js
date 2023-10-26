@@ -1,9 +1,10 @@
 const router = require('express').Router()
-const User = require('../controllers/userController')
-// const auth = require('../middleware/auth')
-// router
-//   .route('/')
-//   .get(auth, User.getUser) // get user info by token
+const passport = require('../config/passport')
+const User = require('../controllers/user-controller')
+const { auth } = require('../middleware/auth')
+router
+  .route('/')
+  .get(auth, User.getUser) // get user info by token
 //   .post(User.getUser) // get user info by other user id
 //   .post(auth, User.updateUser) // update user info
 
@@ -11,9 +12,9 @@ router
   .route('/signup')
   .post(User.signUp) // create new user
 
-// router
-//   .route('/login')
-//   .post(User.loginUser) // login user
+router
+  .route('/login')
+  .post(passport.authenticate('local', { session: false }), User.login) // login user
 
 // router
 //   .route('/followings')

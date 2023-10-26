@@ -34,12 +34,7 @@ const jwtOptions = {
   secretOrKey: process.env.JWT_SECRET
 }
 passport.use(new JWTStrategy(jwtOptions, (jwtPayload, cb) => {
-  return User.findByPk(jwtPayload.id, {
-    include: [
-      { model: User, as: 'Followers' },
-      { model: User, as: 'Followings' }
-    ]
-  })
+  return User.findByPk(jwtPayload.id)
     .then(user => {
       const userData = user.toJSON()
       delete userData.password
@@ -55,12 +50,7 @@ passport.serializeUser((user, cb) => {
 })
 // 反序列化 就是透過 user id，把整個 user 物件實例拿出來
 passport.deserializeUser((id, cb) => {
-  return User.findByPk(id, {
-    include: [
-      { model: User, as: 'Followers' },
-      { model: User, as: 'Followings' }
-    ]
-  })
+  return User.findByPk(id)
     .then(user => cb(null, user.toJSON()))
     .catch(err => cb(err))
 })

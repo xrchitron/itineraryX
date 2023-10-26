@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const { User } = require('../models')
-
+const jwt = require('jsonwebtoken')
+const DEFAULT_AVATAR = 'https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg'
 const userServices = {
   signUp: (req, cb) => {
     const userInput = req.body
@@ -26,6 +27,33 @@ const userServices = {
       })
       .then(data => cb(null, data))
       .catch(err => cb(err)) // catch error above and call error-handler middleware
+  },
+  login: (req, cb) => {
+    try {
+      const userData = req.user.toJSON()
+      delete userData.password
+      const token = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '30d' })
+      const data = {
+        token,
+        user: userData
+      }
+      cb(null, data)
+    } catch (err) {
+      cb(err)
+    }
+  },
+  getUser: (req, cb) => {
+    return User.findByPk(req.user.id//, {
+    //   include: [
+    //     { model: User, as: 'Followers' },
+    //     { model: User, as: 'Followings' }
+    //   ]}
+    )
+      .then(user => {
+        if (!user) throw new Error("User didn't exist!")
+        cb(null, { user, DEFAULT_AVATAR })
+      })
+      .catch(err => cb(err))
   }
 }
 module.exports = userServices
