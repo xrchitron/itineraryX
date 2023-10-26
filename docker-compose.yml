@@ -33,8 +33,6 @@ services:
       - SERVER_PORT=3000
       - API_VERSION=v1
       - NODE_ENV=development
-    env_file:
-      - .env
   # client: 
   #   build:
   #     dockerfile: Dockerfile.dev
