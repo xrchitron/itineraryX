@@ -5,8 +5,8 @@ const { auth } = require('../middleware/auth')
 router
   .route('/')
   .get(auth, User.getUser) // get user info by token
+  .put(auth, User.putUser) // update user info
 //   .post(User.getUser) // get user info by other user id
-//   .post(auth, User.updateUser) // update user info
 
 router
   .route('/signup')
@@ -16,13 +16,10 @@ router
   .route('/login')
   .post(passport.authenticate('local', { session: false }), User.login) // login user
 
-// router
-//   .route('/followings')
-//   .get(User.getFollowings) // get followings
-//   .post(auth, User.addFollowing) // add following
-//   .delete(auth, User.removeFollowing) // remove following
-// router
-//   .route('/followers')
-//   .get(User.getFollowers) // get followers
+router
+  .route('/followings')
+  .post(auth, User.addFollowing) // add following
+  .delete(auth, User.removeFollowing) // remove following
+// .get(auth, User.getFollowings) // get followings
 
 module.exports = router
