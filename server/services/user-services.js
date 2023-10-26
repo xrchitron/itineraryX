@@ -44,15 +44,23 @@ const userServices = {
     }
   },
   getUser: (req, cb) => {
-    return User.findByPk(req.user.id//, {
-    //   include: [
-    //     { model: User, as: 'Followers' },
-    //     { model: User, as: 'Followings' }
-    //   ]}
+    return User.findByPk(req.user.id, {
+      include: [
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' }
+      ]
+    }
     )
       .then(user => {
         if (!user) throw new Error("User didn't exist!")
-        cb(null, { user, DEFAULT_AVATAR })
+
+        // delete user.password
+        const userData = user.toJSON()
+        delete userData.password
+        userData.Followers.forEach(follower => { delete follower.password })
+        userData.Followings.forEach(following => { delete following.password })
+
+        cb(null, { user: userData, DEFAULT_AVATAR })
       })
       .catch(err => cb(err))
   },
