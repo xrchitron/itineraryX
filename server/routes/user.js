@@ -1,15 +1,15 @@
 const router = require('express').Router()
-const User = require('../controllers/user')
-const auth = require('../middleware/auth')
+const User = require('../controllers/userController')
+// const auth = require('../middleware/auth')
 // router
 //   .route('/')
 //   .get(auth, User.getUser) // get user info by token
 //   .post(User.getUser) // get user info by other user id
 //   .post(auth, User.updateUser) // update user info
 
-// router
-//   .route('/signup')
-//   .post(User.createUser) // create new user
+router
+  .route('/signup')
+  .post(User.signUp) // create new user
 
 // router
 //   .route('/login')
