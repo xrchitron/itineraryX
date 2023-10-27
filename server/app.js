@@ -18,9 +18,11 @@ app.get('/v1/', (req, res) => {
 // api routes
 const userRoute = require('./routes/user')
 const itineraryRoute = require('./routes/itinerary')
+const mapRoute = require('./routes/map')
 
 app.use(`/${process.env.API_VERSION}/users`, userRoute)
 app.use(`/${process.env.API_VERSION}/itineraries`, itineraryRoute)
+app.use(`/${process.env.API_VERSION}/maps`, mapRoute)
 
 // page not found
 app.use((req, res) => {
