@@ -12,4 +12,8 @@ router
   .put(auth, Itinerary.putItinerary) // update Itinerary info
   .delete(auth, Itinerary.deleteItinerary) // delete Itinerary info
 
+router
+  .route('/participant')
+  .post(auth, Itinerary.postParticipant) // add participant to itinerary
+  .delete(auth, Itinerary.deleteParticipant) // delete participant from itinerary
 module.exports = router

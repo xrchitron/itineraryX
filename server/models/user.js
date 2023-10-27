@@ -22,6 +22,11 @@ module.exports = (sequelize, DataTypes) => {
         as: 'Followings'
       })
       User.hasMany(models.Itinerary, { foreignKey: 'holderId' })
+      User.belongsToMany(models.Itinerary, {
+        through: models.Participant,
+        foreignKey: 'participantId',
+        as: 'ParticipatingItineraries'
+      })
     }
   }
   User.init({

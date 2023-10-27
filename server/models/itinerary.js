@@ -11,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate (models) {
       // define association here
+      Itinerary.hasMany(models.Participant, { foreignKey: 'itineraryId' })
+      Itinerary.belongsToMany(models.User, {
+        through: models.Participant,
+        foreignKey: 'itineraryId',
+        as: 'ParticipantsUser'
+      })
     }
   }
   Itinerary.init({
