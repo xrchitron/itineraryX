@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'followerId',
         as: 'Followings'
       })
+      User.hasMany(models.Itinerary, { foreignKey: 'holderId' })
     }
   }
   User.init({

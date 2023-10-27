@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs')
 const { User, Followship } = require('../models')
 const jwt = require('jsonwebtoken')
 const { localFileHandler } = require('../utils/file')
-const DEFAULT_AVATAR = 'https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg'
 const userServices = {
   signUp: (req, cb) => {
     const userInput = req.body
@@ -60,7 +59,7 @@ const userServices = {
         userData.Followers.forEach(follower => { delete follower.password })
         userData.Followings.forEach(following => { delete following.password })
 
-        cb(null, { user: userData, DEFAULT_AVATAR })
+        cb(null, { user: userData })
       })
       .catch(err => cb(err))
   },
