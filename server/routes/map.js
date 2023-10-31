@@ -5,4 +5,7 @@ router
   .route('/')
   .get(auth, Map.getMap) // get map info with token
 
+router
+  .route('/distanceMatrix')
+  .post(Map.getDistanceMatrix)
 module.exports = router

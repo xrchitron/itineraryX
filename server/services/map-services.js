@@ -5,19 +5,34 @@ const mapServices = {
     const { address } = req.query
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`
     axios.get(url)
-      .then(response => {
-        const formattedAddress = response.data.results[0]
-        cb(null, formattedAddress)
+      .then(res => {
+        const response = res.data.results[0]
+        // const fullAddress = response.formatted_address
+        // const placeId = response.place_id
+        // const { lat, lng } = response.geometry.location
+        // const geocodeResponse = { fullAddress, placeId, lat, lng }
+        cb(null, response)
+      })
+      .catch(err => cb(err))
+  },
+  getDistanceMatrix (req, cb) {
+    const { origin, destination } = req.body
+    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin.lat},${origin.lng}&destinations=${destination.lat},${destination.lng}&key=${key}`
+    axios.get(url)
+      .then(res => {
+        const elements = res.data.rows[0].elements[0]
+        if (!elements.status === 'OK' || elements.distance === undefined) {
+          throw new Error('No results found')
+        } else {
+          const data = {
+            distance: elements.distance,
+            duration: elements.duration
+          }
+          console.log(data)
+          return cb(null, data)
+        }
       })
       .catch(err => cb(err))
   }
 }
 module.exports = mapServices
-// const { lat, lng } = req.query
-// const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.GOOGLE_MAP_API_KEY}`
-// axios.get(url)
-//   .then(response => {
-//     const { formatted_address } = response.data.results[0]
-//     cb(null, formatted_address)
-//   })
-//   .catch(err => cb(err))
