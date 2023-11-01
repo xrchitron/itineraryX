@@ -1,4 +1,6 @@
-const { Place, Distance } = require('../models')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
+const { Place, Route } = require('../models')
 const axios = require('axios')
 const key = process.env.API_KEY
 const mapServices = {
@@ -30,8 +32,10 @@ const mapServices = {
         if (!elements.status === 'OK' || elements.distance === undefined) {
           throw new Error('No results found')
         } else {
-          const distanceData = {
-            // haven't added itineraryId and date
+          const routeData = {
+            // haven't added the real data yet
+            itineraryId: 1,
+            date: '2023-01-01 12:23:44',
             originId: originContent.id,
             destinationId: destinationContent.id,
             distanceText: elements.distance.text,
@@ -39,18 +43,53 @@ const mapServices = {
             durationText: elements.duration.text,
             durationValue: elements.duration.value
           }
-          return distanceData
+          return routeData
         }
       })
-      .then(distanceData => {
-        return createDistance(distanceData)
+      .then(routeData => {
+        return createRoute(routeData)
       })
       .then(data => {
-        const distanceData = data.toJSON()
-        return cb(null, { distanceData })
+        const routeData = data.toJSON()
+        return cb(null, { routeData })
+      })
+      .catch(err => cb(err))
+  },
+  getPlace (req, cb) {
+    const { placeId } = req.body
+    Place.findByPk(placeId, { raw: true })
+      .then(place => {
+        if (!place) throw new Error('Place not found')
+        return cb(null, place)
+      })
+      .catch(err => cb(err))
+  },
+  postRoute (req, cb) {
+    const { itineraryId, date, sort } = req.body
+    const sortOrder = sort.order === 'asc' ? 'ASC' : 'DESC'
+    const sortKey = sort.key === 'distance' ? 'distanceValue' : 'durationValue'
+    return Route.findAll({
+      where: {
+        itineraryId,
+        date: {
+          [Op.between]: [`${date} 00:00:00`, `${date} 23:59:59`]
+        }
+      },
+      attributes: ['id', 'date', 'distanceText', 'distanceValue', 'durationText', 'durationValue', 'color'],
+      include: [
+        { model: Place, as: 'Origin', attributes: ['name', 'address', 'url', 'lat', 'lng'] },
+        { model: Place, as: 'Destination', attributes: ['name', 'address', 'url', 'lat', 'lng'] }
+      ],
+      order: [[sortKey, sortOrder]]
+    })
+      .then(route => {
+        if (!route || !route.length) throw new Error('Route not found')
+        const data = route
+        return cb(null, data)
       })
       .catch(err => cb(err))
   }
+
 }
 module.exports = mapServices
 
@@ -72,20 +111,27 @@ function createPlace (place) {
       }
     })
 }
-function createDistance (data) {
-  return Distance.findOne({ where: { originId: data.originId, destinationId: data.destinationId } })
-    .then(foundDistance => {
-      if (foundDistance) {
-        return foundDistance
+function createRoute (data) {
+  return Route.findOne({ where: { originId: data.originId, destinationId: data.destinationId } })
+    .then(foundRoute => {
+      if (foundRoute) {
+        return foundRoute
       } else {
-        return Distance.create({
+        return Route.create({
+          itineraryId: data.itineraryId,
+          date: data.date,
           originId: data.originId,
           destinationId: data.destinationId,
           distanceText: data.distanceText,
           distanceValue: data.distanceValue,
           durationText: data.durationText,
-          durationValue: data.durationValue
+          durationValue: data.durationValue,
+          color: getRandomLightColor()
         })
       }
     })
+}
+function getRandomLightColor () {
+  const color = 'hsl(' + Math.random() * 360 + ', 100%, 75%)'
+  return color
 }

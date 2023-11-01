@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-  class Distance extends Model {
+  class Route extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,9 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate (models) {
       // define association here
+      Route.belongsTo(models.Itinerary, { foreignKey: 'itineraryId' })
+      Route.belongsTo(models.Place, { foreignKey: 'originId', as: 'Origin' })
+      Route.belongsTo(models.Place, { foreignKey: 'destinationId', as: 'Destination' })
     }
   }
-  Distance.init({
+  Route.init({
     itineraryId: DataTypes.INTEGER,
     date: DataTypes.DATE,
     originId: DataTypes.INTEGER,
@@ -21,12 +24,13 @@ module.exports = (sequelize, DataTypes) => {
     distanceText: DataTypes.STRING,
     distanceValue: DataTypes.INTEGER,
     durationText: DataTypes.STRING,
-    durationValue: DataTypes.INTEGER
+    durationValue: DataTypes.INTEGER,
+    color: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Distance',
-    tableName: 'Distances',
+    modelName: 'Route',
+    tableName: 'Routes',
     underscored: true
   })
-  return Distance
+  return Route
 }

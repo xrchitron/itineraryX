@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('Distances', {
+    await queryInterface.createTable('Routes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -33,6 +33,9 @@ module.exports = {
       duration_value: {
         type: Sequelize.INTEGER
       },
+      color: {
+        type: Sequelize.STRING
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE
@@ -44,6 +47,6 @@ module.exports = {
     })
   },
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('Distances')
+    await queryInterface.dropTable('Routes')
   }
 }

@@ -6,6 +6,9 @@ router
   .get(auth, Map.getMap) // get map info with token
 
 router
+  .route('/routes')
+  .post(Map.postRoute) // get route info without token
+router
   .route('/distanceMatrix')
   .post(Map.getDistanceMatrix)
 module.exports = router
