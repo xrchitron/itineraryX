@@ -28,7 +28,8 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "sequelize": "^6.30.0",
-    "sequelize-cli": "^6.6.0"
+    "sequelize-cli": "^6.6.0",
+    "socker.io": "^0.0.0-alpha-beta"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
