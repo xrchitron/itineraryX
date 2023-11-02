@@ -2,73 +2,27 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const { Place, Route } = require('../models')
 const axios = require('axios')
-const key = process.env.API_KEY
 const mapServices = {
-  getMap: (req, cb) => {
-    const { address } = req.query
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`
-    axios.get(url)
-      .then(res => {
-        const response = res.data.results[0]
-        // const fullAddress = response.formatted_address
-        // const placeId = response.place_id
-        // const { lat, lng } = response.geometry.location
-        // const geocodeResponse = { fullAddress, placeId, lat, lng }
-        cb(null, response)
-      })
-      .catch(err => cb(err))
+  async getMap (url) {
+    const apiResponse = await axios.get(url)
+    return apiResponse.data.results[0]
+    // const fullAddress = response.formatted_address
+    // const placeId = response.place_id
+    // const { lat, lng } = response.geometry.location
+    // const geocodeResponse = { fullAddress, placeId, lat, lng }
   },
-  getDistanceMatrix (req, cb) {
-    const { origin, destination } = req.body
-    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin.lat},${origin.lng}&destinations=${destination.lat},${destination.lng}&key=${key}`
-    if (!origin || !destination) return cb(new Error('Missing required parameters'))
-    Promise.all([
-      createPlace(origin),
-      createPlace(destination),
-      axios.get(url)
-    ])
-      .then(([originContent, destinationContent, mapApiResponse]) => {
-        const elements = mapApiResponse.data.rows[0].elements[0]
-        if (!elements.status === 'OK' || elements.distance === undefined) {
-          throw new Error('No results found')
-        } else {
-          const routeData = {
-            // haven't added the real data yet
-            itineraryId: 1,
-            date: '2023-01-01 12:23:44',
-            originId: originContent.id,
-            destinationId: destinationContent.id,
-            distanceText: elements.distance.text,
-            distanceValue: elements.distance.value,
-            durationText: elements.duration.text,
-            durationValue: elements.duration.value
-          }
-          return routeData
-        }
-      })
-      .then(routeData => {
-        return createRoute(routeData)
-      })
-      .then(data => {
-        const routeData = data.toJSON()
-        return cb(null, { routeData })
-      })
-      .catch(err => cb(err))
+  async getDistanceMatrixWithUrl (url) {
+    const apiResponse = await axios.get(url)
+    return apiResponse
   },
-  getPlace (req, cb) {
-    const { placeId } = req.body
-    Place.findByPk(placeId, { raw: true })
-      .then(place => {
-        if (!place) throw new Error('Place not found')
-        return cb(null, place)
-      })
-      .catch(err => cb(err))
+  async getPlace (placeId) {
+    const place = await Place.findByPk(placeId, { raw: true })
+    return place
   },
-  postRoute (req, cb) {
-    const { itineraryId, date, sort } = req.body
+  async getOrderedRoute (itineraryId, date, sort) {
     const sortOrder = sort.order === 'asc' ? 'ASC' : 'DESC'
     const sortKey = sort.key === 'distance' ? 'distanceValue' : 'durationValue'
-    return Route.findAll({
+    const route = await Route.findAll({
       where: {
         itineraryId,
         date: {
@@ -82,56 +36,46 @@ const mapServices = {
       ],
       order: [[sortKey, sortOrder]]
     })
-      .then(route => {
-        if (!route || !route.length) throw new Error('Route not found')
-        const data = route
-        return cb(null, data)
+    return route
+  },
+  async createPlace (place) {
+    const foundPlace = await Place.findOne({ where: { placeId: place.placeId } })
+    if (foundPlace) return foundPlace
+
+    const newPlace = await Place.create({
+      name: place.name,
+      placeId: place.placeId,
+      address: place.address,
+      rating: place.rating,
+      url: place.url,
+      lat: place.lat,
+      lng: place.lng
+    })
+    return newPlace
+  },
+  async createRoute (itineraryId, date, originId, destinationId, elements) {
+    const foundRoute = await Route.findOne({ where: { originId, destinationId } })
+    if (foundRoute) {
+      return foundRoute
+    } else {
+      const newRoute = await Route.create({
+        itineraryId,
+        date,
+        originId,
+        destinationId,
+        distanceText: elements.distance.text,
+        distanceValue: elements.distance.value,
+        durationText: elements.duration.text,
+        durationValue: elements.duration.value,
+        color: this.getRandomLightColor()
       })
-      .catch(err => cb(err))
+      return newRoute
+    }
+  },
+  getRandomLightColor () {
+    const color = 'hsl(' + Math.random() * 360 + ', 100%, 75%)'
+    return color
   }
 
 }
 module.exports = mapServices
-
-function createPlace (place) {
-  return Place.findOne({ where: { placeId: place.placeId } })
-    .then(foundPlace => {
-      if (foundPlace) {
-        return foundPlace
-      } else {
-        return Place.create({
-          name: place.name,
-          placeId: place.placeId,
-          address: place.address,
-          rating: place.rating,
-          url: place.url,
-          lat: place.lat,
-          lng: place.lng
-        })
-      }
-    })
-}
-function createRoute (data) {
-  return Route.findOne({ where: { originId: data.originId, destinationId: data.destinationId } })
-    .then(foundRoute => {
-      if (foundRoute) {
-        return foundRoute
-      } else {
-        return Route.create({
-          itineraryId: data.itineraryId,
-          date: data.date,
-          originId: data.originId,
-          destinationId: data.destinationId,
-          distanceText: data.distanceText,
-          distanceValue: data.distanceValue,
-          durationText: data.durationText,
-          durationValue: data.durationValue,
-          color: getRandomLightColor()
-        })
-      }
-    })
-}
-function getRandomLightColor () {
-  const color = 'hsl(' + Math.random() * 360 + ', 100%, 75%)'
-  return color
-}
