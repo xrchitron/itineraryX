@@ -33,7 +33,7 @@ const server = app.listen(port, () => {
   console.log(`Server is listening on port ${port}`)
 })
 
-require('./utils/socket')(server)
+// require('./utils/socket')(server)
 
 // Error handling
 app.use('/', errorHandler)

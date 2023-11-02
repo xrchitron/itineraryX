@@ -1,124 +1,46 @@
-const bcrypt = require('bcryptjs')
 const { User, Followship } = require('../models')
-const jwt = require('jsonwebtoken')
-const { localFileHandler } = require('../utils/file')
 const userServices = {
-  signUp: (req, cb) => {
-    const userInput = req.body
-    // if two password different, establish a new error
-    if (userInput.password !== userInput.passwordCheck) throw new Error('Password do not match!')
-    // confirm whether email das exist, throw error if true
-    return User.findOne({ where: { email: userInput.email } })
-      .then(user => {
-        if (user) throw new Error('Email already exist')
-        return bcrypt.hash(userInput.password, 10) // hash password
-      })
-      .then(hash => {
-        return User.create({
-          name: userInput.name,
-          email: userInput.email,
-          password: hash
-        })
-      })
-      .then(user => {
-        const userData = user.toJSON()
-        delete userData.password
-        return userData
-      })
-      .then(data => cb(null, data))
-      .catch(err => cb(err)) // catch error above and call error-handler middleware
+  async createNewUser (name, email, password) {
+    const user = await User.create({ name, email, password })
+    return user
   },
-  login: (req, cb) => {
-    try {
-      const userData = req.user.toJSON()
-      delete userData.password
-      const token = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '30d' })
-      const data = {
-        token,
-        user: userData
-      }
-      cb(null, data)
-    } catch (err) {
-      cb(err)
-    }
+  async getUserByEmail (email) {
+    const user = await User.findOne({ where: { email } })
+    return user
   },
-  getUser: (req, cb) => {
-    return User.findByPk(req.user.id, {
+  async getUserWithFollows (id) {
+    const user = await User.findByPk(id, {
       include: [
         { model: User, as: 'Followers' },
         { model: User, as: 'Followings' }
       ]
-    }
-    )
-      .then(user => {
-        if (!user) throw new Error("User didn't exist!")
-
-        // delete user.password
-        const userData = user.toJSON()
-        delete userData.password
-        userData.Followers.forEach(follower => { delete follower.password })
-        userData.Followings.forEach(following => { delete following.password })
-
-        cb(null, { user: userData })
-      })
-      .catch(err => cb(err))
+    })
+    return user
   },
-  putUser: (req, cb) => {
-    const { name } = req.body
-    const userId = req.user.id
-    if (!name) throw new Error('User name is required!')
-    const { file } = req
-    return Promise.all([
-      User.findByPk(userId),
-      localFileHandler(file)
-    ])
-      .then(([user, filePath]) => {
-        if (!user) throw new Error("User didn't exist!")
-        return user.update({ name, avatar: filePath || user.avatar })
-      })
-      .then(user => {
-        const userData = user.toJSON()
-        delete userData.password
-        cb(null, { user: userData })
-      })
-      .catch(err => cb(err))
+  async getUserById (id) {
+    const user = await User.findByPk(id)
+    return user
   },
-  addFollowing: (req, cb) => {
-    const { userId } = req.body
-    return Promise.all([
-      User.findByPk(userId),
-      Followship.findOne({
-        where: {
-          followerId: req.user.id,
-          followingId: userId
-        }
-      })
-    ])
-      .then(([user, followship]) => {
-        if (!user) throw new Error("User didn't exist!")
-        if (followship) throw new Error('You are already following this user!')
-        return Followship.create({
-          followerId: req.user.id,
-          followingId: userId
-        })
-      })
-      .then(data => cb(null, data))
-      .catch(err => cb(err))
+  async putUserAvatar (id, name, filePath) {
+    const user = await User.findByPk(id)
+    if (!user) throw new Error("User didn't exist!")
+    return user.update({ name, avatar: filePath || user.avatar })
   },
-  removeFollowing: (req, cb) => {
-    const { userId } = req.body
-    return Followship.findOne({
+  async getFollowship (followerId, followingId) {
+    const followship = await Followship.findOne({
       where: {
-        followerId: req.user.id,
-        followingId: userId
+        followerId,
+        followingId
       }
     })
-      .then(followship => {
-        if (!followship) throw new Error("You haven't followed this user!")
-        return followship.destroy()
-      })
-      .then(data => cb(null, data))
-      .catch(err => cb(err))
+    return followship
+  },
+  async addFollowingById (followerId, followingId) {
+    const followship = await Followship.create({
+      followerId,
+      followingId
+    })
+    return followship
   }
 }
 module.exports = userServices
