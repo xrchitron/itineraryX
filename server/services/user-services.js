@@ -41,6 +41,10 @@ const userServices = {
       followingId
     })
     return followship
+  },
+  async deleteFollowship (followship) {
+    const deletedFollowship = followship.destroy()
+    return deletedFollowship
   }
 }
 module.exports = userServices

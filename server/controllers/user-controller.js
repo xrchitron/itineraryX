@@ -84,8 +84,8 @@ const userController = {
       const { userId } = req.body
       const followship = await userServices.getFollowship(req.user.id, userId)
       if (!followship) throw new Error("You haven't followed this user!")
-      const data = await followship.destroy()
-      res.status(200).json({ status: 'success', data })
+      const deletedFollowship = await userServices.deleteFollowship(followship)
+      res.status(200).json({ status: 'success', data: deletedFollowship })
     } catch (err) {
       next(err)
     }
