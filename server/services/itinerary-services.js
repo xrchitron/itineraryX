@@ -1,11 +1,18 @@
 const { User, Itinerary, Participant } = require('../models')
 const itineraryServices = {
-  getItinerary: (req, cb) => {
-    const itineraryId = req.params.itid
-    const { holderId } = req.body
-    return Itinerary.findOne({
+  async getItinerary (id, holderId) {
+    const itinerary = await Itinerary.findOne({
       where: {
-        id: itineraryId,
+        id,
+        holderId
+      }
+    })
+    return itinerary
+  },
+  async getItineraryWithParticipants (id, holderId) {
+    const itinerary = await Itinerary.findOne({
+      where: {
+        id,
         holderId
       },
       include: [{
@@ -14,107 +21,59 @@ const itineraryServices = {
         attributes: ['id', 'name', 'avatar']
       }]
     })
-      .then(itinerary => {
-        if (!itinerary) throw new Error('Itinerary not found')
-        const itineraryData = itinerary.toJSON()
-        itineraryData.ParticipantsUser.forEach(participant => { delete participant.Participant })
-        cb(null, itineraryData)
-      })
-      .catch(err => cb(err))
+    return itinerary
   },
-  getItineraries: (req, cb) => {
-    return Itinerary.findAll({ where: { holderId: req.user.id } })
-      .then(data => cb(null, data))
-      .catch(err => cb(err))
+  async getItineraries (holderId) {
+    const itineraries = await Itinerary.findAll({ where: { holderId } })
+    return itineraries
   },
-  postItinerary: (req, cb) => {
-    const userInput = req.body
-    return Itinerary.findOne({
+  async getItineraryByIdAndTitle (id, title) {
+    const itinerary = await Itinerary.findOne({
       where: {
-        holderId: req.user.id,
-        title: userInput.title
+        id,
+        title
       }
     })
-      .then(itinerary => {
-        if (itinerary) throw new Error('Itinerary already exist')
-        return Itinerary.create({
-          holderId: req.user.id,
-          title: userInput.title,
-          image: userInput.image
-        })
-      })
-      .then(data => cb(null, data))
-      .catch(err => cb(err))
+    return itinerary
   },
-  putItinerary: (req, cb) => {
-    const { itineraryId, title, image } = req.body
-    return Itinerary.findOne({
-      where: {
-        id: itineraryId,
-        holderId: req.user.id
-      }
+  async createItinerary (holderId, title, image) {
+    const itinerary = await Itinerary.create({
+      holderId,
+      title,
+      image
     })
-      .then(itinerary => {
-        if (!itinerary) throw new Error('Itinerary not found')
-        return itinerary.update({
-          title: title || itinerary.title,
-          image: image || itinerary.image
-        })
-      })
-      .then(data => cb(null, data))
-      .catch(err => cb(err))
+    return itinerary
   },
-  deleteItinerary: (req, cb) => {
-    const itineraryId = req.body.itineraryId
-    return Itinerary.findOne({
-      where: {
-        id: itineraryId,
-        holderId: req.user.id
-      }
+  async updateItinerary (itinerary, title, image) {
+    const updatedItinerary = await itinerary.update({
+      title: title || itinerary.title,
+      image: image || itinerary.image
     })
-      .then(itinerary => {
-        if (!itinerary) throw new Error('Itinerary not found')
-        return itinerary.destroy()
-      })
-      .then(data => cb(null, data))
-      .catch(err => cb(err))
+    return updatedItinerary
   },
-  postParticipant: (req, cb) => {
-    const { itineraryId, participantId } = req.body
-    return Promise.all([
-      User.findByPk(participantId),
-      Participant.findOne({
-        where: {
-          itineraryId,
-          participantId
-        }
-      })
-    ])
-      .then(([user, participant]) => {
-        if (!user) throw new Error("User didn't exist!")
-        if (participant) throw new Error('You are already having this participant!')
-        return Participant.create({
-          itineraryId,
-          participantId
-        })
-      })
-      .then(data => cb(null, data))
-      .catch(err => cb(err))
+  async deleteItinerary (itinerary) {
+    const deletedItinerary = itinerary.destroy()
+    return deletedItinerary
   },
-  deleteParticipant: (req, cb) => {
-    const { itineraryId, participantId } = req.body
-    return Participant.findOne({
+  async getParticipant (itineraryId, participantId) {
+    const participant = await Participant.findOne({
       where: {
         itineraryId,
         participantId
       }
     })
-      .then(participant => {
-        if (!participant) throw new Error("You haven't added this user!")
-        return participant.destroy()
-      })
-      .then(data => cb(null, data))
-      .catch(err => cb(err))
+    return participant
+  },
+  async createParticipant (itineraryId, participantId) {
+    const participant = await Participant.create({
+      itineraryId,
+      participantId
+    })
+    return participant
+  },
+  async deleteParticipant (participant) {
+    const deletedParticipant = participant.destroy()
+    return deletedParticipant
   }
 }
 module.exports = itineraryServices

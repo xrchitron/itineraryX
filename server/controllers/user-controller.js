@@ -17,10 +17,7 @@ const userController = {
       const userData = newUser.toJSON()
       delete userData.password
       // return data
-      res.status(200).json({
-        status: 'success',
-        data: userData
-      })
+      res.status(200).json({ status: 'success', data: userData })
     } catch (err) {
       next(err)
     }
@@ -47,10 +44,7 @@ const userController = {
       delete userData.password
       userData.Followers.forEach(follower => { delete follower.password })
       userData.Followings.forEach(following => { delete following.password })
-      res.status(200).json({
-        status: 'success',
-        data: { user: userData }
-      })
+      res.status(200).json({ status: 'success', data: { user: userData } })
     } catch (err) {
       next(err)
     }
@@ -67,10 +61,7 @@ const userController = {
       const UpdatedUser = await userServices.putUserAvatar(userId, name, filePath)
       const userData = UpdatedUser.toJSON()
       delete userData.password
-      res.status(200).json({
-        status: 'success',
-        data: { user: userData }
-      })
+      res.status(200).json({ status: 'success', data: { user: userData } })
     } catch (err) {
       next(err)
     }
@@ -83,10 +74,7 @@ const userController = {
       if (!user) throw new Error("User didn't exist!")
       if (followship) throw new Error('You are already following this user!')
       const data = await userServices.addFollowingById(req.user.id, userId)
-      res.status(200).json({
-        status: 'success',
-        data
-      })
+      res.status(200).json({ status: 'success', data })
     } catch (err) {
       next(err)
     }
@@ -97,10 +85,7 @@ const userController = {
       const followship = await userServices.getFollowship(req.user.id, userId)
       if (!followship) throw new Error("You haven't followed this user!")
       const data = await followship.destroy()
-      res.status(200).json({
-        status: 'success',
-        data
-      })
+      res.status(200).json({ status: 'success', data })
     } catch (err) {
       next(err)
     }
