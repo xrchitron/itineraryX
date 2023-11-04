@@ -20,9 +20,9 @@ const userRoute = require('./routes/user')
 const itineraryRoute = require('./routes/itinerary')
 const mapRoute = require('./routes/map')
 
-app.use(`/${process.env.API_VERSION}/users`, userRoute)
-app.use(`/${process.env.API_VERSION}/itineraries`, itineraryRoute)
-app.use(`/${process.env.API_VERSION}/maps`, mapRoute)
+app.use(`/api/${process.env.API_VERSION}/users`, userRoute)
+app.use(`/api/${process.env.API_VERSION}/itineraries`, itineraryRoute)
+app.use(`/api/${process.env.API_VERSION}/maps`, mapRoute)
 
 // page not found
 app.use((req, res) => {
@@ -33,7 +33,7 @@ const server = app.listen(port, () => {
   console.log(`Server is listening on port ${port}`)
 })
 
-// require('./utils/socket')(server)
+require('./utils/socket')(server)
 
 // Error handling
 app.use('/', errorHandler)
