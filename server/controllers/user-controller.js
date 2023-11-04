@@ -1,7 +1,28 @@
+require('dotenv').config()
 const userServices = require('../services/user-services')
 const bcrypt = require('bcryptjs')
+const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
-const { localFileHandler } = require('../utils/file')
+const { S3Client, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3')
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner')
+
+const sharp = require('sharp')
+
+const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
+
+const bucketName = process.env.BUCKET_NAME
+const bucketRegion = process.env.BUCKET_REGION
+const accessKey = process.env.ACCESS_KEY
+const secretKey = process.env.SECRET_KEY
+const s3 = new S3Client({
+  credentials: {
+    accessKeyId: accessKey,
+    secretAccessKey: secretKey
+  },
+  region: bucketRegion
+}
+)
+
 const userController = {
   signUp: async (req, res, next) => {
     try {
@@ -44,6 +65,15 @@ const userController = {
       delete userData.password
       userData.Followers.forEach(follower => { delete follower.password })
       userData.Followings.forEach(following => { delete following.password })
+      // get avatar url from s3
+      const getObjectParams = {
+        Bucket: bucketName,
+        Key: userData.avatar
+      }
+      const command = new GetObjectCommand(getObjectParams)
+      const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
+      // turn avatar name into url
+      userData.avatar = url
       res.status(200).json({ status: 'success', data: { user: userData } })
     } catch (err) {
       next(err)
@@ -56,9 +86,21 @@ const userController = {
       if (!name) throw new Error('User name is required!')
       const { file } = req
       const user = await userServices.getUserById(userId)
-      const filePath = await localFileHandler(file)
       if (!user) throw new Error("User didn't exist!")
-      const UpdatedUser = await userServices.putUserAvatar(userId, name, filePath)
+      const buffer = await sharp(file.buffer).resize({ width: 200, height: 200 }).toBuffer()
+
+      const imageName = randomImageName()
+      const params = {
+        Bucket: bucketName,
+        Key: imageName,
+        Body: buffer,
+        ContentType: file.mimetype,
+        ACL: 'public-read'
+      }
+      const command = new PutObjectCommand(params)
+      await s3.send(command)
+
+      const UpdatedUser = await userServices.putUserAvatar(userId, name, imageName)
       const userData = UpdatedUser.toJSON()
       delete userData.password
       res.status(200).json({ status: 'success', data: { user: userData } })
