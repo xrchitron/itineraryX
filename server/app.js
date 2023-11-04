@@ -11,7 +11,7 @@ app.use(express.json())
 app.use(cors())
 
 // initial route
-app.get('/v1/', (req, res) => {
+app.get(`/api/${process.env.API_VERSION}/`, (req, res) => {
   res.status(200).json({ status: 'success', message: 'Welcome to itineraryX API' })
 })
 
