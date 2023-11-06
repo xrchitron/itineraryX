@@ -2,9 +2,7 @@ const router = require('express').Router()
 const passport = require('../config/passport')
 const User = require('../controllers/user-controller')
 const { auth } = require('../middleware/auth')
-const multer = require('multer')
-const storage = multer.memoryStorage()
-const upload = multer({ storage: storage })
+const upload = require('../middleware/multer')
 router
   .route('/')
   .get(auth, User.getUser) // get user info by token

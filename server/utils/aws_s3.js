@@ -36,6 +36,36 @@ async function uploadImage (userEmail, file) {
   return key
 }
 
+async function uploadChatImage (itineraryId, file) {
+  const imageName = randomImageName()
+  const key = `chats/itineraryId-${itineraryId}/${imageName}`
+  const params = {
+    Bucket: bucketName,
+    Key: key,
+    Body: file.buffer,
+    ContentType: file.mimetype,
+    ACL: 'public-read'
+  }
+  const command = new PutObjectCommand(params)
+  await s3.send(command)
+  return key
+}
+
+async function uploadItineraryImage (itineraryId, file) {
+  const imageName = randomImageName()
+  const key = `itineraries/itineraryId-${itineraryId}/${imageName}`
+  const params = {
+    Bucket: bucketName,
+    Key: key,
+    Body: file.buffer,
+    ContentType: file.mimetype,
+    ACL: 'public-read'
+  }
+  const command = new PutObjectCommand(params)
+  await s3.send(command)
+  return key
+}
+
 async function getImage (imageName) {
   const getObjectParams = {
     Bucket: bucketName,
@@ -56,4 +86,4 @@ async function deleteImage (imageName) {
   return true
 }
 
-module.exports = { uploadImage, getImage, deleteImage }
+module.exports = { uploadImage, uploadChatImage, uploadItineraryImage, getImage, deleteImage }

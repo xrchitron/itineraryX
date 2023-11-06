@@ -1,5 +1,6 @@
 const itineraryServices = require('../services/itinerary-services')
 const userServices = require('../services/user-services')
+const s3 = require('../utils/aws_s3')
 const itineraryController = {
   getItinerary: async (req, res, next) => {
     try {
@@ -32,7 +33,7 @@ const itineraryController = {
       const itinerary = await itineraryServices.getItineraryByIdAndTitle(req.user.id, userInput.title)
       if (itinerary) throw new Error('Itinerary already exist')
 
-      const newItinerary = await itineraryServices.createItinerary(req.user.id, userInput.title, userInput.image)
+      const newItinerary = await itineraryServices.createItinerary(req.user.id, userInput.title)
 
       res.status(200).json({ status: 'success', data: newItinerary })
     } catch (err) {
@@ -41,11 +42,13 @@ const itineraryController = {
   },
   putItinerary: async (req, res, next) => {
     try {
-      const { itineraryId, title, image } = req.body
+      const { itineraryId, title } = req.body
+      if (!itineraryId) throw new Error('Missing itinerary id')
       const itinerary = await itineraryServices.getItinerary(itineraryId, req.user.id)
-
+      let image = itinerary.image
       if (!itinerary) throw new Error('Itinerary not found')
-
+      const { file } = req
+      if (file) image = await s3.uploadItineraryImage(itineraryId, file)
       const updatedItinerary = await itineraryServices.updateItinerary(itinerary, title, image)
       res.status(200).json({ status: 'success', data: updatedItinerary })
     } catch (err) {

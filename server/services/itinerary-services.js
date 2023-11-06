@@ -36,11 +36,11 @@ const itineraryServices = {
     })
     return itinerary
   },
-  async createItinerary (holderId, title, image) {
+  async createItinerary (holderId, title) {
     const itinerary = await Itinerary.create({
       holderId,
       title,
-      image
+      image: null
     })
     return itinerary
   },

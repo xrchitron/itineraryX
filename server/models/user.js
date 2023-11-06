@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'participantId',
         as: 'ParticipatingItineraries'
       })
+      User.hasMany(models.Chat, { foreignKey: 'userId' })
     }
   }
   User.init({

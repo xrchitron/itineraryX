@@ -35,6 +35,7 @@ const mapController = {
   postRoute: async (req, res, next) => {
     try {
       const { itineraryId, date, sort } = req.body
+      if (!itineraryId || !date || !sort) throw new Error('Missing required parameters')
       const orderedRoute = await mapServices.getOrderedRoute(itineraryId, date, sort)
       if (!orderedRoute.length) throw new Error('Route not found')
       res.status(200).json({ status: 'success', data: orderedRoute })
