@@ -18,8 +18,9 @@ const userController = {
       // delete password
       const userData = newUser.toJSON()
       delete userData.password
+      const token = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '30d' })
       // return data
-      res.status(200).json({ status: 'success', data: userData })
+      res.status(200).json({ status: 'success', data: { token, data: userData } })
     } catch (err) {
       next(err)
     }
@@ -39,7 +40,9 @@ const userController = {
   },
   getUser: async (req, res, next) => {
     try {
-      const user = await userServices.getUserWithFollows(req.user.id)
+      const { userId } = req.params
+      console.log(userId)
+      const user = await userServices.getUserWithFollows(userId)
       if (!user) throw new Error("User didn't exist!")
       // delete user.password
       const userData = user.toJSON()
@@ -82,7 +85,7 @@ const userController = {
   },
   addFollowing: async (req, res, next) => {
     try {
-      const { userId } = req.body
+      const { userId } = req.params
       const user = await userServices.getUserById(userId)
       const followship = await userServices.getFollowship(req.user.id, userId)
       if (!user) throw new Error("User didn't exist!")
@@ -95,7 +98,7 @@ const userController = {
   },
   removeFollowing: async (req, res, next) => {
     try {
-      const { userId } = req.body
+      const { userId } = req.params
       const followship = await userServices.getFollowship(req.user.id, userId)
       if (!followship) throw new Error("You haven't followed this user!")
       const deletedFollowship = await userServices.deleteFollowship(followship)
