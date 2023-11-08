@@ -60,9 +60,36 @@ const itineraryServices = {
       where: {
         itineraryId,
         participantId
-      }
+      },
+      include: [{
+        model: User,
+        as: 'ParticipantUser',
+        attributes: ['id', 'name', 'avatar']
+      }]
     })
     return participant
+  },
+  async getParticipants (itineraryId) {
+    const participants = await Participant.findAll({
+      where: {
+        itineraryId
+      },
+      include: [{
+        model: User,
+        as: 'ParticipantUser',
+        attributes: ['id', 'name', 'avatar']
+      }]
+    })
+    return participants
+  },
+  async getParticipantId (itineraryId) {
+    const participants = await Participant.findAll({
+      where: {
+        itineraryId
+      },
+      attributes: ['participantId']
+    })
+    return participants
   },
   async createParticipant (itineraryId, participantId) {
     const participant = await Participant.create({

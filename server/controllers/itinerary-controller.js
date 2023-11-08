@@ -34,7 +34,7 @@ const itineraryController = {
       if (itinerary) throw new Error('Itinerary already exist')
 
       const newItinerary = await itineraryServices.createItinerary(req.user.id, userInput.title)
-
+      await itineraryServices.createParticipant(newItinerary.id, req.user.id)
       res.status(200).json({ status: 'success', data: newItinerary })
     } catch (err) {
       next(err)

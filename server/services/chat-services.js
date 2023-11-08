@@ -1,9 +1,9 @@
 const { Chat, User } = require('../models')
 const chatServices = {
-  getChat: async itineraryId => {
+  getChats: async itineraryId => {
     const chats = await Chat.findAll({
       where: { itineraryId },
-      order: [['createdAt', 'DESC']],
+      order: [['createdAt', 'ASC']],
       attributes: ['id', 'message', 'isImage', 'createdAt'],
       include: [{
         model: User,

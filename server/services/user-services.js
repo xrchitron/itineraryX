@@ -18,7 +18,9 @@ const userServices = {
     return user
   },
   async getUserById (id) {
-    const user = await User.findByPk(id)
+    const user = await User.findByPk(id, {
+      attributes: ['name', 'email', 'avatar']
+    })
     return user
   },
   async putUserAvatar (id, name, filePath) {

@@ -13,9 +13,10 @@ const redisController = {
   postRedis: async (req, res, next) => {
     try {
       const { key, value } = req.body
-      const saveResult = await redisServices.setRedis(key, value, 'EX', 3600)
+      console.log(key, value)
+      // const saveResult = await redisServices.setRedis(key, value, 'EX', 3600)
       // JSON.stringify(value)
-      res.status(200).json({ status: 'success', data: saveResult })
+      res.status(200).json({ status: 'success', data: { key, value } })
     } catch (err) {
       next(err)
     }
