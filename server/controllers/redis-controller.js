@@ -3,9 +3,9 @@ const redisController = {
   getRedis: async (req, res, next) => {
     try {
       const { key } = req.params
-      const data = await redisServices.getRedis(key)
-      // JSON.parse(data)
-      res.status(200).json({ status: 'success', data })
+      const value = await redisServices.getRedis(key)
+      const valueJson = JSON.parse(value)
+      res.status(200).json({ status: 'success', data: valueJson })
     } catch (err) {
       next(err)
     }
@@ -13,9 +13,8 @@ const redisController = {
   postRedis: async (req, res, next) => {
     try {
       const { key, value } = req.body
-      console.log(key, value)
-      const saveResult = await redisServices.setRedis(key, value, 'EX', 3600)
-      // JSON.stringify(value)
+      const valueStr = JSON.stringify(value)
+      const saveResult = await redisServices.setRedis(key, valueStr, 'EX', 3600)
       res.status(200).json({ status: 'success', data: saveResult })
     } catch (err) {
       next(err)
