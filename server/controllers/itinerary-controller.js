@@ -45,11 +45,23 @@ const itineraryController = {
       const { itineraryId, title } = req.body
       if (!itineraryId) throw new Error('Missing itinerary id')
       const itinerary = await itineraryServices.getItinerary(itineraryId, req.user.id)
-      let image = itinerary.image
       if (!itinerary) throw new Error('Itinerary not found')
+      let image = itinerary.image
+
+      // upload image to s3, delete previous image and get new image url
       const { file } = req
-      if (file) image = await s3.uploadItineraryImage(itineraryId, file)
+      let imageUrl = null
+      let imageFileName = null
+      if (file) {
+        imageFileName = await s3.uploadItineraryImage(itineraryId, file)
+        if (image) await s3.deleteImage(image)
+        imageUrl = await s3.getImage(imageFileName)
+      }
+      image = imageFileName || image
       const updatedItinerary = await itineraryServices.updateItinerary(itinerary, title, image)
+      // turn image name into url if image from s3 exist
+      updatedItinerary.image = imageUrl || await s3.getImage(updatedItinerary.image)
+
       res.status(200).json({ status: 'success', data: updatedItinerary })
     } catch (err) {
       next(err)
@@ -61,7 +73,10 @@ const itineraryController = {
       const itinerary = await itineraryServices.getItinerary(itineraryId, req.user.id)
       if (!itinerary) throw new Error('Itinerary not found')
 
+      // delete itinerary from db
       const deletedItinerary = await itineraryServices.deleteItinerary(itinerary)
+      // delete image from s3
+      await s3.deleteImage(deletedItinerary.image)
 
       res.status(200).json({ status: 'success', data: deletedItinerary })
     } catch (err) {
