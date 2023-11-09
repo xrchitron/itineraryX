@@ -13,6 +13,8 @@ const userController = {
       // confirm whether email das exist, throw error if true
       const user = await userServices.getUserByEmail(userInput.email)
       if (user) throw new Error('Email already exist')
+      const userName = await userServices.getUserByName(userInput.name)
+      if (userName) throw new Error('User name already exist')
       const hash = await bcrypt.hash(userInput.password, 10) // hash password
       const newUser = await userServices.createNewUser(userInput.name, userInput.email, hash) // create user
       // delete password

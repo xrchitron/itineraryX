@@ -8,6 +8,10 @@ const userServices = {
     const user = await User.findOne({ where: { email } })
     return user
   },
+  async getUserByName (name) {
+    const user = await User.findOne({ where: { name } })
+    return user
+  },
   async getUserWithFollows (id) {
     const user = await User.findByPk(id, {
       include: [
