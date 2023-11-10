@@ -1,32 +1,85 @@
 const mapServices = require('../services/map-services')
+const dateMethods = require('../utils/date-methods')
 const key = process.env.API_KEY
 const mapController = {
-  getMap: async (req, res, next) => { // not used anymore
+  // getMap: async (req, res, next) => { // not used anymore
+  //   try {
+  //     const { address } = req.query
+  //     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`
+  //     const apiResponse = await mapServices.getMap(url)
+  //     res.status(200).json({ status: 'success', data: apiResponse })
+  //   } catch (err) {
+  //     next(err)
+  //   }
+  // },
+  getPlace: async (req, res, next) => {
     try {
-      const { address } = req.query
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`
-      const apiResponse = await mapServices.getMap(url)
-      res.status(200).json({ status: 'success', data: apiResponse })
+      const { placeId } = req.params
+      const place = await mapServices.getPlace(placeId)
+      if (!place) throw new Error('Place not found')
+      res.status(200).json({ status: 'success', data: place })
+    } catch (err) {
+      next(err)
+    }
+  },
+  postPlace: async (req, res, next) => {
+    try {
+      const { place } = req.body
+      if (!place.placeId) throw new Error('placeId from Google Map is required')
+      const placeData = await mapServices.createPlace(place)
+      if (!placeData) throw new Error("Place didn't create successfully")
+      res.status(200).json({ status: 'success', data: placeData })
+    } catch (err) {
+      next(err)
+    }
+  },
+  deletePlace: async (req, res, next) => {
+    try {
+      const { placeId } = req.params
+      // check if placeId exists
+      const place = await mapServices.getPlace(placeId)
+      if (!place) throw new Error('Place not found')
+      // delete place
+      console.log(place)
+      const deletedPlace = await place.destroy()
+      res.status(200).json({ status: 'success', data: deletedPlace })
     } catch (err) {
       next(err)
     }
   },
   getDistanceMatrix: async (req, res, next) => {
     try {
-      const { origin, destination } = req.body
-      const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin.lat},${origin.lng}&destinations=${destination.lat},${destination.lng}&key=${key}`
-      if (!origin || !destination) throw new Error('Missing required parameters')
+      const { itineraryId, date, mode, originPlaceId, destinationPlaceId } = req.body
+      // get origin and destination place data
+      const origin = await mapServices.getPlace(originPlaceId)
+      const destination = await mapServices.getPlace(destinationPlaceId)
 
-      const newOrigin = await mapServices.createPlace(origin)
-      const newDestination = await mapServices.createPlace(destination)
+      // check if origin and destination place data exists
+      if (!origin) throw new Error('Origin not found')
+      if (!destination) throw new Error('Destination not found')
+
+      // turn origin and destination place data into JSON
+      const originData = origin.toJSON()
+      const destinationData = destination.toJSON()
+
+      // place data into url
+      const url = `https://maps.googleapis.com/maps/api/distancematrix/json?language=zh-TW&origins=${originData.lat},${originData.lng}&destinations=${destinationData.lat},${destinationData.lng}&mode=${mode}&key=${key}`
+
+      // get distance matrix
       const apiResponse = await mapServices.getDistanceMatrixWithUrl(url)
 
+      // absorb elements from response
       const elements = apiResponse.data.rows[0].elements[0]
+
+      // check if routes are found
       if (!elements.status === 'OK' || elements.distance === undefined) throw new Error('No results found')
-      const itineraryId = 1 // temp
-      const date = '2023-01-01 12:23:44' // temp
-      const createdRoute = await mapServices.createRoute(itineraryId, date, newOrigin.id, newDestination.id, elements)
+
+      // create route
+      const createdRoute = await mapServices.createRoute(itineraryId, date, originData.id, destinationData.id, elements)
       const routeData = createdRoute.toJSON()
+      // convert date format
+      routeData.date = dateMethods.toISOString(routeData.date)
+
       res.status(200).json({ status: 'success', data: routeData })
     } catch (err) {
       next(err)
@@ -39,16 +92,6 @@ const mapController = {
       const orderedRoute = await mapServices.getOrderedRoute(itineraryId, date, sort)
       if (!orderedRoute.length) throw new Error('Route not found')
       res.status(200).json({ status: 'success', data: orderedRoute })
-    } catch (err) {
-      next(err)
-    }
-  },
-  getPlace: async (req, res, next) => {
-    try {
-      const { placeId } = req.body
-      const place = await mapServices.getPlace(placeId)
-      if (!place) throw new Error('Place not found')
-      res.status(200).json({ status: 'success', data: place })
     } catch (err) {
       next(err)
     }

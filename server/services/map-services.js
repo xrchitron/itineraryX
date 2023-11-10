@@ -3,20 +3,24 @@ const Op = Sequelize.Op
 const { Place, Route } = require('../models')
 const axios = require('axios')
 const mapServices = {
-  async getMap (url) {
-    const apiResponse = await axios.get(url)
-    return apiResponse.data.results[0]
-    // const fullAddress = response.formatted_address
-    // const placeId = response.place_id
-    // const { lat, lng } = response.geometry.location
-    // const geocodeResponse = { fullAddress, placeId, lat, lng }
-  },
+  // async getMap (url) {
+  //   const apiResponse = await axios.get(url)
+  //   return apiResponse.data.results[0]
+  //   // const fullAddress = response.formatted_address
+  //   // const placeId = response.place_id
+  //   // const { lat, lng } = response.geometry.location
+  //   // const geocodeResponse = { fullAddress, placeId, lat, lng }
+  // },
   async getDistanceMatrixWithUrl (url) {
     const apiResponse = await axios.get(url)
     return apiResponse
   },
   async getPlace (placeId) {
-    const place = await Place.findByPk(placeId, { raw: true })
+    const place = await Place.findByPk(placeId)
+    return place
+  },
+  async getPlaceByPlaceId (placeId) {
+    const place = await Place.findOne({ where: { placeId } })
     return place
   },
   async getOrderedRoute (itineraryId, date, sort) {
