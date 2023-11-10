@@ -49,7 +49,8 @@ const mapController = {
   },
   getDistanceMatrix: async (req, res, next) => {
     try {
-      const { itineraryId, date, mode, originPlaceId, destinationPlaceId } = req.body
+      const { itineraryId, date, transportationMode, originPlaceId, destinationPlaceId } = req.body
+      if (!itineraryId || !date || !transportationMode || !originPlaceId || !destinationPlaceId) throw new Error('Missing required parameters')
       // get origin and destination place data
       const origin = await mapServices.getPlace(originPlaceId)
       const destination = await mapServices.getPlace(destinationPlaceId)
@@ -62,8 +63,17 @@ const mapController = {
       const originData = origin.toJSON()
       const destinationData = destination.toJSON()
 
+      let modeType = ''
+      // mode: driving, walking, bicycling, transit
+      const mode = ['driving', 'walking', 'bicycling', 'transit']
+      if (mode.includes(transportationMode)) modeType = `mode=${transportationMode}`
+
+      // transit_mode: bus, subway, train, tram, rail
+      const transitMode = ['bus', 'subway', 'train', 'tram', 'rail']
+      if (transitMode.includes(transportationMode)) modeType = `transit_mode=${transportationMode}`
+
       // place data into url
-      const url = `https://maps.googleapis.com/maps/api/distancematrix/json?language=zh-TW&origins=${originData.lat},${originData.lng}&destinations=${destinationData.lat},${destinationData.lng}&mode=${mode}&key=${key}`
+      const url = `https://maps.googleapis.com/maps/api/distancematrix/json?language=zh-TW&origins=${originData.lat},${originData.lng}&destinations=${destinationData.lat},${destinationData.lng}&${modeType}&key=${key}`
 
       // get distance matrix
       const apiResponse = await mapServices.getDistanceMatrixWithUrl(url)
@@ -75,7 +85,7 @@ const mapController = {
       if (!elements.status === 'OK' || elements.distance === undefined) throw new Error('No results found')
 
       // create route
-      const createdRoute = await mapServices.createRoute(itineraryId, date, originData.id, destinationData.id, elements)
+      const createdRoute = await mapServices.createRoute(itineraryId, date, originData.id, destinationData.id, transportationMode, elements)
       const routeData = createdRoute.toJSON()
       // convert date format
       routeData.date = dateMethods.toISOString(routeData.date)

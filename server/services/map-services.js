@@ -57,8 +57,8 @@ const mapServices = {
     })
     return newPlace
   },
-  async createRoute (itineraryId, date, originId, destinationId, elements) {
-    const foundRoute = await Route.findOne({ where: { originId, destinationId } })
+  async createRoute (itineraryId, date, originId, destinationId, transportationMode, elements) {
+    const foundRoute = await Route.findOne({ where: { originId, destinationId, transportationMode } })
     if (foundRoute) {
       return foundRoute
     } else {
@@ -67,6 +67,7 @@ const mapServices = {
         date,
         originId,
         destinationId,
+        transportationMode,
         distanceText: elements.distance.text,
         distanceValue: elements.distance.value,
         durationText: elements.duration.text,
