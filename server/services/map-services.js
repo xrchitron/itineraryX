@@ -60,7 +60,11 @@ const mapServices = {
   async createRoute (itineraryId, date, originId, destinationId, transportationMode, elements) {
     const foundRoute = await Route.findOne({ where: { originId, destinationId, transportationMode } })
     if (foundRoute) {
-      return foundRoute
+      // check if date is the same or not
+      if (foundRoute.date === date) return foundRoute
+      // if date is different, update date
+      const updatedRoute = await foundRoute.update({ date })
+      return updatedRoute
     } else {
       const newRoute = await Route.create({
         itineraryId,
@@ -80,6 +84,17 @@ const mapServices = {
   getRandomLightColor () {
     const color = 'hsl(' + Math.random() * 360 + ', 100%, 75%)'
     return color
+  },
+  checkModeType (transportationMode) {
+    let modeType = ''
+    // mode: driving, walking, bicycling, transit
+    const mode = ['driving', 'walking', 'bicycling', 'transit']
+    if (mode.includes(transportationMode)) modeType = `mode=${transportationMode}`
+
+    // transit_mode: bus, subway, train, tram, rail
+    const transitMode = ['bus', 'subway', 'train', 'tram', 'rail']
+    if (transitMode.includes(transportationMode)) modeType = `transit_mode=${transportationMode}`
+    return modeType
   }
 
 }

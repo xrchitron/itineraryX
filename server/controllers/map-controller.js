@@ -63,14 +63,8 @@ const mapController = {
       const originData = origin.toJSON()
       const destinationData = destination.toJSON()
 
-      let modeType = ''
-      // mode: driving, walking, bicycling, transit
-      const mode = ['driving', 'walking', 'bicycling', 'transit']
-      if (mode.includes(transportationMode)) modeType = `mode=${transportationMode}`
-
-      // transit_mode: bus, subway, train, tram, rail
-      const transitMode = ['bus', 'subway', 'train', 'tram', 'rail']
-      if (transitMode.includes(transportationMode)) modeType = `transit_mode=${transportationMode}`
+      // check mode type
+      const modeType = mapServices.checkModeType(transportationMode)
 
       // place data into url
       const url = `https://maps.googleapis.com/maps/api/distancematrix/json?language=zh-TW&origins=${originData.lat},${originData.lng}&destinations=${destinationData.lat},${destinationData.lng}&${modeType}&key=${key}`
