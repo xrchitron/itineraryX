@@ -9,6 +9,10 @@ const itineraryServices = {
     })
     return itinerary
   },
+  async getItineraryByPk (id) {
+    const itinerary = await Itinerary.findByPk(id)
+    return itinerary
+  },
   async getItineraryWithParticipants (id, holderId) {
     const itinerary = await Itinerary.findOne({
       where: {
