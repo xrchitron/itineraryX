@@ -21,7 +21,7 @@ const destinationServices = {
     return destination
   },
   async getDestinations (itineraryId, date, order) {
-    const sortOrder = order === 'asc' ? 'ASC' : 'DESC'
+    const sortOrder = order === 'desc' ? 'DESC' : 'ASC'
     const sortKey = 'date'
     const destinations = await Destination.findAll({
       where: {
