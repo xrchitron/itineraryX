@@ -28,7 +28,8 @@ const chatController = {
       const chatData = chats.map(chat => {
         const time = dateMethods.toISOString(chat.createdAt)
         return {
-          id: chat.id,
+          chatId: chat.id,
+          userId: chat.userChat.id,
           user: chat.userChat.name,
           avatar: chat.userChat.avatar,
           message: chat.message,
