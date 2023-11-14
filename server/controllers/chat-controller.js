@@ -21,11 +21,13 @@ const chatController = {
       const chats = await chatServices.getChats(itineraryId)
 
       // convert image to url
-      chats.forEach(async chat => {
+      const chatWithImage = await Promise.all(chats.map(async chat => {
         if (chat.isImage) chat.message = await s3.getImage(chat.message)
-      })
+        if (chat.userChat.avatar !== null) chat.userChat.avatar = await s3.getImage(chat.userChat.avatar)
+        return chat
+      }))
 
-      const chatData = chats.map(chat => {
+      const chatData = chatWithImage.map(chat => {
         const time = dateMethods.toISOString(chat.createdAt)
         return {
           chatId: chat.id,
