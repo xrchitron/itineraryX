@@ -2,6 +2,7 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const { Place, Route } = require('../models')
 const axios = require('axios')
+const key = process.env.API_KEY
 const mapServices = {
   // async getMap (url) {
   //   const apiResponse = await axios.get(url)
@@ -14,6 +15,19 @@ const mapServices = {
   async getDistanceMatrixWithUrl (url) {
     const apiResponse = await axios.get(url)
     return apiResponse
+  },
+  async getPlaceDetail (placeId) {
+    const url = 'https://maps.googleapis.com/maps/api/place/details/json?'
+    const fields = ['name', 'place_id', 'formatted_address', 'geometry', 'rating', 'photos', 'url']
+    const linkedFields = fields.join('%2C')
+    const placeDetail = await axios.get(url + `place_id=${placeId}&fields=${linkedFields}&key=${key}`)
+    if (placeDetail.data.status !== 'OK') throw new Error('Invalid request')
+    return placeDetail.data.result
+  },
+  async getPhotoByReference (photoReference) {
+    const url = 'https://maps.googleapis.com/maps/api/place/photo?'
+    const photo = await axios.get(url + `maxwidth=400&photoreference=${photoReference}&key=${key}`)
+    return photo.request.res.responseUrl
   },
   async getPlace (placeId) {
     const place = await Place.findByPk(placeId)
@@ -43,17 +57,18 @@ const mapServices = {
     return route
   },
   async createPlace (place) {
-    const foundPlace = await Place.findOne({ where: { placeId: place.placeId } })
+    const foundPlace = await Place.findOne({ where: { placeId: place.place_id } })
     if (foundPlace) return foundPlace
 
     const newPlace = await Place.create({
       name: place.name,
-      placeId: place.placeId,
-      address: place.address,
+      placeId: place.place_id,
+      address: place.formatted_address,
       rating: place.rating,
       url: place.url,
-      lat: place.lat,
-      lng: place.lng
+      image: place.image,
+      lat: place.geometry.location.lat,
+      lng: place.geometry.location.lng
     })
     return newPlace
   },

@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     address: DataTypes.STRING,
     rating: DataTypes.FLOAT,
+    image: DataTypes.STRING,
     url: DataTypes.STRING,
     lat: DataTypes.FLOAT,
     lng: DataTypes.FLOAT

@@ -24,9 +24,17 @@ const mapController = {
   },
   postPlace: async (req, res, next) => {
     try {
-      const { place } = req.body
-      if (!place.placeId) throw new Error('placeId from Google Map is required')
-      const placeData = await mapServices.createPlace(place)
+      const { placeId } = req.body
+      if (!placeId) throw new Error('placeId from Google Map is required')
+
+      const placeDetail = await mapServices.getPlaceDetail(placeId)
+      if (!placeDetail) throw new Error('Place not found')
+      // get photo
+      const photoReference = placeDetail.photos[1].photo_reference
+      const photo = await mapServices.getPhotoByReference(photoReference)
+      placeDetail.image = photo
+      console.log(placeDetail.image)
+      const placeData = await mapServices.createPlace(placeDetail)
       if (!placeData) throw new Error("Place didn't create successfully")
       res.status(200).json({ status: 'success', data: placeData })
     } catch (err) {
