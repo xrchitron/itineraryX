@@ -1,6 +1,6 @@
 const { Server } = require('socket.io')
-const events = require('events')
-const eventEmitter = new events.EventEmitter()
+// const events = require('events')
+// const eventEmitter = new events.EventEmitter()
 
 async function connect (server) {
   const io = new Server(server, {
@@ -11,15 +11,16 @@ async function connect (server) {
   })
   io.on('connection', socket => {
     console.log(`User connected: ${socket.id}`)
-    eventEmitter.on('newRoute', route => {
-      socket.emit('newRoute', route)
+
+    socket.on('join_room', data => {
+      socket.join(data)
+    })
+
+    socket.on('send_message', data => {
+      socket.to(data.room).emit('receive_message', data)
     })
     socket.on('disconnect', () => {
       console.log('User disconnected')
-    })
-    socket.on('chat message', msg => {
-      console.log('message: ' + msg)
-      io.emit('chat message', msg)
     })
   })
 }
