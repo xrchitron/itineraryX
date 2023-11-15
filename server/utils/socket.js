@@ -17,7 +17,7 @@ async function connect (server) {
     })
 
     socket.on('send_message', data => {
-      socket.to(data.room).emit('receive_message', data)
+      socket.nsp.to(data.room).emit('receive_message', data)
     })
     socket.on('disconnect', () => {
       console.log('User disconnected')
