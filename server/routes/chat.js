@@ -10,4 +10,8 @@ router
 router
   .route('/:itineraryId')
   .get(auth, Chat.getChats) // get Chats info by token
+
+router
+  .route('/user/:userId')
+  .get(auth, Chat.getUserChatId) // get Chat image by userId
 module.exports = router
