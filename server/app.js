@@ -14,7 +14,7 @@ app.use(cors())
 
 // initial route
 app.get('/', (req, res) => {
-  res.status(200).json({ status: 'success', message: 'Welcome to itineraryX API' })
+  res.status(200).sendFile(path.join(__dirname, 'public', 'api-document.html'))
 })
 
 // api routes

@@ -1,5 +1,5 @@
-const { Chat, User } = require('../models')
-const Sequelize = require('sequelize')
+const { Chat, User, Participant } = require('../models')
+// const Sequelize = require('sequelize')
 const chatServices = {
   getChats: async itineraryId => {
     const chats = await Chat.findAll({
@@ -15,15 +15,26 @@ const chatServices = {
     return chats
   },
   getUserChatId: async userId => {
-    const userChatId = await Chat.findAll({
-      where: { userId },
-      attributes: [Sequelize.fn('DISTINCT', Sequelize.col('itinerary_id')), 'itinerary_id'],
-      order: [['itineraryId', 'ASC']],
+    // const userChatId = await Chat.findAll({
+    //   where: { userId },
+    //   attributes: [Sequelize.fn('DISTINCT', Sequelize.col('itinerary_id')), 'itinerary_id'],
+    //   order: [['itineraryId', 'ASC']],
+    //   raw: true
+    // })
+    // const data = {}
+    // const itineraryIdData = userChatId.map(data => {
+    //   return data.itinerary_id
+    // })
+    // data.itineraryId = itineraryIdData
+    // return data
+    const itineraryIds = await Participant.findAll({
+      where: { participantId: userId },
+      attributes: ['itineraryId'],
       raw: true
     })
     const data = {}
-    const itineraryIdData = userChatId.map(data => {
-      return data.itinerary_id
+    const itineraryIdData = itineraryIds.map(data => {
+      return data.itineraryId
     })
     data.itineraryId = itineraryIdData
     return data
