@@ -21,7 +21,12 @@ const chatServices = {
       order: [['itineraryId', 'ASC']],
       raw: true
     })
-    return userChatId
+    const data = {}
+    const itineraryIdData = userChatId.map(data => {
+      return data.itinerary_id
+    })
+    data.itineraryId = itineraryIdData
+    return data
   },
   postChat: async (itineraryId, userId, message, isImage) => {
     const chat = await Chat.create({ itineraryId, userId, message, isImage })
