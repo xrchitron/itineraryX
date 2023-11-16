@@ -18,7 +18,8 @@ const chatServices = {
     const userChatId = await Chat.findAll({
       where: { userId },
       attributes: [Sequelize.fn('DISTINCT', Sequelize.col('itinerary_id')), 'itinerary_id'],
-      order: [['itineraryId', 'ASC']]
+      order: [['itineraryId', 'ASC']],
+      raw: true
     })
     return userChatId
   },
