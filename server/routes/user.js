@@ -20,7 +20,7 @@ router
   .post(passport.authenticate('local', { session: false }), User.login) // login user
 
 router
-  .route('/followings/:userId')
+  .route('/followings')
   .post(auth, User.addFollowing) // add following
   .delete(auth, User.removeFollowing) // remove following
 // .get(auth, User.getFollowings) // get followings

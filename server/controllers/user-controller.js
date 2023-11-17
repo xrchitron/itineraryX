@@ -43,19 +43,27 @@ const userController = {
   getUser: async (req, res, next) => {
     try {
       const { userId } = req.params
-      console.log(userId)
       const user = await userServices.getUserWithFollows(userId)
       if (!user) throw new Error("User didn't exist!")
       // delete user.password
       const userData = user.toJSON()
-      userData.Followers.forEach(follower => {
-        delete follower.Followship
-      })
-      userData.Followings.forEach(following => {
-        delete following.Followship
-      })
+
       // get avatar url from s3
-      userData.avatar = await s3.getImage(userData.avatar)
+      if (userData.avatar) userData.avatar = await s3.getImage(userData.avatar)
+
+      if (userData.Followers.length !== 0) {
+        userData.Followers.forEach(async follower => {
+          delete follower.Followship
+          if (follower.avatar) follower.avatar = await s3.getImage(follower.avatar)
+        })
+      }
+      if (userData.Followings.length !== 0) {
+        userData.Followings.forEach(async following => {
+          delete following.Followship
+          if (following.avatar) following.avatar = await s3.getImage(following.avatar)
+        })
+      }
+
       res.status(200).json({ status: 'success', data: { user: userData } })
     } catch (err) {
       next(err)
@@ -90,7 +98,7 @@ const userController = {
   },
   addFollowing: async (req, res, next) => {
     try {
-      const { userId } = req.params
+      const { userId } = req.body
       const user = await userServices.getUserById(userId)
       const followship = await userServices.getFollowship(req.user.id, userId)
       if (!user) throw new Error("User didn't exist!")
@@ -103,7 +111,7 @@ const userController = {
   },
   removeFollowing: async (req, res, next) => {
     try {
-      const { userId } = req.params
+      const { userId } = req.body
       const followship = await userServices.getFollowship(req.user.id, userId)
       if (!followship) throw new Error("You haven't followed this user!")
       const deletedFollowship = await userServices.deleteFollowship(followship)

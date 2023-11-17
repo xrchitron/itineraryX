@@ -13,6 +13,9 @@ const userServices = {
     return user
   },
   async getUserWithFollows (id) {
+    // const userCheck = await User.findByPk(id)
+    // if (userCheck.length === 0) throw new Error("User didn't exist!")
+
     const user = await User.findByPk(id, {
       include: [
         { model: User, as: 'Followers', attributes: ['id', 'name', 'avatar'] },
