@@ -48,9 +48,12 @@ const userController = {
       if (!user) throw new Error("User didn't exist!")
       // delete user.password
       const userData = user.toJSON()
-      delete userData.password
-      userData.Followers.forEach(follower => { delete follower.password })
-      userData.Followings.forEach(following => { delete following.password })
+      userData.Followers.forEach(follower => {
+        delete follower.Followship
+      })
+      userData.Followings.forEach(following => {
+        delete following.Followship
+      })
       // get avatar url from s3
       userData.avatar = await s3.getImage(userData.avatar)
       res.status(200).json({ status: 'success', data: { user: userData } })

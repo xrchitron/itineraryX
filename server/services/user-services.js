@@ -15,9 +15,10 @@ const userServices = {
   async getUserWithFollows (id) {
     const user = await User.findByPk(id, {
       include: [
-        { model: User, as: 'Followers' },
-        { model: User, as: 'Followings' }
-      ]
+        { model: User, as: 'Followers', attributes: ['id', 'name', 'avatar'] },
+        { model: User, as: 'Followings', attributes: ['id', 'name', 'avatar'] }
+      ],
+      attributes: ['id', 'name', 'avatar']
     })
     return user
   },

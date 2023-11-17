@@ -23,7 +23,9 @@ module.exports = (sequelize, DataTypes) => {
   Itinerary.init({
     holderId: DataTypes.INTEGER,
     title: DataTypes.STRING,
-    image: DataTypes.STRING
+    image: DataTypes.STRING,
+    startTime: DataTypes.DATE,
+    endTime: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Itinerary',
