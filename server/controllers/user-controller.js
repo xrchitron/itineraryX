@@ -91,6 +91,7 @@ const userController = {
       const UpdatedUser = await userServices.putUserAvatar(userId, name, imageName)
       const userData = UpdatedUser.toJSON()
       delete userData.password
+      if (userData.avatar) userData.avatar = await s3.getImage(userData.avatar)
       res.status(200).json({ status: 'success', data: { user: userData } })
     } catch (err) {
       next(err)
