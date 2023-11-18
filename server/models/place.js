@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.STRING,
     url: DataTypes.STRING,
     lat: DataTypes.FLOAT,
-    lng: DataTypes.FLOAT
+    lng: DataTypes.FLOAT,
+    intro: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Place',

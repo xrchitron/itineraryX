@@ -21,7 +21,6 @@ const mapServices = {
     const fields = ['name', 'place_id', 'formatted_address', 'geometry', 'rating', 'photos', 'url', 'editorial_summary']
     const linkedFields = fields.join('%2C')
     const placeDetail = await axios.get(url + `place_id=${placeId}&fields=${linkedFields}&key=${key}`)
-    console.log(placeDetail.data.result)
     if (placeDetail.data.status !== 'OK') throw new Error('Invalid request')
     return placeDetail.data.result
   },

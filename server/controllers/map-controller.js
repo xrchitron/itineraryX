@@ -56,11 +56,11 @@ const mapController = {
   },
   getDistanceMatrix: async (req, res, next) => {
     try {
-      const { itineraryId, date, transportationMode, originPlaceId, destinationPlaceId } = req.body
-      if (!itineraryId || !date || !transportationMode || !originPlaceId || !destinationPlaceId) throw new Error('Missing required parameters')
+      const { itineraryId, date, transportationMode, originId, destinationId } = req.body
+      if (!itineraryId || !date || !transportationMode || !originId || !destinationId) throw new Error('Missing required parameters')
       // get origin and destination place data
-      const origin = await mapServices.getPlace(originPlaceId)
-      const destination = await mapServices.getPlace(destinationPlaceId)
+      const origin = await mapServices.getPlace(originId)
+      const destination = await mapServices.getPlace(destinationId)
 
       // check if origin and destination place data exists
       if (!origin) throw new Error('Origin not found')
