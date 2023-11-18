@@ -18,9 +18,10 @@ const mapServices = {
   },
   async getPlaceDetail (placeId) {
     const url = 'https://maps.googleapis.com/maps/api/place/details/json?'
-    const fields = ['name', 'place_id', 'formatted_address', 'geometry', 'rating', 'photos', 'url']
+    const fields = ['name', 'place_id', 'formatted_address', 'geometry', 'rating', 'photos', 'url', 'editorial_summary']
     const linkedFields = fields.join('%2C')
     const placeDetail = await axios.get(url + `place_id=${placeId}&fields=${linkedFields}&key=${key}`)
+    console.log(placeDetail.data.result)
     if (placeDetail.data.status !== 'OK') throw new Error('Invalid request')
     return placeDetail.data.result
   },
@@ -68,7 +69,8 @@ const mapServices = {
       url: place.url,
       image: place.image,
       lat: place.geometry.location.lat,
-      lng: place.geometry.location.lng
+      lng: place.geometry.location.lng,
+      intro: place.editorial_summary.overview
     })
     return newPlace
   },

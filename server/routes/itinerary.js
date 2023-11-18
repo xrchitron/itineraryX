@@ -3,8 +3,8 @@ const Itinerary = require('../controllers/itinerary-controller')
 const { auth } = require('../middleware/auth')
 const upload = require('../middleware/multer')
 router
-  .route('/:itid')
-  .get(auth, Itinerary.getItinerary) // get Itinerary info by itinerary id and holder id
+  .route('/:itineraryId')
+  .get(auth, Itinerary.getItinerary) // get Itinerary info by itinerary id
 
 router
   .route('/')

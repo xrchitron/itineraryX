@@ -13,12 +13,8 @@ const itineraryServices = {
     const itinerary = await Itinerary.findByPk(id)
     return itinerary
   },
-  async getItineraryWithParticipants (id, holderId) {
-    const itinerary = await Itinerary.findOne({
-      where: {
-        id,
-        holderId
-      },
+  async getItineraryWithParticipants (id) {
+    const itinerary = await Itinerary.findByPk(id, {
       include: [{
         model: User,
         as: 'ParticipantsUser',
@@ -43,17 +39,18 @@ const itineraryServices = {
   async createItinerary (holderId, title) {
     const itinerary = await Itinerary.create({
       holderId,
-      title,
-      image: null
+      title
     })
     return itinerary
   },
-  async updateItinerary (itinerary, title, image) {
+  async updateItinerary (itinerary, title, image, startTime, endTime) {
     const updatedItinerary = await itinerary.update({
       title: title || itinerary.title,
-      image: image || itinerary.image
+      image: image || itinerary.image,
+      startTime: startTime || itinerary.startTime,
+      endTime: endTime || itinerary.endTime
     })
-    return updatedItinerary
+    return updatedItinerary.toJSON()
   },
   async deleteItinerary (itinerary) {
     const deletedItinerary = itinerary.destroy()
@@ -103,8 +100,12 @@ const itineraryServices = {
     return participant
   },
   async deleteParticipant (participant) {
-    const deletedParticipant = participant.destroy()
-    return deletedParticipant
+    const deletedParticipant = await participant.destroy()
+    const returnData = {
+      itineraryId: deletedParticipant.itineraryId,
+      participantId: deletedParticipant.participantId
+    }
+    return returnData
   }
 }
 module.exports = itineraryServices

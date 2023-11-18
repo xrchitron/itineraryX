@@ -33,7 +33,6 @@ const mapController = {
       const photoReference = placeDetail.photos[1].photo_reference
       const photo = await mapServices.getPhotoByReference(photoReference)
       placeDetail.image = photo
-      console.log(placeDetail.image)
       const placeData = await mapServices.createPlace(placeDetail)
       if (!placeData) throw new Error("Place didn't create successfully")
       res.status(200).json({ status: 'success', data: placeData })

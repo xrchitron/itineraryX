@@ -76,11 +76,14 @@ const chatController = {
       const chat = await chatServices.postChat(itineraryId, userId, message, isImage)
       // convert date format
       const time = dateMethods.toISOString(chat.createdAt)
+      // convert image to url
+      let userAvatar = participant.ParticipantUser.avatar
+      if (userAvatar) userAvatar = await s3.getImage(userAvatar)
       // output data
       const chatData = {
         id: chat.id,
         user: participant.ParticipantUser.name,
-        avatar: participant.ParticipantUser.avatar,
+        avatar: userAvatar,
         message: storedMessage,
         time
       }

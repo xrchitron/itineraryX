@@ -1,17 +1,24 @@
 const itineraryServices = require('../services/itinerary-services')
 const userServices = require('../services/user-services')
 const s3 = require('../utils/aws_s3')
+const dateMethods = require('../utils/date-methods')
 const itineraryController = {
   getItinerary: async (req, res, next) => {
     try {
-      const itineraryId = req.params.itid
-      const { holderId } = req.body
-      const itinerary = await itineraryServices.getItineraryWithParticipants(itineraryId, holderId)
+      const { itineraryId } = req.params
+      const itinerary = await itineraryServices.getItineraryWithParticipants(itineraryId)
 
       if (!itinerary) throw new Error('Itinerary not found')
 
       const itineraryData = itinerary.toJSON()
-      itineraryData.ParticipantsUser.forEach(participant => { delete participant.Participant })
+      // turn image name into url if image from s3 exist
+      itineraryData.image = await s3.getImage(itineraryData.image)
+      // turn avatar name into url if avatar from s3 exist
+      itineraryData.ParticipantsUser = await Promise.all(itineraryData.ParticipantsUser.map(async participant => {
+        delete participant.Participant
+        if (participant.avatar) participant.avatar = await s3.getImage(participant.avatar)
+        return participant
+      }))
 
       res.status(200).json({ status: 'success', data: itineraryData })
     } catch (err) {
@@ -21,19 +28,23 @@ const itineraryController = {
   getItineraries: async (req, res, next) => {
     try {
       const itineraries = await itineraryServices.getItineraries(req.user.id)
-      res.status(200).json({ status: 'success', data: itineraries })
+
+      // turn image name into url if image from s3 exist
+      const itinerariesData = await Promise.all(itineraries.map(async itinerary => {
+        if (itinerary.image)itinerary.image = await s3.getImage(itinerary.image)
+        return itinerary
+      }))
+      res.status(200).json({ status: 'success', data: itinerariesData })
     } catch (err) {
       next(err)
     }
   },
   postItinerary: async (req, res, next) => {
     try {
-      const userInput = req.body
+      const { title } = req.body
+      if (!title) throw new Error('Missing title')
 
-      const itinerary = await itineraryServices.getItineraryByIdAndTitle(req.user.id, userInput.title)
-      if (itinerary) throw new Error('Itinerary already exist')
-
-      const newItinerary = await itineraryServices.createItinerary(req.user.id, userInput.title)
+      const newItinerary = await itineraryServices.createItinerary(req.user.id, title)
       await itineraryServices.createParticipant(newItinerary.id, req.user.id)
       res.status(200).json({ status: 'success', data: newItinerary })
     } catch (err) {
@@ -42,7 +53,7 @@ const itineraryController = {
   },
   putItinerary: async (req, res, next) => {
     try {
-      const { itineraryId, title } = req.body
+      const { itineraryId, title, startTime, endTime } = req.body
       if (!itineraryId) throw new Error('Missing itinerary id')
       const itinerary = await itineraryServices.getItinerary(itineraryId, req.user.id)
       if (!itinerary) throw new Error('Itinerary not found')
@@ -58,10 +69,12 @@ const itineraryController = {
         imageUrl = await s3.getImage(imageFileName)
       }
       image = imageFileName || image
-      const updatedItinerary = await itineraryServices.updateItinerary(itinerary, title, image)
+      const updatedItinerary = await itineraryServices.updateItinerary(itinerary, title, image, startTime, endTime)
       // turn image name into url if image from s3 exist
       updatedItinerary.image = imageUrl || await s3.getImage(updatedItinerary.image)
-
+      // turn time into iso string
+      updatedItinerary.startTime = dateMethods.toISOString(updatedItinerary.startTime)
+      updatedItinerary.endTime = dateMethods.toISOString(updatedItinerary.endTime)
       res.status(200).json({ status: 'success', data: updatedItinerary })
     } catch (err) {
       next(err)
@@ -69,14 +82,14 @@ const itineraryController = {
   },
   deleteItinerary: async (req, res, next) => {
     try {
-      const itineraryId = req.body.itineraryId
+      const { itineraryId } = req.body
       const itinerary = await itineraryServices.getItinerary(itineraryId, req.user.id)
       if (!itinerary) throw new Error('Itinerary not found')
 
       // delete itinerary from db
       const deletedItinerary = await itineraryServices.deleteItinerary(itinerary)
       // delete image from s3
-      await s3.deleteImage(deletedItinerary.image)
+      if (deletedItinerary.image) await s3.deleteImage(deletedItinerary.image)
 
       res.status(200).json({ status: 'success', data: deletedItinerary })
     } catch (err) {
