@@ -64,11 +64,9 @@ const destinationController = {
       const { destinationId, date } = req.body
       if (!destinationId) throw new Error('Missing destinationId')
       if (!date) throw new Error('Missing date')
-
       // check if destination exists
       const destination = await destinationServices.getDestination(destinationId)
       if (!destination) throw new Error('Destination not found')
-
       // update destination
       const updatedDestination = await destination.update({ date })
       if (!updatedDestination) throw new Error("Destination didn't update successfully")

@@ -15,7 +15,7 @@ const destinationServices = {
       attributes: ['id', 'itineraryId', 'date'],
       include: {
         model: Place,
-        attributes: ['id', 'name', 'address', 'rating', 'url', 'lat', 'lng']
+        attributes: ['id', 'name', 'address', 'rating', 'url', 'lat', 'lng', 'intro', 'image']
       }
     })
     return destination
@@ -34,7 +34,7 @@ const destinationServices = {
       order: [[sortKey, sortOrder]],
       include: {
         model: Place,
-        attributes: ['id', 'name', 'address', 'rating', 'url', 'lat', 'lng']
+        attributes: ['id', 'name', 'address', 'rating', 'url', 'lat', 'lng', 'intro', 'image']
       }
     })
     return destinations
