@@ -1,1145 +1,1149 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>itineraryX API Document</title><style>
-/* cspell:disable-file */
-/* webkit printing magic: print all background colors */
-html {
-	-webkit-print-color-adjust: exact;
-}
-* {
-	box-sizing: border-box;
-	-webkit-print-color-adjust: exact;
-}
-
-html,
-body {
-	margin: 0;
-	padding: 0;
-}
-@media only screen {
-	body {
-		margin: 2em auto;
-		max-width: 900px;
-		color: rgb(55, 53, 47);
-	}
-}
-
-body {
-	line-height: 1.5;
-	white-space: pre-wrap;
-}
-
-a,
-a.visited {
-	color: inherit;
-	text-decoration: underline;
-}
-
-.pdf-relative-link-path {
-	font-size: 80%;
-	color: #444;
-}
-
-h1,
-h2,
-h3 {
-	letter-spacing: -0.01em;
-	line-height: 1.2;
-	font-weight: 600;
-	margin-bottom: 0;
-}
-
-.page-title {
-	font-size: 2.5rem;
-	font-weight: 700;
-	margin-top: 0;
-	margin-bottom: 0.75em;
-}
-
-h1 {
-	font-size: 1.875rem;
-	margin-top: 1.875rem;
-}
-
-h2 {
-	font-size: 1.5rem;
-	margin-top: 1.5rem;
-}
-
-h3 {
-	font-size: 1.25rem;
-	margin-top: 1.25rem;
-}
-
-.source {
-	border: 1px solid #ddd;
-	border-radius: 3px;
-	padding: 1.5em;
-	word-break: break-all;
-}
-
-.callout {
-	border-radius: 3px;
-	padding: 1rem;
-}
-
-figure {
-	margin: 1.25em 0;
-	page-break-inside: avoid;
-}
-
-figcaption {
-	opacity: 0.5;
-	font-size: 85%;
-	margin-top: 0.5em;
-}
-
-mark {
-	background-color: transparent;
-}
-
-.indented {
-	padding-left: 1.5em;
-}
-
-hr {
-	background: transparent;
-	display: block;
-	width: 100%;
-	height: 1px;
-	visibility: visible;
-	border: none;
-	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
-}
-
-img {
-	max-width: 100%;
-}
-
-@media only print {
-	img {
-		max-height: 100vh;
-		object-fit: contain;
-	}
-}
-
-@page {
-	margin: 1in;
-}
-
-.collection-content {
-	font-size: 0.875rem;
-}
-
-.column-list {
-	display: flex;
-	justify-content: space-between;
-}
-
-.column {
-	padding: 0 1em;
-}
-
-.column:first-child {
-	padding-left: 0;
-}
-
-.column:last-child {
-	padding-right: 0;
-}
-
-.table_of_contents-item {
-	display: block;
-	font-size: 0.875rem;
-	line-height: 1.3;
-	padding: 0.125rem;
-}
-
-.table_of_contents-indent-1 {
-	margin-left: 1.5rem;
-}
-
-.table_of_contents-indent-2 {
-	margin-left: 3rem;
-}
-
-.table_of_contents-indent-3 {
-	margin-left: 4.5rem;
-}
-
-.table_of_contents-link {
-	text-decoration: none;
-	opacity: 0.7;
-	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
-}
-
-table,
-th,
-td {
-	border: 1px solid rgba(55, 53, 47, 0.09);
-	border-collapse: collapse;
-}
-
-table {
-	border-left: none;
-	border-right: none;
-}
-
-th,
-td {
-	font-weight: normal;
-	padding: 0.25em 0.5em;
-	line-height: 1.5;
-	min-height: 1.5em;
-	text-align: left;
-}
-
-th {
-	color: rgba(55, 53, 47, 0.6);
-}
-
-ol,
-ul {
-	margin: 0;
-	margin-block-start: 0.6em;
-	margin-block-end: 0.6em;
-}
-
-li > ol:first-child,
-li > ul:first-child {
-	margin-block-start: 0.6em;
-}
-
-ul > li {
-	list-style: disc;
-}
-
-ul.to-do-list {
-	padding-inline-start: 0;
-}
-
-ul.to-do-list > li {
-	list-style: none;
-}
-
-.to-do-children-checked {
-	text-decoration: line-through;
-	opacity: 0.375;
-}
-
-ul.toggle > li {
-	list-style: none;
-}
-
-ul {
-	padding-inline-start: 1.7em;
-}
-
-ul > li {
-	padding-left: 0.1em;
-}
-
-ol {
-	padding-inline-start: 1.6em;
-}
-
-ol > li {
-	padding-left: 0.2em;
-}
-
-.mono ol {
-	padding-inline-start: 2em;
-}
-
-.mono ol > li {
-	text-indent: -0.4em;
-}
-
-.toggle {
-	padding-inline-start: 0em;
-	list-style-type: none;
-}
-
-/* Indent toggle children */
-.toggle > li > details {
-	padding-left: 1.7em;
-}
-
-.toggle > li > details > summary {
-	margin-left: -1.1em;
-}
-
-.selected-value {
-	display: inline-block;
-	padding: 0 0.5em;
-	background: rgba(206, 205, 202, 0.5);
-	border-radius: 3px;
-	margin-right: 0.5em;
-	margin-top: 0.3em;
-	margin-bottom: 0.3em;
-	white-space: nowrap;
-}
-
-.collection-title {
-	display: inline-block;
-	margin-right: 1em;
-}
-
-.page-description {
-    margin-bottom: 2em;
-}
-
-.simple-table {
-	margin-top: 1em;
-	font-size: 0.875rem;
-	empty-cells: show;
-}
-.simple-table td {
-	height: 29px;
-	min-width: 120px;
-}
-
-.simple-table th {
-	height: 29px;
-	min-width: 120px;
-}
-
-.simple-table-header-color {
-	background: rgb(247, 246, 243);
-	color: black;
-}
-.simple-table-header {
-	font-weight: 500;
-}
-
-time {
-	opacity: 0.5;
-}
-
-.icon {
-	display: inline-block;
-	max-width: 1.2em;
-	max-height: 1.2em;
-	text-decoration: none;
-	vertical-align: text-bottom;
-	margin-right: 0.5em;
-}
-
-img.icon {
-	border-radius: 3px;
-}
-
-.user-icon {
-	width: 1.5em;
-	height: 1.5em;
-	border-radius: 100%;
-	margin-right: 0.5rem;
-}
-
-.user-icon-inner {
-	font-size: 0.8em;
-}
-
-.text-icon {
-	border: 1px solid #000;
-	text-align: center;
-}
-
-.page-cover-image {
-	display: block;
-	object-fit: cover;
-	width: 100%;
-	max-height: 30vh;
-}
-
-.page-header-icon {
-	font-size: 3rem;
-	margin-bottom: 1rem;
-}
-
-.page-header-icon-with-cover {
-	margin-top: -0.72em;
-	margin-left: 0.07em;
-}
-
-.page-header-icon img {
-	border-radius: 3px;
-}
-
-.link-to-page {
-	margin: 1em 0;
-	padding: 0;
-	border: none;
-	font-weight: 500;
-}
-
-p > .user {
-	opacity: 0.5;
-}
-
-td > .user,
-td > time {
-	white-space: nowrap;
-}
-
-input[type="checkbox"] {
-	transform: scale(1.5);
-	margin-right: 0.6em;
-	vertical-align: middle;
-}
-
-p {
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-}
-
-.image {
-	border: none;
-	margin: 1.5em 0;
-	padding: 0;
-	border-radius: 0;
-	text-align: center;
-}
-
-.code,
-code {
-	background: rgba(135, 131, 120, 0.15);
-	border-radius: 3px;
-	padding: 0.2em 0.4em;
-	border-radius: 3px;
-	font-size: 85%;
-	tab-size: 2;
-}
-
-code {
-	color: #eb5757;
-}
-
-.code {
-	padding: 1.5em 1em;
-}
-
-.code-wrap {
-	white-space: pre-wrap;
-	word-break: break-all;
-}
-
-.code > code {
-	background: none;
-	padding: 0;
-	font-size: 100%;
-	color: inherit;
-}
-
-blockquote {
-	font-size: 1.25em;
-	margin: 1em 0;
-	padding-left: 1em;
-	border-left: 3px solid rgb(55, 53, 47);
-}
-
-.bookmark {
-	text-decoration: none;
-	max-height: 8em;
-	padding: 0;
-	display: flex;
-	width: 100%;
-	align-items: stretch;
-}
-
-.bookmark-title {
-	font-size: 0.85em;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	height: 1.75em;
-	white-space: nowrap;
-}
-
-.bookmark-text {
-	display: flex;
-	flex-direction: column;
-}
-
-.bookmark-info {
-	flex: 4 1 180px;
-	padding: 12px 14px 14px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-}
-
-.bookmark-image {
-	width: 33%;
-	flex: 1 1 180px;
-	display: block;
-	position: relative;
-	object-fit: cover;
-	border-radius: 1px;
-}
-
-.bookmark-description {
-	color: rgba(55, 53, 47, 0.6);
-	font-size: 0.75em;
-	overflow: hidden;
-	max-height: 4.5em;
-	word-break: break-word;
-}
-
-.bookmark-href {
-	font-size: 0.75em;
-	margin-top: 0.25em;
-}
-
-.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
-.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
-.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
-.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
-.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
-.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
-.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
-.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
-.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
-.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
-.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
-.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
-.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
-.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
-.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
-.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
-.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
-.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
-.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
-.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
-.highlight-default {
-	color: rgba(55, 53, 47, 1);
-}
-.highlight-gray {
-	color: rgba(120, 119, 116, 1);
-	fill: rgba(120, 119, 116, 1);
-}
-.highlight-brown {
-	color: rgba(159, 107, 83, 1);
-	fill: rgba(159, 107, 83, 1);
-}
-.highlight-orange {
-	color: rgba(217, 115, 13, 1);
-	fill: rgba(217, 115, 13, 1);
-}
-.highlight-yellow {
-	color: rgba(203, 145, 47, 1);
-	fill: rgba(203, 145, 47, 1);
-}
-.highlight-teal {
-	color: rgba(68, 131, 97, 1);
-	fill: rgba(68, 131, 97, 1);
-}
-.highlight-blue {
-	color: rgba(51, 126, 169, 1);
-	fill: rgba(51, 126, 169, 1);
-}
-.highlight-purple {
-	color: rgba(144, 101, 176, 1);
-	fill: rgba(144, 101, 176, 1);
-}
-.highlight-pink {
-	color: rgba(193, 76, 138, 1);
-	fill: rgba(193, 76, 138, 1);
-}
-.highlight-red {
-	color: rgba(212, 76, 71, 1);
-	fill: rgba(212, 76, 71, 1);
-}
-.highlight-gray_background {
-	background: rgba(241, 241, 239, 1);
-}
-.highlight-brown_background {
-	background: rgba(244, 238, 238, 1);
-}
-.highlight-orange_background {
-	background: rgba(251, 236, 221, 1);
-}
-.highlight-yellow_background {
-	background: rgba(251, 243, 219, 1);
-}
-.highlight-teal_background {
-	background: rgba(237, 243, 236, 1);
-}
-.highlight-blue_background {
-	background: rgba(231, 243, 248, 1);
-}
-.highlight-purple_background {
-	background: rgba(244, 240, 247, 0.8);
-}
-.highlight-pink_background {
-	background: rgba(249, 238, 243, 0.8);
-}
-.highlight-red_background {
-	background: rgba(253, 235, 236, 1);
-}
-.block-color-default {
-	color: inherit;
-	fill: inherit;
-}
-.block-color-gray {
-	color: rgba(120, 119, 116, 1);
-	fill: rgba(120, 119, 116, 1);
-}
-.block-color-brown {
-	color: rgba(159, 107, 83, 1);
-	fill: rgba(159, 107, 83, 1);
-}
-.block-color-orange {
-	color: rgba(217, 115, 13, 1);
-	fill: rgba(217, 115, 13, 1);
-}
-.block-color-yellow {
-	color: rgba(203, 145, 47, 1);
-	fill: rgba(203, 145, 47, 1);
-}
-.block-color-teal {
-	color: rgba(68, 131, 97, 1);
-	fill: rgba(68, 131, 97, 1);
-}
-.block-color-blue {
-	color: rgba(51, 126, 169, 1);
-	fill: rgba(51, 126, 169, 1);
-}
-.block-color-purple {
-	color: rgba(144, 101, 176, 1);
-	fill: rgba(144, 101, 176, 1);
-}
-.block-color-pink {
-	color: rgba(193, 76, 138, 1);
-	fill: rgba(193, 76, 138, 1);
-}
-.block-color-red {
-	color: rgba(212, 76, 71, 1);
-	fill: rgba(212, 76, 71, 1);
-}
-.block-color-gray_background {
-	background: rgba(241, 241, 239, 1);
-}
-.block-color-brown_background {
-	background: rgba(244, 238, 238, 1);
-}
-.block-color-orange_background {
-	background: rgba(251, 236, 221, 1);
-}
-.block-color-yellow_background {
-	background: rgba(251, 243, 219, 1);
-}
-.block-color-teal_background {
-	background: rgba(237, 243, 236, 1);
-}
-.block-color-blue_background {
-	background: rgba(231, 243, 248, 1);
-}
-.block-color-purple_background {
-	background: rgba(244, 240, 247, 0.8);
-}
-.block-color-pink_background {
-	background: rgba(249, 238, 243, 0.8);
-}
-.block-color-red_background {
-	background: rgba(253, 235, 236, 1);
-}
-.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
-.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
-.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
-.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
-.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
-.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
-.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
-.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
-.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
-.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
-.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
-.select-value-color-pageGlass { background-color: undefined; }
-.select-value-color-washGlass { background-color: undefined; }
-
-.checkbox {
-	display: inline-flex;
-	vertical-align: text-bottom;
-	width: 16;
-	height: 16;
-	background-size: 16px;
-	margin-left: 2px;
-	margin-right: 5px;
-}
-
-.checkbox-on {
-	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
-}
-
-.checkbox-off {
-	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
-}
-	
-</style></head><body><article id="db34f10d-4df5-4279-94b4-fc9e67f4542e" class="page sans"><header><h1 class="page-title">itineraryX API Document</h1><p class="page-description"></p></header><div class="page-body"><p id="8b68212b-332c-47fd-8bac-2bc9f0773756" class="">edit by YU-HAO CHEN in Taipei</p><p id="b823c065-665a-4e8c-902f-ac37143bfd9b" class=""><a href="https://github.com/xrchitron?tab=repositories">github</a> | <a href="https://www.notion.so/Backend-tips-7f62795e3f5e4952a28bf9eb4fa2452e?pvs=21">Linkedin</a> | <a href="mailto:yuhaochen1124@gmail.com">email</a></p><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">User</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/login </summary><div class="indented"><p id="15af8def-b878-4b12-a27c-56c42420d827" class="">User is able to login.</p><h3 id="5cdc5766-2e18-4116-b86f-2d31bc46f527" class="">Parameters</h3><p id="750ca840-3fc7-4483-b6b9-8d1ec6a7deec" class="">n/a</p><h3 id="2d005b60-c524-4a50-9beb-fcc7949de381" class="">Request Body</h3><table id="13cb9625-4059-4db7-b270-46fd7ba09045" class="simple-table"><tbody><tr id="6e01377c-91b7-40f3-bd49-6ae6354d2f79"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="e14b8f6e-5570-4074-9173-0b889cee46e5"><td id="F^:g" class="">email</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">user’s email</td></tr><tr id="2fc10fb2-787c-457c-b824-0fbb15fe0278"><td id="F^:g" class="">password</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">user’s password</td></tr></tbody></table><h3 id="b045327c-8e00-4ba0-abd8-39e8c4385e23" class="">Response</h3><p id="55ed1c4d-9b56-4ebd-b468-cb3cb2727843" class="">Success | code : 200</p><ul id="258430e6-3860-4582-938b-59d0077099f6" class="bulleted-list"><li style="list-style-type:disc">The token (JSON Web Token) should be stored in the header as the authentication and sent with every request except for signup and login.</li></ul><pre id="490b784c-c3a7-4fde-9ffa-5faa98e4b65c" class="code code-wrap"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6InJvb3RfdGVzdCIsImVtYWlsIjoidXNlcjAxQGV4YW1wbGUuY29tIiwiYXZhdGFyIjoidXNlcnMvdXNlcjAxQGV4YW1wbGUuY29tLzI1YWI2ZjNmZDViMDlkNDg1NmI0MjFkMGRhMDE1NGI2ZDg5MTAzMGIzMmYzNmE0YzY1YTJiOTJiMWVhNjNhODIiLCJjcmVhdGVkQXQiOiIyMDIzLTEwLTI3VDA3OjQ0OjU4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIzLTExLTA1VDAzOjIwOjQ4LjAwMFoiLCJpYXQiOjE2OTkyNjA3NDQsImV4cCI6MTcwMTg1Mjc0NH0.peOGT95nRbNB3jGAkiQnfdVqyxlq3L8wl9ZNz9iuIHk&quot;,
-        &quot;user&quot;: {
-            &quot;id&quot;: 1,
-            &quot;name&quot;: &quot;test_name&quot;,
-            &quot;email&quot;: &quot;user01@example.com&quot;,
-            &quot;avatar&quot;: null,
-            &quot;createdAt&quot;: &quot;2023-10-27T07:44:58.000Z&quot;,
-            &quot;updatedAt&quot;: &quot;2023-11-05T03:20:48.000Z&quot;
+    /* cspell:disable-file */
+    /* webkit printing magic: print all background colors */
+    html {
+        -webkit-print-color-adjust: exact;
+    }
+    * {
+        box-sizing: border-box;
+        -webkit-print-color-adjust: exact;
+    }
+    
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    @media only screen {
+        body {
+            margin: 2em auto;
+            max-width: 900px;
+            color: rgb(55, 53, 47);
         }
     }
-}</code></pre><p id="426635d7-5109-45b5-b133-5ec3dd383cc6" class="">Failure Response | code : 500</p><pre id="87b5cc3d-9fff-44d4-8381-09f695918996" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: Account or password incorrect!&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/signup</summary><div class="indented"><p id="2c3d11eb-ca97-4345-87e6-a8efb559385f" class="">User sign up.</p><h3 id="8e556759-aedc-4869-b58d-e4650ec5cefa" class="">Parameters</h3><p id="26007f7c-8c22-434f-8019-fed652d4730c" class="">n/a</p><h3 id="06b47b80-74cf-493b-88ed-1be31f54cf87" class="">Request Body</h3><table id="84f223ca-c2ec-4747-9182-ca891c10fd58" class="simple-table"><tbody><tr id="29909534-0d34-40ac-b391-7a937417c683"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="90ec3391-a2da-4af5-b5ea-8a13481df5ce"><td id="F^:g" class="">name</td><td id="zc[n" class=""></td><td id="aZnA" class="">string</td><td id="=lDO" class="">User’s name</td></tr><tr id="66ecf3cb-8b8c-4ac3-b624-99e8134c4712"><td id="F^:g" class="">email</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">User’s email</td></tr><tr id="5cbdc31d-dbe1-46cf-8479-b66f53463b66"><td id="F^:g" class="">password</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">User’s password</td></tr><tr id="a78d6ab4-b46e-4111-a30c-a3c7b69690ca"><td id="F^:g" class="">passwordCheck</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">retype the password</td></tr></tbody></table><h3 id="80b18c87-1a99-40c7-8e9b-4586a1231266" class="">Response</h3><p id="b1ec6b2e-3833-46c2-bb19-6f312c32fea3" class="">Success | code : 200</p><pre id="56a6abf6-3757-4f98-a97f-b7313027e928" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 8,
-        &quot;name&quot;: &quot;user11&quot;,
-        &quot;email&quot;: &quot;user11@example.com&quot;,
-        &quot;updatedAt&quot;: &quot;2023-11-06T09:14:02.474Z&quot;,
-        &quot;createdAt&quot;: &quot;2023-11-06T09:14:02.474Z&quot;
+    
+    body {
+        line-height: 1.5;
+        white-space: pre-wrap;
     }
-}</code></pre><p id="16577a64-146e-446b-9478-c625ac45ce72" class="">Failure Response | code : 500</p><pre id="1af714bd-5404-472b-adaf-6c6c78568d19" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: Email already exist&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">GET /api/users/:userId</summary><div class="indented"><p id="d26ac4f9-d5ef-47f0-8bb6-eec95e1593ca" class="">Get user’s info.</p><h3 id="e9d8b513-8f6d-4820-91c3-7befa7754448" class="">Parameters</h3><table id="9c3d05aa-591c-461f-9b33-46079fb2f806" class="simple-table"><tbody><tr id="aa9b3fa8-d75f-486d-b3bc-eba1bf73dd39"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="34850845-3bb7-4df2-badc-1f90d908b664"><td id="F^:g" class="">userId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">User’s id</td></tr></tbody></table><h3 id="aa4122fd-27d6-41b1-88b6-8845d7afd8c3" class="">Request Body</h3><p id="a98b1070-46d1-4c2c-abb4-3d6f0bf8e62a" class="">n/a</p><h3 id="550e79d2-945d-46a7-a8ed-c84711166804" class="">Response</h3><p id="07a6c656-53d1-4df1-b20f-3a7081dcd5f3" class="">Success | code : 200</p><pre id="475ca57e-d112-49b6-b1aa-e814b52c950f" class="code code-wrap"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;user&quot;: {
-            &quot;id&quot;: 1,
-            &quot;name&quot;: &quot;root_new&quot;,
-            &quot;email&quot;: &quot;user01@example.com&quot;,
-            &quot;avatar&quot;: &quot;https://itinerary-x-upload.s3.ap-northeast-1.amazonaws.com/users/user01%40example.com/a99e24df3d8c81a3bf418a11357116eaac22a5f1a79159ac527e4169204bb0bc?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=AKIAU77B7KHTQ7WYWCNK%2F20231106%2Fap-northeast-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20231106T145229Z&amp;X-Amz-Expires=3600&amp;X-Amz-Signature=32a917a58f799fbcd256a9a4f0394ef9a14ca8807091b1760e6adb75528fba08&amp;X-Amz-SignedHeaders=host&amp;x-id=GetObject&quot;,
-            &quot;createdAt&quot;: &quot;2023-10-27T07:44:58.000Z&quot;,
-            &quot;updatedAt&quot;: &quot;2023-11-06T10:35:38.000Z&quot;,
-            &quot;Followers&quot;: [
-                {
-                    &quot;id&quot;: 2,
-                    &quot;name&quot;: &quot;user02&quot;,
-                    &quot;email&quot;: &quot;user02@example.com&quot;,
-                    &quot;avatar&quot;: null,
-                    &quot;createdAt&quot;: &quot;2023-10-27T07:44:58.000Z&quot;,
-                    &quot;updatedAt&quot;: &quot;2023-10-27T07:44:58.000Z&quot;,
-                    &quot;Followship&quot;: {
-                        &quot;followerId&quot;: 2,
-                        &quot;followingId&quot;: 1,
-                        &quot;createdAt&quot;: &quot;2023-10-27T07:44:59.000Z&quot;,
-                        &quot;updatedAt&quot;: &quot;2023-10-27T07:44:59.000Z&quot;
+    
+    a,
+    a.visited {
+        color: inherit;
+        text-decoration: underline;
+    }
+    
+    .pdf-relative-link-path {
+        font-size: 80%;
+        color: #444;
+    }
+    
+    h1,
+    h2,
+    h3 {
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+    
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 0.75em;
+    }
+    
+    h1 {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+    }
+    
+    .source {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 1.5em;
+        word-break: break-all;
+    }
+    
+    .callout {
+        border-radius: 3px;
+        padding: 1rem;
+    }
+    
+    figure {
+        margin: 1.25em 0;
+        page-break-inside: avoid;
+    }
+    
+    figcaption {
+        opacity: 0.5;
+        font-size: 85%;
+        margin-top: 0.5em;
+    }
+    
+    mark {
+        background-color: transparent;
+    }
+    
+    .indented {
+        padding-left: 1.5em;
+    }
+    
+    hr {
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 1px;
+        visibility: visible;
+        border: none;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+    }
+    
+    img {
+        max-width: 100%;
+    }
+    
+    @media only print {
+        img {
+            max-height: 100vh;
+            object-fit: contain;
+        }
+    }
+    
+    @page {
+        margin: 1in;
+    }
+    
+    .collection-content {
+        font-size: 0.875rem;
+    }
+    
+    .column-list {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .column {
+        padding: 0 1em;
+    }
+    
+    .column:first-child {
+        padding-left: 0;
+    }
+    
+    .column:last-child {
+        padding-right: 0;
+    }
+    
+    .table_of_contents-item {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        padding: 0.125rem;
+    }
+    
+    .table_of_contents-indent-1 {
+        margin-left: 1.5rem;
+    }
+    
+    .table_of_contents-indent-2 {
+        margin-left: 3rem;
+    }
+    
+    .table_of_contents-indent-3 {
+        margin-left: 4.5rem;
+    }
+    
+    .table_of_contents-link {
+        text-decoration: none;
+        opacity: 0.7;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+    }
+    
+    table,
+    th,
+    td {
+        border: 1px solid rgba(55, 53, 47, 0.09);
+        border-collapse: collapse;
+    }
+    
+    table {
+        border-left: none;
+        border-right: none;
+    }
+    
+    th,
+    td {
+        font-weight: normal;
+        padding: 0.25em 0.5em;
+        line-height: 1.5;
+        min-height: 1.5em;
+        text-align: left;
+    }
+    
+    th {
+        color: rgba(55, 53, 47, 0.6);
+    }
+    
+    ol,
+    ul {
+        margin: 0;
+        margin-block-start: 0.6em;
+        margin-block-end: 0.6em;
+    }
+    
+    li > ol:first-child,
+    li > ul:first-child {
+        margin-block-start: 0.6em;
+    }
+    
+    ul > li {
+        list-style: disc;
+    }
+    
+    ul.to-do-list {
+        padding-inline-start: 0;
+    }
+    
+    ul.to-do-list > li {
+        list-style: none;
+    }
+    
+    .to-do-children-checked {
+        text-decoration: line-through;
+        opacity: 0.375;
+    }
+    
+    ul.toggle > li {
+        list-style: none;
+    }
+    
+    ul {
+        padding-inline-start: 1.7em;
+    }
+    
+    ul > li {
+        padding-left: 0.1em;
+    }
+    
+    ol {
+        padding-inline-start: 1.6em;
+    }
+    
+    ol > li {
+        padding-left: 0.2em;
+    }
+    
+    .mono ol {
+        padding-inline-start: 2em;
+    }
+    
+    .mono ol > li {
+        text-indent: -0.4em;
+    }
+    
+    .toggle {
+        padding-inline-start: 0em;
+        list-style-type: none;
+    }
+    
+    /* Indent toggle children */
+    .toggle > li > details {
+        padding-left: 1.7em;
+    }
+    
+    .toggle > li > details > summary {
+        margin-left: -1.1em;
+    }
+    
+    .selected-value {
+        display: inline-block;
+        padding: 0 0.5em;
+        background: rgba(206, 205, 202, 0.5);
+        border-radius: 3px;
+        margin-right: 0.5em;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+        white-space: nowrap;
+    }
+    
+    .collection-title {
+        display: inline-block;
+        margin-right: 1em;
+    }
+    
+    .page-description {
+        margin-bottom: 2em;
+    }
+    
+    .simple-table {
+        margin-top: 1em;
+        font-size: 0.875rem;
+        empty-cells: show;
+    }
+    .simple-table td {
+        height: 29px;
+        min-width: 120px;
+    }
+    
+    .simple-table th {
+        height: 29px;
+        min-width: 120px;
+    }
+    
+    .simple-table-header-color {
+        background: rgb(247, 246, 243);
+        color: black;
+    }
+    .simple-table-header {
+        font-weight: 500;
+    }
+    
+    time {
+        opacity: 0.5;
+    }
+    
+    .icon {
+        display: inline-block;
+        max-width: 1.2em;
+        max-height: 1.2em;
+        text-decoration: none;
+        vertical-align: text-bottom;
+        margin-right: 0.5em;
+    }
+    
+    img.icon {
+        border-radius: 3px;
+    }
+    
+    .user-icon {
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+    }
+    
+    .user-icon-inner {
+        font-size: 0.8em;
+    }
+    
+    .text-icon {
+        border: 1px solid #000;
+        text-align: center;
+    }
+    
+    .page-cover-image {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 30vh;
+    }
+    
+    .page-header-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .page-header-icon-with-cover {
+        margin-top: -0.72em;
+        margin-left: 0.07em;
+    }
+    
+    .page-header-icon img {
+        border-radius: 3px;
+    }
+    
+    .link-to-page {
+        margin: 1em 0;
+        padding: 0;
+        border: none;
+        font-weight: 500;
+    }
+    
+    p > .user {
+        opacity: 0.5;
+    }
+    
+    td > .user,
+    td > time {
+        white-space: nowrap;
+    }
+    
+    input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-right: 0.6em;
+        vertical-align: middle;
+    }
+    
+    p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+    }
+    
+    .image {
+        border: none;
+        margin: 1.5em 0;
+        padding: 0;
+        border-radius: 0;
+        text-align: center;
+    }
+    
+    .code,
+    code {
+        background: rgba(135, 131, 120, 0.15);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+        tab-size: 2;
+    }
+    
+    code {
+        color: #eb5757;
+    }
+    
+    .code {
+        padding: 1.5em 1em;
+    }
+    
+    .code-wrap {
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+    
+    .code > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+        color: inherit;
+    }
+    
+    blockquote {
+        font-size: 1.25em;
+        margin: 1em 0;
+        padding-left: 1em;
+        border-left: 3px solid rgb(55, 53, 47);
+    }
+    
+    .bookmark {
+        text-decoration: none;
+        max-height: 8em;
+        padding: 0;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+    }
+    
+    .bookmark-title {
+        font-size: 0.85em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.75em;
+        white-space: nowrap;
+    }
+    
+    .bookmark-text {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .bookmark-info {
+        flex: 4 1 180px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .bookmark-image {
+        width: 33%;
+        flex: 1 1 180px;
+        display: block;
+        position: relative;
+        object-fit: cover;
+        border-radius: 1px;
+    }
+    
+    .bookmark-description {
+        color: rgba(55, 53, 47, 0.6);
+        font-size: 0.75em;
+        overflow: hidden;
+        max-height: 4.5em;
+        word-break: break-word;
+    }
+    
+    .bookmark-href {
+        font-size: 0.75em;
+        margin-top: 0.25em;
+    }
+    
+    .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+    .code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+    .serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+    .mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+    .pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+    .pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+    .pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+    .pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+    .pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+    .pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+    .pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+    .pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+    .pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+    .pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+    .pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+    .pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+    .pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+    .pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+    .pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+    .pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+    .highlight-default {
+        color: rgba(55, 53, 47, 1);
+    }
+    .highlight-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+    }
+    .highlight-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+    }
+    .highlight-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+    }
+    .highlight-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+    }
+    .highlight-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+    }
+    .highlight-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+    }
+    .highlight-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+    }
+    .highlight-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+    }
+    .highlight-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+    }
+    .highlight-gray_background {
+        background: rgba(241, 241, 239, 1);
+    }
+    .highlight-brown_background {
+        background: rgba(244, 238, 238, 1);
+    }
+    .highlight-orange_background {
+        background: rgba(251, 236, 221, 1);
+    }
+    .highlight-yellow_background {
+        background: rgba(251, 243, 219, 1);
+    }
+    .highlight-teal_background {
+        background: rgba(237, 243, 236, 1);
+    }
+    .highlight-blue_background {
+        background: rgba(231, 243, 248, 1);
+    }
+    .highlight-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+    }
+    .highlight-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+    }
+    .highlight-red_background {
+        background: rgba(253, 235, 236, 1);
+    }
+    .block-color-default {
+        color: inherit;
+        fill: inherit;
+    }
+    .block-color-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+    }
+    .block-color-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+    }
+    .block-color-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+    }
+    .block-color-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+    }
+    .block-color-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+    }
+    .block-color-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+    }
+    .block-color-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+    }
+    .block-color-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+    }
+    .block-color-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+    }
+    .block-color-gray_background {
+        background: rgba(241, 241, 239, 1);
+    }
+    .block-color-brown_background {
+        background: rgba(244, 238, 238, 1);
+    }
+    .block-color-orange_background {
+        background: rgba(251, 236, 221, 1);
+    }
+    .block-color-yellow_background {
+        background: rgba(251, 243, 219, 1);
+    }
+    .block-color-teal_background {
+        background: rgba(237, 243, 236, 1);
+    }
+    .block-color-blue_background {
+        background: rgba(231, 243, 248, 1);
+    }
+    .block-color-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+    }
+    .block-color-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+    }
+    .block-color-red_background {
+        background: rgba(253, 235, 236, 1);
+    }
+    .select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+    .select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+    .select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+    .select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+    .select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+    .select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+    .select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+    .select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+    .select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+    .select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+    .select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+    .select-value-color-pageGlass { background-color: undefined; }
+    .select-value-color-washGlass { background-color: undefined; }
+    
+    .checkbox {
+        display: inline-flex;
+        vertical-align: text-bottom;
+        width: 16;
+        height: 16;
+        background-size: 16px;
+        margin-left: 2px;
+        margin-right: 5px;
+    }
+    
+    .checkbox-on {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+    }
+    
+    .checkbox-off {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+    }
+        
+    </style></head><body><article id="db34f10d-4df5-4279-94b4-fc9e67f4542e" class="page sans"><header><h1 class="page-title">itineraryX API Document</h1><p class="page-description"></p></header><div class="page-body"><p id="8b68212b-332c-47fd-8bac-2bc9f0773756" class="">edit by YU-HAO CHEN in Taipei</p><p id="b823c065-665a-4e8c-902f-ac37143bfd9b" class=""><a href="https://github.com/xrchitron?tab=repositories">gitHub</a> | <a href="https://www.notion.so/Backend-tips-7f62795e3f5e4952a28bf9eb4fa2452e?pvs=21">Linkedin</a> | <a href="mailto:yuhaochen1124@gmail.com">email</a></p><h2 id="5fbfbb01-95df-481e-84a5-26ef125b1a04" class="">ERD (Entity Relationship Diagram) of this project</h2><figure id="67378b05-56cc-4c4b-9ea2-620e240a1355" class="image"><a href="./img/itineraryX_ERD-01.png"><img style="width:2688px" src="./img/itineraryX_ERD-01.png"/></a></figure><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">User</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/v1/users/login </summary><div class="indented"><p id="15af8def-b878-4b12-a27c-56c42420d827" class="">User is able to login.</p><h3 id="5cdc5766-2e18-4116-b86f-2d31bc46f527" class="">Parameters</h3><p id="750ca840-3fc7-4483-b6b9-8d1ec6a7deec" class="">n/a</p><h3 id="2d005b60-c524-4a50-9beb-fcc7949de381" class="">Request Body</h3><table id="13cb9625-4059-4db7-b270-46fd7ba09045" class="simple-table"><tbody><tr id="6e01377c-91b7-40f3-bd49-6ae6354d2f79"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="e14b8f6e-5570-4074-9173-0b889cee46e5"><td id="F^:g" class="">email</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">user’s email</td></tr><tr id="2fc10fb2-787c-457c-b824-0fbb15fe0278"><td id="F^:g" class="">password</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">user’s password</td></tr></tbody></table><h3 id="b045327c-8e00-4ba0-abd8-39e8c4385e23" class="">Response</h3><p id="55ed1c4d-9b56-4ebd-b468-cb3cb2727843" class="">Success | code : 200</p><ul id="258430e6-3860-4582-938b-59d0077099f6" class="bulleted-list"><li style="list-style-type:disc">The token (JSON Web Token) should be stored in the header as the authentication and sent with every request except for signup and login.</li></ul><pre id="490b784c-c3a7-4fde-9ffa-5faa98e4b65c" class="code code-wrap"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6InJvb3RfdGVzdCIsImVtYWlsIjoidXNlcjAxQGV4YW1wbGUuY29tIiwiYXZhdGFyIjoidXNlcnMvdXNlcjAxQGV4YW1wbGUuY29tLzI1YWI2ZjNmZDViMDlkNDg1NmI0MjFkMGRhMDE1NGI2ZDg5MTAzMGIzMmYzNmE0YzY1YTJiOTJiMWVhNjNhODIiLCJjcmVhdGVkQXQiOiIyMDIzLTEwLTI3VDA3OjQ0OjU4LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIzLTExLTA1VDAzOjIwOjQ4LjAwMFoiLCJpYXQiOjE2OTkyNjA3NDQsImV4cCI6MTcwMTg1Mjc0NH0.peOGT95nRbNB3jGAkiQnfdVqyxlq3L8wl9ZNz9iuIHk&quot;,
+            &quot;user&quot;: {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;test_name&quot;,
+                &quot;email&quot;: &quot;user01@example.com&quot;,
+                &quot;avatar&quot;: null,
+                &quot;createdAt&quot;: &quot;2023-10-27T07:44:58.000Z&quot;,
+                &quot;updatedAt&quot;: &quot;2023-11-05T03:20:48.000Z&quot;
+            }
+        }
+    }</code></pre><p id="426635d7-5109-45b5-b133-5ec3dd383cc6" class="">Failure Response | code : 500</p><pre id="87b5cc3d-9fff-44d4-8381-09f695918996" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: Account or password incorrect!&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/v1/users/signup</summary><div class="indented"><p id="2c3d11eb-ca97-4345-87e6-a8efb559385f" class="">User sign up.</p><h3 id="8e556759-aedc-4869-b58d-e4650ec5cefa" class="">Parameters</h3><p id="26007f7c-8c22-434f-8019-fed652d4730c" class="">n/a</p><h3 id="06b47b80-74cf-493b-88ed-1be31f54cf87" class="">Request Body</h3><table id="84f223ca-c2ec-4747-9182-ca891c10fd58" class="simple-table"><tbody><tr id="29909534-0d34-40ac-b391-7a937417c683"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="90ec3391-a2da-4af5-b5ea-8a13481df5ce"><td id="F^:g" class="">name</td><td id="zc[n" class=""></td><td id="aZnA" class="">string</td><td id="=lDO" class="">User’s name</td></tr><tr id="66ecf3cb-8b8c-4ac3-b624-99e8134c4712"><td id="F^:g" class="">email</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">User’s email</td></tr><tr id="5cbdc31d-dbe1-46cf-8479-b66f53463b66"><td id="F^:g" class="">password</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">User’s password</td></tr><tr id="a78d6ab4-b46e-4111-a30c-a3c7b69690ca"><td id="F^:g" class="">passwordCheck</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">retype the password</td></tr></tbody></table><h3 id="80b18c87-1a99-40c7-8e9b-4586a1231266" class="">Response</h3><p id="b1ec6b2e-3833-46c2-bb19-6f312c32fea3" class="">Success | code : 200</p><pre id="56a6abf6-3757-4f98-a97f-b7313027e928" class="code"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;id&quot;: 8,
+            &quot;name&quot;: &quot;user11&quot;,
+            &quot;email&quot;: &quot;user11@example.com&quot;,
+            &quot;updatedAt&quot;: &quot;2023-11-06T09:14:02.474Z&quot;,
+            &quot;createdAt&quot;: &quot;2023-11-06T09:14:02.474Z&quot;
+        }
+    }</code></pre><p id="16577a64-146e-446b-9478-c625ac45ce72" class="">Failure Response | code : 500</p><pre id="1af714bd-5404-472b-adaf-6c6c78568d19" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: Email already exist&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">GET /api/v1/users/:userId</summary><div class="indented"><p id="d26ac4f9-d5ef-47f0-8bb6-eec95e1593ca" class="">Get user’s info.</p><p id="c2202a16-8081-423d-ace3-a3058848b120" class="">Note: authentication is required.</p><h3 id="e9d8b513-8f6d-4820-91c3-7befa7754448" class="">Parameters</h3><table id="9c3d05aa-591c-461f-9b33-46079fb2f806" class="simple-table"><tbody><tr id="aa9b3fa8-d75f-486d-b3bc-eba1bf73dd39"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="34850845-3bb7-4df2-badc-1f90d908b664"><td id="F^:g" class="">userId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">User’s id</td></tr></tbody></table><h3 id="aa4122fd-27d6-41b1-88b6-8845d7afd8c3" class="">Request Body</h3><p id="a98b1070-46d1-4c2c-abb4-3d6f0bf8e62a" class="">n/a</p><h3 id="550e79d2-945d-46a7-a8ed-c84711166804" class="">Response</h3><p id="07a6c656-53d1-4df1-b20f-3a7081dcd5f3" class="">Success | code : 200</p><pre id="475ca57e-d112-49b6-b1aa-e814b52c950f" class="code code-wrap"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;user&quot;: {
+                &quot;id&quot;: 2,
+                &quot;name&quot;: &quot;user02test&quot;,
+                &quot;avatar&quot;: &quot;https://itinerary-x-upload.s3.ap-northeast-1.amazonaws.com/users/user02%40example.com/b54d1c6577453c1c40b0703e69eb7c3736fa9ce05df2ab6639bdfdd8413bdeca?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=AKIAU77B7KHTQ7WYWCNK%2F20231117%2Fap-northeast-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20231117T070400Z&amp;X-Amz-Expires=3600&amp;X-Amz-Signature=cbf12ce4b35aab38b02354d39802a37cfd846fa1b99097af7c953de37d8f38f1&amp;X-Amz-SignedHeaders=host&amp;x-id=GetObject&quot;,
+                &quot;Followers&quot;: [
+                    {
+                        &quot;id&quot;: 1,
+                        &quot;name&quot;: &quot;root_new&quot;,
+                        &quot;avatar&quot;: &quot;https://itinerary-x-upload.s3.ap-northeast-1.amazonaws.com/users/user01%40example.com/a99e24df3d8c81a3bf418a11357116eaac22a5f1a79159ac527e4169204bb0bc?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=AKIAU77B7KHTQ7WYWCNK%2F20231117%2Fap-northeast-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20231117T070400Z&amp;X-Amz-Expires=3600&amp;X-Amz-Signature=da2fdddba4984396283e887c97e2e3c873aa1c67fb7e78b120a98f3f94cef982&amp;X-Amz-SignedHeaders=host&amp;x-id=GetObject&quot;
                     }
-                },...
-                }
-            ],
-            &quot;Followings&quot;: [
-                {
-                    &quot;id&quot;: 2,
-                    &quot;name&quot;: &quot;user02&quot;,
-                    &quot;email&quot;: &quot;user02@example.com&quot;,
-                    &quot;avatar&quot;: null,
-                    &quot;createdAt&quot;: &quot;2023-10-27T07:44:58.000Z&quot;,
-                    &quot;updatedAt&quot;: &quot;2023-10-27T07:44:58.000Z&quot;,
-                    &quot;Followship&quot;: {
-                        &quot;followerId&quot;: 1,
-                        &quot;followingId&quot;: 2,
-                        &quot;createdAt&quot;: &quot;2023-10-27T07:44:59.000Z&quot;,
-                        &quot;updatedAt&quot;: &quot;2023-10-27T07:44:59.000Z&quot;
+                ],
+                &quot;Followings&quot;: [
+                    {
+                        &quot;id&quot;: 1,
+                        &quot;name&quot;: &quot;root_new&quot;,
+                        &quot;avatar&quot;: &quot;https://itinerary-x-upload.s3.ap-northeast-1.amazonaws.com/users/user01%40example.com/a99e24df3d8c81a3bf418a11357116eaac22a5f1a79159ac527e4169204bb0bc?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=AKIAU77B7KHTQ7WYWCNK%2F20231117%2Fap-northeast-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20231117T070400Z&amp;X-Amz-Expires=3600&amp;X-Amz-Signature=da2fdddba4984396283e887c97e2e3c873aa1c67fb7e78b120a98f3f94cef982&amp;X-Amz-SignedHeaders=host&amp;x-id=GetObject&quot;
+                    },
+                    {
+                        &quot;id&quot;: 3,
+                        &quot;name&quot;: &quot;user03&quot;,
+                        &quot;avatar&quot;: null
+                    },
+                    {
+                        &quot;id&quot;: 4,
+                        &quot;name&quot;: &quot;user04&quot;,
+                        &quot;avatar&quot;: null
+                    },
+                    {
+                        &quot;id&quot;: 5,
+                        &quot;name&quot;: &quot;user05&quot;,
+                        &quot;avatar&quot;: null
                     }
-                },...
-                }
+                ]
+            }
+        }
+    }</code></pre><p id="19eb0cda-6b26-4f02-b341-20fc269a764e" class="">Failure Response | code : 500</p><pre id="b0b663be-9d4d-494a-bade-16b73d1f3872" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;unauthorized&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">GET /api/v1/users/itineraryId</summary><div class="indented"><p id="803136fa-d905-45b0-abfa-d93181e6eb86" class="">Get Participated Itineraries’ id .</p><p id="5479b527-46b8-472f-8f25-935f388cb442" class="">Note: authentication is required.</p><h3 id="f6df2de2-eea8-4100-8165-6967d1f6d251" class="">Parameters</h3><p id="a4cd56aa-05da-47c6-a0eb-7b25ce97e970" class="">n/a</p><h3 id="9e95f5e8-449d-4ab1-bb06-99c51f655b6f" class="">Request Body</h3><p id="1b5370cf-2c12-493f-a20c-37886e69ce25" class="">n/a</p><h3 id="dc97dcac-4b46-466b-961a-cca1a28be01f" class="">Response</h3><p id="79454095-14c2-4ef6-88c7-89904cbdf4d0" class="">Success | code : 200</p><pre id="a095b0b2-5183-4b26-b573-b3674c815ffc" class="code code-wrap"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;itineraryId&quot;: [
+                1,
+                7,
+                8,
+                9,
+                10,
+                11
             ]
         }
-    }
-}</code></pre><p id="19eb0cda-6b26-4f02-b341-20fc269a764e" class="">Failure Response | code : 500</p><pre id="b0b663be-9d4d-494a-bade-16b73d1f3872" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;unauthorized&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">PUT /api/users/</summary><div class="indented"><p id="9e66ea5c-a3e9-4149-bb42-beb13ce0cb50" class="">Update user’s info.</p><p id="88343f7c-9e27-4396-b5f5-43eabf426347" class="">Regarding avatar parameters, the form enctype should be set to &#x27;multipart/form-data&#x27;.</p><h3 id="6071ebd9-1733-4557-ae30-001913f21d91" class="">Parameters</h3><p id="172cccf6-e718-46cd-8660-ae7035305805" class="">n/a</p><h3 id="4b983852-c3a7-4950-bb0b-607544f2de36" class="">Request Body</h3><table id="ad976652-5801-4551-97cc-22ae4557ccb5" class="simple-table"><tbody><tr id="27c9bd35-8117-4972-addc-8710a5cbdf65"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="a04a620d-396b-4e2c-b12d-9677a7947f9f"><td id="F^:g" class="">name</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">User’s name</td></tr><tr id="79bd3b9a-986b-4ef1-acc0-23adc00a8079"><td id="F^:g" class="">avatar</td><td id="zc[n" class=""></td><td id="aZnA" class="">file</td><td id="=lDO" class="">User’s avatar</td></tr></tbody></table><h3 id="bc247c0d-c0bc-46db-a802-79f6001ba87b" class="">Response</h3><p id="3926eef4-ce7c-46d9-8551-53e94b2e603b" class="">Success | code : 200</p><pre id="51f9a5de-3086-4c34-a98d-b6c6d882373b" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;user&quot;: {
-            &quot;id&quot;: 1,
-            &quot;name&quot;: &quot;root_test&quot;,
-            &quot;email&quot;: &quot;user01@example.com&quot;,
-            &quot;avatar&quot;: &quot;users/user01@example.com/c71084252648920aff72e5e8644d8ad159f126a1b5641b0f52f6fd4ca9a93bd5&quot;,
-            &quot;createdAt&quot;: &quot;2023-10-27T07:44:58.000Z&quot;,
-            &quot;updatedAt&quot;: &quot;2023-11-06T09:16:02.172Z&quot;
+    }</code></pre><p id="4ed1e1be-412a-4f5c-a78e-ce3c3984327a" class="">Failure Response | code : 500</p><pre id="66b2021c-c4ed-4d9b-9b15-ce7673ec0805" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;unauthorized&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">PUT /api/v1/users/</summary><div class="indented"><p id="9e66ea5c-a3e9-4149-bb42-beb13ce0cb50" class="">Update user’s info.</p><p id="88343f7c-9e27-4396-b5f5-43eabf426347" class="">Regarding avatar parameters, the form enctype should be set to &#x27;multipart/form-data&#x27;.</p><p id="2063f10c-93e1-48db-b764-0dac0800f469" class="">Note: authentication is required.</p><h3 id="6071ebd9-1733-4557-ae30-001913f21d91" class="">Parameters</h3><p id="172cccf6-e718-46cd-8660-ae7035305805" class="">n/a</p><h3 id="4b983852-c3a7-4950-bb0b-607544f2de36" class="">Request Body</h3><table id="ad976652-5801-4551-97cc-22ae4557ccb5" class="simple-table"><tbody><tr id="27c9bd35-8117-4972-addc-8710a5cbdf65"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="a04a620d-396b-4e2c-b12d-9677a7947f9f"><td id="F^:g" class="">name</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">User’s name</td></tr><tr id="79bd3b9a-986b-4ef1-acc0-23adc00a8079"><td id="F^:g" class="">avatar</td><td id="zc[n" class=""></td><td id="aZnA" class="">file</td><td id="=lDO" class="">User’s avatar</td></tr></tbody></table><h3 id="bc247c0d-c0bc-46db-a802-79f6001ba87b" class="">Response</h3><p id="3926eef4-ce7c-46d9-8551-53e94b2e603b" class="">Success | code : 200</p><pre id="51f9a5de-3086-4c34-a98d-b6c6d882373b" class="code code-wrap"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;user&quot;: {
+                &quot;id&quot;: 2,
+                &quot;name&quot;: &quot;user02test&quot;,
+                &quot;email&quot;: &quot;user02@example.com&quot;,
+                &quot;avatar&quot;: &quot;https://itinerary-x-upload.s3.ap-northeast-1.amazonaws.com/users/user02%40example.com/ddd0eb59e3c569dc75980fafc4ac600763f7ae891c8e4fc6ea6ba8af2010c8e0?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=AKIAU77B7KHTQ7WYWCNK%2F20231117%2Fap-northeast-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20231117T072041Z&amp;X-Amz-Expires=3600&amp;X-Amz-Signature=002f043a1f99387b76eb39e57800f24e3a8848ecc649658fb97903144508af84&amp;X-Amz-SignedHeaders=host&amp;x-id=GetObject&quot;,
+                &quot;createdAt&quot;: &quot;2023-10-27T07:44:58.000Z&quot;,
+                &quot;updatedAt&quot;: &quot;2023-11-17T07:20:41.920Z&quot;
+            }
         }
-    }
-}</code></pre><p id="8c63ebf6-c647-4ad5-bd07-8aaa93cc4683" class="">Failure Response | code : 500</p><pre id="da4a9a48-1323-43d4-9fce-9c65ada478d0" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;unauthorized&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/users/followings/:userId</summary><div class="indented"><p id="928627fd-cf65-42a4-8240-1ef97780554e" class="">Add following user to user’s following list.</p><h3 id="90de4272-7aca-468a-a3e9-467fe3052d6f" class="">Parameters</h3><table id="1c77356b-807e-41ab-b055-1e27ef31146d" class="simple-table"><tbody><tr id="3fcef0d9-1f52-451e-9409-2af2dc835a02"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="f4107e82-e0e2-4204-8c56-53a15531733c"><td id="F^:g" class="">userId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">restaurant ID</td></tr></tbody></table><h3 id="af2dc5cd-da35-4cd4-883e-7bbb4f0321e5" class="">Request Body</h3><p id="8027efeb-754b-426a-921e-84ff7c2bb3a9" class="">n/a</p><h3 id="73546239-c41d-4186-bf3a-949ec46f6b80" class="">Response</h3><p id="872b07de-0653-4138-8282-f8e76bf3468a" class="">Success | code : 200</p><pre id="5cf040c3-861f-487e-aa8a-87f490face92" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;followerId&quot;: 1,
-        &quot;followingId&quot;: &quot;5&quot;,
-        &quot;updatedAt&quot;: &quot;2023-11-06T15:04:30.100Z&quot;,
-        &quot;createdAt&quot;: &quot;2023-11-06T15:04:30.100Z&quot;
-    }
-}</code></pre><p id="da5905b5-20f2-49a3-8b99-51f8ca669d51" class="">Failure Response | code : 500</p><pre id="13dcadc6-6901-4c1b-a8da-7e670bcb1984" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: You are already following this user!&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">DELETE /api/followings/:userId</summary><div class="indented"><p id="a3e2d16c-50c4-4e3b-ab38-f2219cd836d2" class="">Remove following user to user’s following list.</p><h3 id="00e28957-4a6e-4694-8e70-2940a65a60a7" class="">Parameters</h3><table id="787341cd-0fe5-4740-9c27-2cc0e9bff92e" class="simple-table"><tbody><tr id="45e04632-f668-4bb3-9de1-e39598389660"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="2a4d8fff-fac7-4de0-bc7d-5ff6921d3b48"><td id="F^:g" class="">userId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">user ID</td></tr></tbody></table><h3 id="31f3eb42-7a00-4b29-9d77-1d61d005f4da" class="">Request Body</h3><p id="09ce2365-b925-4386-87d4-fb36a7328bb3" class="">n/a</p><h3 id="72215028-0cea-4944-b570-084cc2056591" class="">Response</h3><p id="23c4e2a0-d228-46f0-8ee6-b8ee49790738" class="">Success | code : 200</p><pre id="82555f5b-a044-4799-90f5-35951f6dc1db" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;followerId&quot;: 1,
-        &quot;followingId&quot;: 5,
-        &quot;createdAt&quot;: &quot;2023-11-06T15:04:30.000Z&quot;,
-        &quot;updatedAt&quot;: &quot;2023-11-06T15:04:30.000Z&quot;
-    }
-}</code></pre><p id="767e4e19-90b9-40da-8b95-357e2497bfac" class="">Failure Response | code : 500</p><pre id="200f0e2a-5b13-4f89-9b3e-5c4f110a835a" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: You haven&#x27;t followed this user!&quot;
-}</code></pre><p id="66368a0a-4334-4620-b401-0d5c0cb02dc0" class="">POST /api/like/:restaurantId</p><p id="87c09180-612f-4395-b209-218997afb7f0" class="">Add restaurant to user’s like list.</p><h3 id="864aaea3-3cfc-4dcb-b68d-7e3cdd6ce6bc" class="">Parameters</h3><table id="2f0a3c67-e67c-4240-913c-15c4c1bef066" class="simple-table"><tbody><tr id="3fdaa7e1-577e-443b-b4da-3f3ad10f6e47"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="8a1bb7c7-9501-449a-9537-a1fb57a04844"><td id="F^:g" class="">restaurantId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">restaurant ID</td></tr></tbody></table><h3 id="c33ef662-c130-4bd0-8da4-f27aa8e5aa0c" class="">Request Body</h3><p id="df199622-0ba8-43d7-82c0-758fc457f27a" class="">n/a</p><h3 id="3cfca790-eef0-4bcb-90aa-e7919cb63902" class="">Response</h3><p id="ba8e43af-372c-4add-88e8-4ccb67ee03ac" class="">Success | code : 200</p><pre id="a55a5f86-30c9-4a4e-b244-ccb0d5ce8044" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;userId&quot;: 1,
-        &quot;restaurantId&quot;: &quot;1&quot;,
-        &quot;updatedAt&quot;: &quot;2023-09-29T07:10:54.638Z&quot;,
-        &quot;createdAt&quot;: &quot;2023-09-29T07:10:54.638Z&quot;
-    }
-}</code></pre><p id="b93ad8d2-5923-42b3-b1aa-42e4551cfc60" class="">Failure Response | code : 500</p><pre id="d56e28ee-3ecd-47ac-b699-091c3cc287e9" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: You have liked this restaurant&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">DELETE /api/like/:restaurantId</summary><div class="indented"><p id="5dcf5611-344c-4f38-bee7-3bfa9fdeaade" class="">Remove restaurant from user’s like list.</p><h3 id="a7d5874f-0786-4e7d-8f8b-c7084455ef49" class="">Parameters</h3><table id="33c62314-6b41-4a11-8ad8-0dc90c555816" class="simple-table"><tbody><tr id="81b9f328-6fab-4898-8eb5-ef2d13fe108d"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="ecb5b773-b3ed-4e4c-9cdb-a46812b356fc"><td id="F^:g" class="">restaurantId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">restaurant ID</td></tr></tbody></table><h3 id="c3ac6200-4896-47f2-8a83-30b1bc27bb70" class="">Request Body</h3><p id="b363a6f9-ec0e-472f-b819-611b09f632d3" class="">n/a</p><h3 id="fd468b3c-a695-424a-abf9-647c7c0a9ae1" class="">Response</h3><p id="1a79e0de-074b-478f-a773-1069ab78e59d" class="">Success | code : 200</p><pre id="f416042f-dc27-4a0e-a756-6d4fc5819864" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;userId&quot;: 1,
-        &quot;restaurantId&quot;: 1,
-        &quot;createdAt&quot;: &quot;2023-09-29T07:10:54.000Z&quot;,
-        &quot;updatedAt&quot;: &quot;2023-09-29T07:10:54.000Z&quot;
-    }
-}</code></pre><p id="63cde498-dcc4-4e47-b7ee-321c724781d6" class="">Failure Response | code : 500</p><pre id="d8eaf3d1-cc33-4dc4-a36f-855dfb7aed88" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: You haven&#x27;t liked this restaurant&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/following/:userId</summary><div class="indented"><p id="00674c0a-f007-41c7-ad46-0b8b8966306b" class="">Follow user.</p><h3 id="0c6164d6-b23e-41b3-aad5-5c5319990300" class="">Parameters</h3><table id="e164821c-557b-4e3d-b00a-f2fcbdc9f883" class="simple-table"><tbody><tr id="01ee5154-5707-4482-b589-81455334d7c2"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="9bf85c02-9ae9-4996-b8e6-af98714d83c3"><td id="F^:g" class="">userId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">user ID</td></tr></tbody></table><h3 id="c258ee4a-0de7-42d0-a362-c29670099ac3" class="">Request Body</h3><p id="e7dff64e-15da-4b48-ad87-dc1ac05622c0" class="">n/a</p><h3 id="642ee8de-c5b6-426d-a4fd-cb8f680d5cb6" class="">Response</h3><p id="0407fa01-d629-4e15-b878-d501cc2cb80e" class="">Success | code : 200</p><pre id="e6566b32-0dac-4f2f-9833-47ba0b150a5e" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;followerId&quot;: 1,
-        &quot;followingId&quot;: &quot;2&quot;,
-        &quot;updatedAt&quot;: &quot;2023-09-29T07:14:07.858Z&quot;,
-        &quot;createdAt&quot;: &quot;2023-09-29T07:14:07.858Z&quot;
-    }
-}</code></pre><p id="f24159ee-47c9-4a35-b96e-7704376abe89" class="">Failure Response | code : 500</p><pre id="8f3f3798-277d-46c8-a2e8-d7d0aa4ecd14" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: You are already following this user!&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">DELETE /api/following/:userId</summary><div class="indented"><p id="450bec97-0844-43a0-93ef-0575eb914473" class="">Unfollow user.</p><h3 id="cc1ddc16-b659-4447-a09c-8260143ff044" class="">Parameters</h3><table id="4997d8b0-ad7c-4250-ab47-49fe1f7fb888" class="simple-table"><tbody><tr id="6b3aeb1b-2784-4897-8223-358964741450"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="19b8db3d-a730-47df-83e2-0c13b176c1e8"><td id="F^:g" class="">userId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">user ID</td></tr></tbody></table><h3 id="942c417e-c751-4d79-93c2-118ca9a1d1a0" class="">Request Body</h3><p id="adec6abb-e7cd-47b1-a18a-1d3e4c9f60f6" class="">n/a</p><h3 id="e41b7dee-6201-4fc8-aac7-ae4a0b7ea8cd" class="">Response</h3><p id="ac07737f-81d3-4567-8065-50bba02e6f55" class="">Success | code : 200</p><pre id="c006bd6d-12a6-488d-979f-6de4140680be" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;followerId&quot;: 1,
-        &quot;followingId&quot;: 2,
-        &quot;createdAt&quot;: &quot;2023-09-29T07:14:07.000Z&quot;,
-        &quot;updatedAt&quot;: &quot;2023-09-29T07:14:07.000Z&quot;
-    }
-}</code></pre><p id="53c72afc-df61-4882-96ba-3d59770f9ba3" class="">Failure Response | code : 500</p><pre id="791634c3-3874-45f3-9107-eb00add7bf6f" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: You haven&#x27;t followed this user!&quot;
-}</code></pre><p id="f6eb023b-5e92-47f9-871f-3b3c90d3734d" class="">
-</p></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Chat</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">GET /api/chats/:itineraryId</summary><div class="indented"><p id="643045ec-b658-4480-a605-b001d80b8e78" class="">Get content in the chatroom.</p><p id="21afc97f-16e1-43fe-a3eb-8433dbbd9900" class="">Note: in order for a request to be considered valid, the user must be one of the participants.</p><h3 id="6f2f0d5d-8b90-4eb6-a104-9d8f65eb2227" class="">Parameters</h3><table id="fce894e6-1889-44c8-b47a-f44558e98067" class="simple-table"><tbody><tr id="0a52d4c4-e2f6-44ef-9bb5-1027f01d3e59"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="d451ee94-caf2-4496-89f2-4cb730f23823"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary id</td></tr></tbody></table><h3 id="da01ba2e-a5f8-4d50-aef1-693a7801675d" class="">Request Body</h3><p id="48ea0bbb-c5b2-42aa-a575-186cd97bfa42" class="">n/a</p><h3 id="bc701f68-a0d9-41a0-8dab-c9b353099517" class="">Response</h3><p id="ca139523-d181-4e11-830c-6c10072a7e6d" class="">Success | code : 200</p><pre id="2739a710-0442-4b8f-93ca-dd7075b97cec" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 1,
-            &quot;user&quot;: &quot;user02&quot;,
-            &quot;avatar&quot;: null,
-            &quot;message&quot;: &quot;first message&quot;,
-            &quot;time&quot;: &quot;2023-11-08T07:24:13Z&quot;
-        },
-        {
-            &quot;id&quot;: 2,
-            &quot;user&quot;: &quot;user03&quot;,
-            &quot;avatar&quot;: null,
-            &quot;message&quot;: &quot;second message&quot;,
-            &quot;time&quot;: &quot;2023-11-08T07:24:58Z&quot;
-        },
-        {
-            &quot;id&quot;: 3,
-            &quot;user&quot;: &quot;user02&quot;,
-            &quot;avatar&quot;: null,
-            &quot;message&quot;: &quot;third message&quot;,
-            &quot;time&quot;: &quot;2023-11-08T07:26:16Z&quot;
-        },
-        {
+    }</code></pre><p id="8c63ebf6-c647-4ad5-bd07-8aaa93cc4683" class="">Failure Response | code : 500</p><pre id="da4a9a48-1323-43d4-9fce-9c65ada478d0" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;unauthorized&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/v1/users/followings</summary><div class="indented"><p id="928627fd-cf65-42a4-8240-1ef97780554e" class="">Add following user to user’s following list.</p><p id="c3653250-0c44-4034-b15e-cae8cba3c181" class="">Note: authentication is required.</p><h3 id="90de4272-7aca-468a-a3e9-467fe3052d6f" class="">Parameters</h3><table id="1c77356b-807e-41ab-b055-1e27ef31146d" class="simple-table"><tbody><tr id="3fcef0d9-1f52-451e-9409-2af2dc835a02"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="f4107e82-e0e2-4204-8c56-53a15531733c"><td id="F^:g" class="">userId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">restaurant ID</td></tr></tbody></table><h3 id="af2dc5cd-da35-4cd4-883e-7bbb4f0321e5" class="">Request Body</h3><p id="8027efeb-754b-426a-921e-84ff7c2bb3a9" class="">n/a</p><h3 id="73546239-c41d-4186-bf3a-949ec46f6b80" class="">Response</h3><p id="872b07de-0653-4138-8282-f8e76bf3468a" class="">Success | code : 200</p><pre id="5cf040c3-861f-487e-aa8a-87f490face92" class="code"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;followerId&quot;: 1,
+            &quot;followingId&quot;: &quot;5&quot;,
+            &quot;updatedAt&quot;: &quot;2023-11-06T15:04:30.100Z&quot;,
+            &quot;createdAt&quot;: &quot;2023-11-06T15:04:30.100Z&quot;
+        }
+    }</code></pre><p id="da5905b5-20f2-49a3-8b99-51f8ca669d51" class="">Failure Response | code : 500</p><pre id="13dcadc6-6901-4c1b-a8da-7e670bcb1984" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: You are already following this user!&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">DELETE /api/users/followings</summary><div class="indented"><p id="a3e2d16c-50c4-4e3b-ab38-f2219cd836d2" class="">Remove following user to user’s following list.</p><p id="5af20112-90ca-47b6-908e-fe37115bb0b9" class="">Note: authentication is required.</p><h3 id="00e28957-4a6e-4694-8e70-2940a65a60a7" class="">Parameters</h3><table id="787341cd-0fe5-4740-9c27-2cc0e9bff92e" class="simple-table"><tbody><tr id="45e04632-f668-4bb3-9de1-e39598389660"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="2a4d8fff-fac7-4de0-bc7d-5ff6921d3b48"><td id="F^:g" class="">userId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">user ID</td></tr></tbody></table><h3 id="31f3eb42-7a00-4b29-9d77-1d61d005f4da" class="">Request Body</h3><p id="09ce2365-b925-4386-87d4-fb36a7328bb3" class="">n/a</p><h3 id="72215028-0cea-4944-b570-084cc2056591" class="">Response</h3><p id="23c4e2a0-d228-46f0-8ee6-b8ee49790738" class="">Success | code : 200</p><pre id="82555f5b-a044-4799-90f5-35951f6dc1db" class="code"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;followerId&quot;: 1,
+            &quot;followingId&quot;: 5,
+            &quot;createdAt&quot;: &quot;2023-11-06T15:04:30.000Z&quot;,
+            &quot;updatedAt&quot;: &quot;2023-11-06T15:04:30.000Z&quot;
+        }
+    }</code></pre><p id="767e4e19-90b9-40da-8b95-357e2497bfac" class="">Failure Response | code : 500</p><pre id="200f0e2a-5b13-4f89-9b3e-5c4f110a835a" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: You haven&#x27;t followed this user!&quot;
+    }</code></pre><p id="66368a0a-4334-4620-b401-0d5c0cb02dc0" class="">POST /api/like/:restaurantId</p><p id="87c09180-612f-4395-b209-218997afb7f0" class="">Add restaurant to user’s like list.</p><h3 id="864aaea3-3cfc-4dcb-b68d-7e3cdd6ce6bc" class="">Parameters</h3><table id="2f0a3c67-e67c-4240-913c-15c4c1bef066" class="simple-table"><tbody><tr id="3fdaa7e1-577e-443b-b4da-3f3ad10f6e47"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="8a1bb7c7-9501-449a-9537-a1fb57a04844"><td id="F^:g" class="">restaurantId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">restaurant ID</td></tr></tbody></table><h3 id="c33ef662-c130-4bd0-8da4-f27aa8e5aa0c" class="">Request Body</h3><p id="df199622-0ba8-43d7-82c0-758fc457f27a" class="">n/a</p><h3 id="3cfca790-eef0-4bcb-90aa-e7919cb63902" class="">Response</h3><p id="ba8e43af-372c-4add-88e8-4ccb67ee03ac" class="">Success | code : 200</p><pre id="a55a5f86-30c9-4a4e-b244-ccb0d5ce8044" class="code"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;userId&quot;: 1,
+            &quot;restaurantId&quot;: &quot;1&quot;,
+            &quot;updatedAt&quot;: &quot;2023-09-29T07:10:54.638Z&quot;,
+            &quot;createdAt&quot;: &quot;2023-09-29T07:10:54.638Z&quot;
+        }
+    }</code></pre><p id="b93ad8d2-5923-42b3-b1aa-42e4551cfc60" class="">Failure Response | code : 500</p><pre id="d56e28ee-3ecd-47ac-b699-091c3cc287e9" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: You have liked this restaurant&quot;
+    }</code></pre></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Chat</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">GET /api/v1/chats/:itineraryId</summary><div class="indented"><p id="643045ec-b658-4480-a605-b001d80b8e78" class="">Get content in the chatroom.</p><p id="21afc97f-16e1-43fe-a3eb-8433dbbd9900" class="">Note: in order for a request to be considered valid, the user must be one of the participants.</p><p id="719b3d58-4d50-4561-9a83-ef2b2eb9967c" class="">Note: authentication is required.</p><h3 id="6f2f0d5d-8b90-4eb6-a104-9d8f65eb2227" class="">Parameters</h3><table id="fce894e6-1889-44c8-b47a-f44558e98067" class="simple-table"><tbody><tr id="0a52d4c4-e2f6-44ef-9bb5-1027f01d3e59"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="d451ee94-caf2-4496-89f2-4cb730f23823"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary id</td></tr></tbody></table><h3 id="da01ba2e-a5f8-4d50-aef1-693a7801675d" class="">Request Body</h3><p id="48ea0bbb-c5b2-42aa-a575-186cd97bfa42" class="">n/a</p><h3 id="bc701f68-a0d9-41a0-8dab-c9b353099517" class="">Response</h3><p id="ca139523-d181-4e11-830c-6c10072a7e6d" class="">Success | code : 200</p><pre id="2739a710-0442-4b8f-93ca-dd7075b97cec" class="code"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: [
+            {
+                &quot;id&quot;: 1,
+                &quot;user&quot;: &quot;user02&quot;,
+                &quot;avatar&quot;: null,
+                &quot;message&quot;: &quot;first message&quot;,
+                &quot;time&quot;: &quot;2023-11-08T07:24:13Z&quot;
+            },
+            {
+                &quot;id&quot;: 2,
+                &quot;user&quot;: &quot;user03&quot;,
+                &quot;avatar&quot;: null,
+                &quot;message&quot;: &quot;second message&quot;,
+                &quot;time&quot;: &quot;2023-11-08T07:24:58Z&quot;
+            },
+            {
+                &quot;id&quot;: 3,
+                &quot;user&quot;: &quot;user02&quot;,
+                &quot;avatar&quot;: null,
+                &quot;message&quot;: &quot;third message&quot;,
+                &quot;time&quot;: &quot;2023-11-08T07:26:16Z&quot;
+            },
+            {
+                &quot;id&quot;: 4,
+                &quot;user&quot;: &quot;user01&quot;,
+                &quot;avatar&quot;: null,
+                &quot;message&quot;: &quot;fourth message&quot;,
+                &quot;time&quot;: &quot;2023-11-08T07:33:30Z&quot;
+            }
+        ]
+    }</code></pre><p id="1b77f36a-9762-4575-914c-5d112f643b05" class="">Failure Response | code : 500</p><pre id="e5edee13-a7ce-4fcc-80a4-e892149b115e" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: User not in itinerary&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/v1/chats/</summary><div class="indented"><p id="e9bbf8dd-b151-40a8-9e73-179768b20916" class="">Add chat content into chatroom</p><p id="70bc9ebf-12ab-4a05-a6cd-5d4245bbc784" class="">If message content is image, the form enctype should be set to &#x27;multipart/form-data&#x27;.</p><p id="47cc8a8c-6ade-4f20-91a1-c5451acd626b" class="">Note: authentication is required.</p><h3 id="244bf68e-38f1-4d3f-a787-a2a6ffd67276" class="">Parameters</h3><p id="346696be-e3d6-4bac-b9c0-bc06d3587d4c" class="">n/a</p><h3 id="de175d88-a8b1-4167-a98c-6bdec0736b13" class="">Request Body</h3><table id="577cc075-a33c-4697-8b63-455e86edc717" class="simple-table"><tbody><tr id="7985727e-2967-4a2a-86aa-f3550b553ff2"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="" style="width:274px">Description</td></tr><tr id="16dc7f3f-3a57-4356-8bfb-0b5c6a748bbd"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="" style="width:274px">itineraryId</td></tr><tr id="230d27a1-0ed3-4eb7-83b9-bcd3f6157a5f"><td id="F^:g" class="">userId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="" style="width:274px">sender’s user id</td></tr><tr id="f1066223-d483-4cdb-852f-c52a01b7b1df"><td id="F^:g" class="">message</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string / file</td><td id="=lDO" class="" style="width:274px">message content</td></tr><tr id="6304998d-eb3e-429d-a0bf-2621ac102066"><td id="F^:g" class="">isImage</td><td id="zc[n" class=""></td><td id="aZnA" class="">boolean</td><td id="=lDO" class="" style="width:274px">check the type of message content</td></tr></tbody></table><h3 id="f80f4dab-d4db-4117-ba52-16161c828bd5" class="">Response</h3><p id="58f7aa89-de69-474a-b4a6-b35df144ae3a" class="">Success | code : 200</p><pre id="fe45dce6-cffc-4597-8f56-1c98a2dba9e7" class="code"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
             &quot;id&quot;: 4,
             &quot;user&quot;: &quot;user01&quot;,
             &quot;avatar&quot;: null,
-            &quot;message&quot;: &quot;fourth message&quot;,
+            &quot;message&quot;: &quot;first message&quot;,
             &quot;time&quot;: &quot;2023-11-08T07:33:30Z&quot;
         }
-    ]
-}</code></pre><p id="1b77f36a-9762-4575-914c-5d112f643b05" class="">Failure Response | code : 500</p><pre id="e5edee13-a7ce-4fcc-80a4-e892149b115e" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: User not in itinerary&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/chats/</summary><div class="indented"><p id="e9bbf8dd-b151-40a8-9e73-179768b20916" class="">Add chat content into chatroom</p><p id="70bc9ebf-12ab-4a05-a6cd-5d4245bbc784" class="">If message content is image, the form enctype should be set to &#x27;multipart/form-data&#x27;.</p><h3 id="244bf68e-38f1-4d3f-a787-a2a6ffd67276" class="">Parameters</h3><p id="346696be-e3d6-4bac-b9c0-bc06d3587d4c" class="">n/a</p><h3 id="de175d88-a8b1-4167-a98c-6bdec0736b13" class="">Request Body</h3><table id="577cc075-a33c-4697-8b63-455e86edc717" class="simple-table"><tbody><tr id="7985727e-2967-4a2a-86aa-f3550b553ff2"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="" style="width:274px">Description</td></tr><tr id="16dc7f3f-3a57-4356-8bfb-0b5c6a748bbd"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="" style="width:274px">itineraryId</td></tr><tr id="230d27a1-0ed3-4eb7-83b9-bcd3f6157a5f"><td id="F^:g" class="">userId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="" style="width:274px">sender’s user id</td></tr><tr id="f1066223-d483-4cdb-852f-c52a01b7b1df"><td id="F^:g" class="">message</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string / file</td><td id="=lDO" class="" style="width:274px">message content</td></tr><tr id="6304998d-eb3e-429d-a0bf-2621ac102066"><td id="F^:g" class="">isImage</td><td id="zc[n" class=""></td><td id="aZnA" class="">boolean</td><td id="=lDO" class="" style="width:274px">check the type of message content</td></tr></tbody></table><h3 id="f80f4dab-d4db-4117-ba52-16161c828bd5" class="">Response</h3><p id="58f7aa89-de69-474a-b4a6-b35df144ae3a" class="">Success | code : 200</p><pre id="fe45dce6-cffc-4597-8f56-1c98a2dba9e7" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 4,
-        &quot;user&quot;: &quot;user01&quot;,
-        &quot;avatar&quot;: null,
-        &quot;message&quot;: &quot;first message&quot;,
-        &quot;time&quot;: &quot;2023-11-08T07:33:30Z&quot;
-    }
-}</code></pre><p id="32b37c3e-6107-4771-80c5-bb844229cdde" class="">Failure Response | code : 500</p><pre id="3b868dc4-4685-47dd-a2c3-ca52a327e0cd" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: Missing itinerary id or user id&quot;
-}</code></pre><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">GET /api/chats/user/:userId</summary><div class="indented"><p id="d244cffa-a78b-4edb-903a-9514c9d01e2f" class="">Get all the itineraryId which the user chatted before.</p><h3 id="2fe89cc3-2f94-4523-923f-58993fa4372c" class="">Parameters</h3><table id="19fddb17-0eff-4402-8533-6c53a30f119e" class="simple-table"><tbody><tr id="2a3d2be0-a5e2-4204-89ec-b147efcb13e5"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="3f50b493-02ce-4cf4-a454-59e6dc73a1bf"><td id="F^:g" class="">userId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">User id</td></tr></tbody></table><h3 id="094c760c-d5e2-4834-8f15-c8f727329cbd" class="">Request Body</h3><p id="9eb74000-adae-4379-b0fc-cadc41d139c6" class="">n/a</p><h3 id="a6c179c0-cf71-4039-95bb-ec18fec75fc6" class="">Response</h3><p id="17717403-6834-4a51-8a0e-3779e3221b3f" class="">Success | code : 200</p><pre id="26a6458e-9387-480c-b8cf-f95848c06a85" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;itineraryId&quot;: [
-            1,
-            2,
-            3
-        ]
-    }
-}</code></pre><p id="51cbf058-3e56-4771-ae1f-fb924848a00e" class="">Failure Response | code : 500</p><pre id="c1669566-8417-4913-8a90-70c0b55dba40" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: Chat not found&quot;
-}</code></pre></div></details></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Itinerary</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">GET /api/itineraries/:itid</summary><div class="indented"><p id="0311f5d8-53d2-43ee-ab14-25b1b968164d" class="">Get specific itinerary info.</p><h3 id="bb55ba66-9d4c-44cb-8b13-f5aae5aa0adf" class="">Parameters</h3><table id="65de71b1-8d9e-414b-911b-1ee185249a69" class="simple-table"><tbody><tr id="3220e832-0141-43df-9d3d-da2e4f4c68a9"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="cc13ea06-2918-42a7-8e84-0ed70f57fea4"><td id="F^:g" class="">itid</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary id</td></tr></tbody></table><h3 id="3c7fbce2-cc1b-47bc-b7c5-3cd59089a56f" class="">Request Body</h3><p id="d0e1e6e6-cec9-43aa-946c-aa1320fda16a" class="">n/a</p><h3 id="e3ffddfe-e143-428c-ae9a-434b3d751e87" class="">Response</h3><p id="ff58a943-80c4-4a7a-af5a-d9c510fbb4b9" class="">Success | code : 200</p><p id="63d4bfd2-71ac-441d-99de-c1c9d81a5ee4" class="">holderId: ID of the person who created this itinerary</p><p id="f6c8e4d4-8b5a-4328-836c-990b34114c2e" class="">title: Itinerary title</p><p id="eb9e09ae-be47-40a9-bafa-c57a74ecb4e7" class="">image: Image of the itinerary</p><p id="83178a84-40bf-4540-9dbb-5e79232edb68" class="">ParticipantsUser: Those who are involved in this itinerary and their basic information</p><pre id="2fd7c7b9-0cf0-4e6c-b54a-decce6a01ce0" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 1,
-        &quot;holderId&quot;: 1,
-        &quot;title&quot;: &quot;noTitles&quot;,
-        &quot;image&quot;: &quot;fack_url02&quot;,
-        &quot;createdAt&quot;: &quot;2023-10-27T07:49:08.000Z&quot;,
-        &quot;updatedAt&quot;: &quot;2023-11-02T11:05:42.000Z&quot;,
-        &quot;ParticipantsUser&quot;: [
+    }</code></pre><p id="32b37c3e-6107-4771-80c5-bb844229cdde" class="">Failure Response | code : 500</p><pre id="3b868dc4-4685-47dd-a2c3-ca52a327e0cd" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: Missing itinerary id or user id&quot;
+    }</code></pre><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">GET /api/chats/user/:userId</summary><div class="indented"><p id="d244cffa-a78b-4edb-903a-9514c9d01e2f" class="">Get all the itineraryId which the user chatted before.</p><h3 id="2fe89cc3-2f94-4523-923f-58993fa4372c" class="">Parameters</h3><table id="19fddb17-0eff-4402-8533-6c53a30f119e" class="simple-table"><tbody><tr id="2a3d2be0-a5e2-4204-89ec-b147efcb13e5"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="3f50b493-02ce-4cf4-a454-59e6dc73a1bf"><td id="F^:g" class="">userId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">User id</td></tr></tbody></table><h3 id="094c760c-d5e2-4834-8f15-c8f727329cbd" class="">Request Body</h3><p id="9eb74000-adae-4379-b0fc-cadc41d139c6" class="">n/a</p><h3 id="a6c179c0-cf71-4039-95bb-ec18fec75fc6" class="">Response</h3><p id="17717403-6834-4a51-8a0e-3779e3221b3f" class="">Success | code : 200</p><pre id="26a6458e-9387-480c-b8cf-f95848c06a85" class="code"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;itineraryId&quot;: [
+                1,
+                2,
+                3
+            ]
+        }
+    }</code></pre><p id="51cbf058-3e56-4771-ae1f-fb924848a00e" class="">Failure Response | code : 500</p><pre id="c1669566-8417-4913-8a90-70c0b55dba40" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: Chat not found&quot;
+    }</code></pre></div></details></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Itinerary</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">GET /api/v1/itineraries/:itineraryId</summary><div class="indented"><p id="0311f5d8-53d2-43ee-ab14-25b1b968164d" class="">Get specific itinerary info.</p><p id="16a1ac8e-6f33-4d49-b40a-472dc92cc8fd" class="">Note: authentication is required.</p><h3 id="bb55ba66-9d4c-44cb-8b13-f5aae5aa0adf" class="">Parameters</h3><table id="65de71b1-8d9e-414b-911b-1ee185249a69" class="simple-table"><tbody><tr id="3220e832-0141-43df-9d3d-da2e4f4c68a9"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="cc13ea06-2918-42a7-8e84-0ed70f57fea4"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary id</td></tr></tbody></table><h3 id="3c7fbce2-cc1b-47bc-b7c5-3cd59089a56f" class="">Request Body</h3><p id="d0e1e6e6-cec9-43aa-946c-aa1320fda16a" class="">n/a</p><h3 id="e3ffddfe-e143-428c-ae9a-434b3d751e87" class="">Response</h3><p id="ff58a943-80c4-4a7a-af5a-d9c510fbb4b9" class="">Success | code : 200</p><p id="63d4bfd2-71ac-441d-99de-c1c9d81a5ee4" class="">holderId: ID of the person who created this itinerary</p><p id="f6c8e4d4-8b5a-4328-836c-990b34114c2e" class="">title: Itinerary title</p><p id="eb9e09ae-be47-40a9-bafa-c57a74ecb4e7" class="">image: Image of the itinerary</p><p id="83178a84-40bf-4540-9dbb-5e79232edb68" class="">ParticipantsUser: Those who are involved in this itinerary and their basic information</p><pre id="2fd7c7b9-0cf0-4e6c-b54a-decce6a01ce0" class="code code-wrap"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;id&quot;: 1,
+            &quot;holderId&quot;: 1,
+            &quot;title&quot;: &quot;newTitle&quot;,
+            &quot;image&quot;: &quot;https://itinerary-x-upload.s3.ap-northeast-1.amazonaws.com/itineraries/itineraryId-1/63c700007e7af13d077ca9a14a2f3dada7bf5d5541a62b1993b1195f0ecbb30f?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=AKIAU77B7KHTQ7WYWCNK%2F20231117%2Fap-northeast-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20231117T082443Z&amp;X-Amz-Expires=3600&amp;X-Amz-Signature=8f797685a04de40a053d3d9347680cc3219f0f3092afa0298886bd274cf46ef1&amp;X-Amz-SignedHeaders=host&amp;x-id=GetObject&quot;,
+            &quot;startTime&quot;: null,
+            &quot;endTime&quot;: null,
+            &quot;createdAt&quot;: &quot;2023-10-27T07:49:08.000Z&quot;,
+            &quot;updatedAt&quot;: &quot;2023-11-09T11:42:24.000Z&quot;,
+            &quot;ParticipantsUser&quot;: [
+                {
+                    &quot;id&quot;: 3,
+                    &quot;name&quot;: &quot;user03&quot;,
+                    &quot;avatar&quot;: null
+                },
+                {
+                    &quot;id&quot;: 6,
+                    &quot;name&quot;: &quot;user9&quot;,
+                    &quot;avatar&quot;: null
+                },
+                {
+                    &quot;id&quot;: 1,
+                    &quot;name&quot;: &quot;root_new&quot;,
+                    &quot;avatar&quot;: &quot;https://itinerary-x-upload.s3.ap-northeast-1.amazonaws.com/users/user01%40example.com/a99e24df3d8c81a3bf418a11357116eaac22a5f1a79159ac527e4169204bb0bc?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=AKIAU77B7KHTQ7WYWCNK%2F20231117%2Fap-northeast-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20231117T082443Z&amp;X-Amz-Expires=3600&amp;X-Amz-Signature=fa1b89429dc5320837b01aa4bb68c27135e2c8bccd3693dbf2801b0cb2785eb0&amp;X-Amz-SignedHeaders=host&amp;x-id=GetObject&quot;
+                },
+                {
+                    &quot;id&quot;: 4,
+                    &quot;name&quot;: &quot;user04&quot;,
+                    &quot;avatar&quot;: null
+                },
+                {
+                    &quot;id&quot;: 5,
+                    &quot;name&quot;: &quot;user05&quot;,
+                    &quot;avatar&quot;: null
+                }
+            ]
+        }
+    }</code></pre><p id="f74de3e8-3f22-4207-988a-3a6353a085da" class="">Failure Response | code : 500</p><pre id="c70c760d-9bf2-4c47-b324-c06b42e6e6ee" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: Itinerary not found&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">GET /api/v1/itineraries/</summary><div class="indented"><p id="2c0a0aad-f7dd-430e-9465-818e017a6215" class="">Get all itinerary basic info.</p><p id="1e3b4a85-2312-4255-9d83-4fe2d8a04d1d" class="">Note: authentication is required.</p><h3 id="4dfdb5f1-2e29-4f79-9521-6cbc19d4a1d4" class="">Parameters</h3><p id="a6973c3d-5a5e-4e84-a2b6-b381b9f28a36" class="">n/a</p><h3 id="4f604e4f-a404-4e66-810f-867b9ecc7b14" class="">Request Body</h3><p id="49e0af94-fa32-4385-92e8-483cd8daa8f0" class="">n/a</p><h3 id="9976132f-acb6-4dae-be5a-a3a327ed6c72" class="">Response</h3><p id="43f866e2-fa6c-4e8e-b281-0b6ccbe9da71" class="">Success | code : 200</p><p id="a2f16eeb-b7be-49a5-94f5-5e24b2039577" class="">holderId: ID of the person who created this itinerary</p><p id="5708c9eb-818b-478f-a7e3-7a8e5d139ef9" class="">title: Itinerary title</p><p id="7a5db8f7-620f-48b7-a246-7c07fcf0d861" class="">image: Image of the itinerary</p><p id="ed5b3baa-d87d-437f-b452-743dd3aca228" class="">ParticipantsUser: Those who are involved in this itinerary and their basic information</p><pre id="44ae4699-d74c-4725-bf91-75dff870ad4e" class="code code-wrap"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: [
             {
-                &quot;id&quot;: 3,
-                &quot;name&quot;: &quot;user03&quot;,
-                &quot;avatar&quot;: null
+                &quot;id&quot;: 1,
+                &quot;holderId&quot;: 1,
+                &quot;title&quot;: &quot;newTitle&quot;,
+                &quot;image&quot;: &quot;https://itinerary-x-upload.s3.ap-northeast-1.amazonaws.com/itineraries/itineraryId-1/63c700007e7af13d077ca9a14a2f3dada7bf5d5541a62b1993b1195f0ecbb30f?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=AKIAU77B7KHTQ7WYWCNK%2F20231117%2Fap-northeast-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20231117T083638Z&amp;X-Amz-Expires=3600&amp;X-Amz-Signature=1c41af8c932447fb5eea3412c811f7001c89217b1499087a988d680ee5d9c366&amp;X-Amz-SignedHeaders=host&amp;x-id=GetObject&quot;,
+                &quot;startTime&quot;: null,
+                &quot;endTime&quot;: null,
+                &quot;createdAt&quot;: &quot;2023-10-27T07:49:08.000Z&quot;,
+                &quot;updatedAt&quot;: &quot;2023-11-09T11:42:24.000Z&quot;
             },
             {
-                &quot;id&quot;: 6,
-                &quot;name&quot;: &quot;user9&quot;,
-                &quot;avatar&quot;: null
+                &quot;id&quot;: 3,
+                &quot;holderId&quot;: 1,
+                &quot;title&quot;: &quot;test_itinerary03&quot;,
+                &quot;image&quot;: &quot;https://itinerary-x-upload.s3.ap-northeast-1.amazonaws.com/itineraries/itineraryId-1/b0213b593effddbddaa00ebd664ebd96d6dd14f02a314a4a5a05874b3997eedd?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=AKIAU77B7KHTQ7WYWCNK%2F20231117%2Fap-northeast-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20231117T083638Z&amp;X-Amz-Expires=3600&amp;X-Amz-Signature=14814521a3233ce5026bfee0d9795ccbebcdb80807e39e1bbc9ddb9e319a86d6&amp;X-Amz-SignedHeaders=host&amp;x-id=GetObject&quot;,
+                &quot;startTime&quot;: null,
+                &quot;endTime&quot;: null,
+                &quot;createdAt&quot;: &quot;2023-11-06T09:30:30.000Z&quot;,
+                &quot;updatedAt&quot;: &quot;2023-11-06T09:30:30.000Z&quot;
+            },
+            {
+                &quot;id&quot;: 4,
+                &quot;holderId&quot;: 1,
+                &quot;title&quot;: &quot;test_itinerary04&quot;,
+                &quot;image&quot;: null,
+                &quot;startTime&quot;: null,
+                &quot;endTime&quot;: null,
+                &quot;createdAt&quot;: &quot;2023-11-06T10:51:32.000Z&quot;,
+                &quot;updatedAt&quot;: &quot;2023-11-06T10:51:32.000Z&quot;
+            },
+            {
+                &quot;id&quot;: 5,
+                &quot;holderId&quot;: 1,
+                &quot;title&quot;: &quot;test_itinerary05&quot;,
+                &quot;image&quot;: null,
+                &quot;startTime&quot;: null,
+                &quot;endTime&quot;: null,
+                &quot;createdAt&quot;: &quot;2023-11-06T10:52:26.000Z&quot;,
+                &quot;updatedAt&quot;: &quot;2023-11-06T10:52:26.000Z&quot;
             }
         ]
-    }
-}</code></pre><p id="f74de3e8-3f22-4207-988a-3a6353a085da" class="">Failure Response | code : 500</p><pre id="c70c760d-9bf2-4c47-b324-c06b42e6e6ee" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: Itinerary not found&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">GET /api/itineraries/</summary><div class="indented"><p id="2c0a0aad-f7dd-430e-9465-818e017a6215" class="">Get all itinerary basic info.</p><h3 id="4dfdb5f1-2e29-4f79-9521-6cbc19d4a1d4" class="">Parameters</h3><p id="a6973c3d-5a5e-4e84-a2b6-b381b9f28a36" class="">n/a</p><h3 id="4f604e4f-a404-4e66-810f-867b9ecc7b14" class="">Request Body</h3><p id="49e0af94-fa32-4385-92e8-483cd8daa8f0" class="">n/a</p><h3 id="9976132f-acb6-4dae-be5a-a3a327ed6c72" class="">Response</h3><p id="43f866e2-fa6c-4e8e-b281-0b6ccbe9da71" class="">Success | code : 200</p><p id="a2f16eeb-b7be-49a5-94f5-5e24b2039577" class="">holderId: ID of the person who created this itinerary</p><p id="5708c9eb-818b-478f-a7e3-7a8e5d139ef9" class="">title: Itinerary title</p><p id="7a5db8f7-620f-48b7-a246-7c07fcf0d861" class="">image: Image of the itinerary</p><p id="ed5b3baa-d87d-437f-b452-743dd3aca228" class="">ParticipantsUser: Those who are involved in this itinerary and their basic information</p><pre id="44ae4699-d74c-4725-bf91-75dff870ad4e" class="code"><code>{
-	&quot;status&quot;: &quot;success&quot;,
-	&quot;data&quot;: [
-		{
-			&quot;id&quot;: 1,
-			&quot;holderId&quot;: 1,
-			&quot;title&quot;: &quot;noTitles&quot;,
-			&quot;image&quot;: &quot;fack_url02&quot;,
-			&quot;createdAt&quot;: &quot;2023-10-27T07:49:08.000Z&quot;,
-			&quot;updatedAt&quot;: &quot;2023-11-02T11:05:42.000Z&quot;
-		}
-	]
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/itineraries/</summary><div class="indented"><p id="9d774d76-0827-410d-8897-4cc0326793ca" class="">Create new itinerary.</p><h3 id="4f80307a-49f6-4896-a0ae-798a8983aa49" class="">Parameters</h3><p id="9708b5b6-b0dc-4dd4-ad44-f6a8f5239cfb" class="">n/a</p><h3 id="e22d1413-cd26-499b-880f-363ae4eea968" class="">Request Body</h3><table id="f6d3d731-6874-4a8f-8cf4-d56eb2337f89" class="simple-table"><tbody><tr id="605c6f54-af61-4576-8cc3-72c3faf65c01"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="27847924-cbd9-4e2f-ae4f-05c83245d8ba"><td id="F^:g" class="">title</td><td id="zc[n" class=""></td><td id="aZnA" class="">string</td><td id="=lDO" class="">Itinerary title</td></tr></tbody></table><h3 id="b86d3f4c-0114-4b74-820c-ea0c88a02d64" class="">Response</h3><p id="d63c60d2-44dd-43ac-a7b9-1fabf47b3a3d" class="">Success | code : 200</p><pre id="8acbf191-4337-4b87-ac93-2b30a9c31f3d" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 6,
-        &quot;holderId&quot;: 1, // user&#x27;s id
-        &quot;title&quot;: &quot;test_itinerary&quot;,
-        &quot;image&quot;: null,  // be able to upload image via putItinerary
-        &quot;updatedAt&quot;: &quot;2023-11-06T10:52:55.424Z&quot;,
-        &quot;createdAt&quot;: &quot;2023-11-06T10:52:55.424Z&quot;
-    }
-}</code></pre><p id="820df9e5-0bad-4837-a100-2a02c6d9707d" class="">Failure Response | code : 500</p><pre id="77ea5e58-d36f-4452-9c44-8d8ca2cba7bb" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;unauthorized&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">PUT /api/itineraries/</summary><div class="indented"><p id="d14eebc1-6474-416a-8cc1-b20b55af0381" class="">Update itinerary content.</p><h3 id="c8cf15c5-0bab-46fb-bdb9-7c18f295b7d9" class="">Parameters</h3><p id="b688ca96-65a7-4fce-b264-f04032aa6848" class="">n/a</p><h3 id="499bb33e-f5c8-4b5b-98df-1b2686c2992c" class="">Request Body</h3><table id="0bfff3d0-4384-4a75-8fe8-18790a0b1bf8" class="simple-table"><tbody><tr id="b1d647b8-beac-42e6-9f28-a8f43e750546"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="b327ba8b-2e2b-4754-9021-b000f5c94c4f"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary id</td></tr><tr id="fc2d45b7-c9e5-4559-b3e7-e3aa43529f82"><td id="F^:g" class="">title</td><td id="zc[n" class=""></td><td id="aZnA" class="">string</td><td id="=lDO" class="">Itinerary title</td></tr><tr id="fcb81c26-72b9-4a2e-a293-b1f57c0e353c"><td id="F^:g" class="">image</td><td id="zc[n" class=""></td><td id="aZnA" class="">file</td><td id="=lDO" class="">Itinerary image</td></tr></tbody></table><h3 id="f4bab9b2-fb22-40fd-90ef-666e1272e2e7" class="">Response</h3><p id="4e1a501e-1528-4df0-8e25-dcef643d8ccf" class="">Success | code : 200</p><p id="ac66222c-092a-4eeb-a63f-68c171290364" class="">Note: image url will expire in one hour</p><pre id="dc151057-fa1e-4dc9-a38d-d00494fb7e07" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 6,
-        &quot;holderId&quot;: 1, // user&#x27;s id
-        &quot;title&quot;: &quot;test_itinerary&quot;,
-        &quot;image&quot;: &quot;https://itinerary-x-upload.s3.ap-northeast-1.amazonaws.com/itineraries/itineraryId-1/63c700007e7af13d077ca9a14a2f3dada7bf5d5541a62b1993b1195f0ecbb30f?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=AKIAU77B7KHTQ7WYWCNK%2F20231109%2Fap-northeast-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20231109T114227Z&amp;X-Amz-Expires=3600&amp;X-Amz-Signature=b17f867c8ccc896a38300e77843929e4e5b7869f7ee78d646a469eeb18e97022&amp;X-Amz-SignedHeaders=host&amp;x-id=GetObject&quot;, 
-        &quot;createdAt&quot;: &quot;2023-11-06T10:52:55.424Z&quot;
-    }
-}</code></pre><p id="44e6d920-09eb-4392-a7f5-2b77fe6c8bca" class="">Failure Response | code : 500</p><pre id="02293ea4-72f8-43b3-bc8a-33d990d7c08e" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;unauthorized&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">DELETE /api/itineraries/</summary><div class="indented"><p id="90b47df3-f70a-4818-8f89-fc7ab245098e" class="">Delete itinerary.</p><h3 id="558eaad3-a732-498a-adf6-01131f036abd" class="">Parameters</h3><p id="a70342a5-58de-40be-ad0a-79888a6c81f7" class="">n/a</p><h3 id="f594a24d-a126-4dac-bd26-e6aed1b28d42" class="">Request Body</h3><table id="57f1d00c-d51c-40bd-a3e5-df5af7527036" class="simple-table"><tbody><tr id="0d984598-bddb-4601-999a-39f04f877c02"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="582f6d3f-a1ce-4ef5-a18e-95729e40033a"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary id</td></tr></tbody></table><h3 id="aee2a239-1b5a-40ba-b202-4cc7a8b908ea" class="">Response</h3><p id="d0ad72cd-19e4-44e9-891f-d056b630e911" class="">Success | code : 200</p><pre id="c2dc8907-5b9e-444d-b5e5-aacb8dca10be" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 6,
-        &quot;holderId&quot;: 1, // user&#x27;s id
-        &quot;title&quot;: &quot;test_itinerary&quot;,
-        &quot;image&quot;: &quot;itineraries/itineraryId-1/b0213b593effddbddaa00ebd664ebd96d6dd14f02a314a4a5a05874b3997eedd&quot;, 
-        &quot;createdAt&quot;: &quot;2023-11-06T10:52:55.424Z&quot;
-    }
-}</code></pre><p id="cc16079b-e337-4d4c-b470-1d448a617999" class="">Failure Response | code : 500</p><pre id="5078595e-385a-4dc1-bf41-864eb9e4dc47" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;unauthorized&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/itineraries/participant</summary><div class="indented"><p id="89851ece-aa3f-45ad-99be-f7948777e909" class="">Add participant in the itinerary.</p><h3 id="b6cc6d63-c01a-453e-97de-48e05d71014b" class="">Parameters</h3><p id="c62a82d1-2a80-4296-9b69-bfcaa4262364" class="">n/a</p><h3 id="86286625-d0b1-44af-8028-a296597159d7" class="">Request Body</h3><table id="d10c0698-7c39-4769-a5d8-8ba79375e154" class="simple-table"><tbody><tr id="0eed838d-1ffc-4997-8dbc-371044809ae8"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="528f9bab-98f6-4759-9ca7-3aa3479e3b85"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary id</td></tr><tr id="5be2ef3f-422f-412d-aa48-1a6ce07f3d18"><td id="F^:g" class="">participantId</td><td id="zc[n" class="">required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">user id you want to add</td></tr></tbody></table><h3 id="ba861b0f-3d1b-4d84-a0b8-732e3fc487ba" class="">Response</h3><p id="303c763a-112b-49b1-b274-acba70f83b5c" class="">Success | code : 200</p><pre id="89ba4483-89ca-4b7f-835e-0491f4169a43" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;itineraryId&quot;: 1,
-        &quot;participantId&quot;: 6,
-        &quot;updatedAt&quot;: &quot;2023-11-06T11:17:35.206Z&quot;,
-        &quot;createdAt&quot;: &quot;2023-11-06T11:17:35.206Z&quot;
-    }
-}</code></pre><p id="27236eec-5b9e-47a7-b805-93fba02d8eb4" class="">Failure Response | code : 500</p><pre id="fc882849-3e62-4cb1-bef9-3014dbcf1a21" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: You are already having this participant!&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">DELETE /api/itineraries/participant</summary><div class="indented"><p id="dfd5636e-1287-490d-a923-27cf09a5add0" class="">Remove participant in the itinerary.</p><h3 id="c9fc5daf-5c1c-4c98-b3de-3b972cbac483" class="">Parameters</h3><p id="83e2cb4d-f100-44d6-afa4-db0b202ff60c" class="">n/a</p><h3 id="2c6eba01-9afc-4cc9-af0d-033e41a06001" class="">Request Body</h3><table id="1828313b-35ac-45b4-8e28-7e2b9a8e260f" class="simple-table"><tbody><tr id="023f3e23-c233-483e-b945-9f84c9d238b1"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="3b37733e-1f43-4a5e-b5d6-afbce18fc005"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary id</td></tr><tr id="bc7730ea-f8e2-44f6-af9f-942c118e9354"><td id="F^:g" class="">participantId</td><td id="zc[n" class="">required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">user id you want to delete</td></tr></tbody></table><h3 id="bba29051-ac06-4498-ac00-343ff084df3c" class="">Response</h3><p id="d725ad47-0fb7-4b46-ad39-f6e1ba5cbb56" class="">Success | code : 200</p><pre id="eb67993f-ab93-4f54-949e-aaa9239c0a9c" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;itineraryId&quot;: 1,
-        &quot;participantId&quot;: &quot;6&quot;,
-        &quot;createdAt&quot;: &quot;2023-11-02T11:23:58.000Z&quot;,
-        &quot;updatedAt&quot;: &quot;2023-11-02T11:23:58.000Z&quot;
-    }
-}</code></pre><p id="21e65480-3428-4df0-841a-ba3a4285e358" class="">Failure Response | code : 500</p><pre id="a42642d6-b2d2-4e93-b1e9-53517307e640" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: You haven&#x27;t added this user!&quot;
-}</code></pre></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Map</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/maps/</summary><div class="indented"><p id="80f6e89e-b4ed-4b05-ac0c-3619f3f7e4af" class="">Create the map info via google map api.</p><h3 id="9c5e2078-4bab-4341-acd8-cfdf58f3ae11" class="">Parameters</h3><p id="e23c4ad2-15b4-4c1f-8c34-592538cc3450" class="">n/a</p><h3 id="bec2961f-9f7d-4955-8c1f-3ec6207be37d" class="">Request Body</h3><table id="4969f1a4-d339-4c92-b1bd-299ea42fcc3d" class="simple-table"><tbody><tr id="6d45f517-19b2-4277-beb3-af2c20ca455c"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="090b0fff-8fd5-4099-b06e-395224825577"><td id="F^:g" class="">placeId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">Place id from google map api</td></tr></tbody></table><h3 id="dfe4d903-4a0c-438e-8ead-90bc81922569" class="">Response</h3><p id="2b6047a9-56f5-4e37-9590-e984e2c666a2" class="">Success | code : 200</p><pre id="c700d8af-3bd7-4a9d-8868-80265b1138c1" class="code code-wrap"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 36,
-        &quot;placeId&quot;: &quot;ChIJDZaKTIiuQjQR5DGkj8Yn8HA&quot;,
-        &quot;name&quot;: &quot;榮總&quot;,
-        &quot;address&quot;: &quot;No. 312號, Section 2, Shipai Rd, Beitou District, Taipei City, Taiwan 112&quot;,
-        &quot;rating&quot;: 4,
-        &quot;image&quot;: &quot;https://lh3.googleusercontent.com/places/ANXAkqF_-MOeFt4jq8ebmsRmKiw7bW57nXo7CAo1urP-2VOEWFQYNp8Jda5DlyM6M7kLil3Ewpy2bLOoAVnH2gLk8NJw4VYFRkiA5a0=s1600-w400&quot;,
-        &quot;url&quot;: &quot;https://maps.google.com/?cid=8138048260425396708&quot;,
-        &quot;lat&quot;: 25.1193,
-        &quot;lng&quot;: 121.523,
-        &quot;createdAt&quot;: &quot;2023-11-14T04:50:20.000Z&quot;,
-        &quot;updatedAt&quot;: &quot;2023-11-14T04:50:20.000Z&quot;
-    }
-}</code></pre><p id="39f94d61-5da4-4762-aa6a-0525da6e0f9b" class="">Failure Response | code : 500</p><pre id="b4a0e457-d86e-496e-8a2f-f12d68961bf3" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: placeId from Google Map is required&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/maps/distanceMatrix</summary><div class="indented"><p id="5f28d80d-2134-41ae-9266-c9b487fe4a43" class="">Calculate the travel distance and time via google map api.</p><h3 id="7ed1353e-457d-44f5-ad9f-a2fec1fa9c64" class="">Parameters</h3><p id="51be2907-3ec6-4309-8b4c-4226c369aed3" class="">n/a</p><h3 id="55ff0521-6e73-47d6-aec8-48eaa2f632e1" class="">Request Body</h3><table id="1bed96f6-d4ea-4609-a530-b671c3c44e9c" class="simple-table"><tbody><tr id="fcdebe2e-6a36-43a8-afed-99689d695784"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="fb7124da-136d-4fde-9ed1-bd434521471d"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">itinerary id</td></tr><tr id="a002530b-6ea3-4f4d-be35-ffb09f52dcf9"><td id="F^:g" class="">date</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">time which plan to take the transportation</td></tr><tr id="607b4e2a-5881-44dd-8f7c-ff7cbfe0ca7f"><td id="F^:g" class="">transportationMode</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">Transportation modes include driving, walking, bicycling, transit (which encompasses bus, subway, train, tram, and rail</td></tr><tr id="0d7fc6d0-5942-4752-9d2b-6e1015cb07e3"><td id="F^:g" class="">originPlaceId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Origin place id</td></tr><tr id="2a74a090-66b8-4169-9562-93831ab43ef8"><td id="F^:g" class="">destinationPlaceId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Destination place id</td></tr></tbody></table><h3 id="d9040376-b68a-4d18-b4f5-024d5acea2bb" class="">Response</h3><p id="041fd902-8de8-4eef-8022-95eae773e700" class="">Success | code : 200</p><pre id="1b8c4103-d48c-41ec-8e5a-a1602b3f4fc0" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 15,
-        &quot;itineraryId&quot;: 1,
-        &quot;date&quot;: &quot;2023-01-01T04:23:44Z&quot;,
-        &quot;originId&quot;: 12,
-        &quot;destinationId&quot;: 13,
-        &quot;transportationMode&quot;: &quot;bicycling&quot;,
-        &quot;distanceText&quot;: &quot;1.4 公里&quot;,
-        &quot;distanceValue&quot;: 1424,
-        &quot;durationText&quot;: &quot;6 分鐘&quot;,
-        &quot;durationValue&quot;: 347,
-        &quot;color&quot;: &quot;hsl(6.305688591481333, 100%, 75%)&quot;,
-        &quot;updatedAt&quot;: &quot;2023-11-10T08:12:41.845Z&quot;,
-        &quot;createdAt&quot;: &quot;2023-11-10T08:12:41.845Z&quot;
-    }
-}</code></pre><p id="ae658185-de20-48ae-8dad-47002038c799" class="">Failure Response | code : 500</p><pre id="97105839-cf34-40a8-a93f-55f2a0335b8e" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: Missing required parameters&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">GET /api/maps/:placeId (forbidden)</summary><div class="indented"><p id="970ebad7-c333-4ba3-b740-d50ac653ba22" class="">Get the map info.</p><h3 id="586cd020-82a3-45cc-8162-647794fcfc5b" class="">Parameters</h3><table id="249fb6f8-7c1a-4e5d-98e1-5c697cdc43b4" class="simple-table"><tbody><tr id="de69337c-0d68-4e54-ad2b-1bd96d226f7e"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="f6f0603a-a4d4-42d2-b9bb-e5fd631168ec"><td id="F^:g" class="">placeId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Place id</td></tr></tbody></table><h3 id="12463505-5ea4-4375-8c53-f11d7aa600c9" class="">Request Body</h3><p id="2071395d-4eb3-40bb-bfc2-a05830e36bc4" class="">n/a</p><h3 id="29f4e12a-de55-40bf-a0d8-f6bf0701d571" class="">Response</h3><p id="7bb13453-431e-4baa-9d9e-aeac4a7e2326" class="">Success | code : 200</p><pre id="dd8cc8eb-2085-48f6-bb1d-016058543107" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 15,
-        &quot;placeId&quot;: &quot;ChIJraeA2rarQjQRPBBjyR3RxKw&quot;,
-        &quot;name&quot;: &quot;Taipei 101 Shopping center&quot;,
-        &quot;address&quot;: &quot;No. 45 號, City Hall Rd, Xinyi District, Taipei City, Taiwan 110&quot;,
-        &quot;rating&quot;: 4.4,
-        &quot;url&quot;: &quot;https://maps.google.com/?cid=12449305195821862972&quot;,
-        &quot;lat&quot;: 25.0341,
-        &quot;lng&quot;: 121.564,
-        &quot;createdAt&quot;: &quot;2023-11-01T09:33:05.000Z&quot;,
-        &quot;updatedAt&quot;: &quot;2023-11-01T09:33:05.000Z&quot;
-    }
-}</code></pre><p id="09b8487f-af7b-40c6-8402-bedadec069a1" class="">Failure Response | code : 500</p><pre id="6181698c-7ddd-4144-9e55-2f1b4bcdd66e" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: Place not found&quot;
-}</code></pre></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Destination</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">GET /api/destinations/?query</summary><div class="indented"><p id="89c99f7b-0a89-4642-87b5-a6ee996cab3e" class="">Get the map info.</p><h3 id="2cd084c1-65b9-4525-846e-954d92bc15d4" class="">Parameters</h3><p id="82d044be-14c9-4b12-a3c8-6f8e4d3ba766" class="">n/a</p><h3 id="741ff47b-628e-47c2-a642-b82fa8482fec" class="">Query Parameters</h3><table id="5efd5fe2-1113-43a1-a252-b8638d00f875" class="simple-table"><tbody><tr id="7d4a1a30-a2e5-4484-8ce3-ed130c36bbac"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="5ca8b9fc-6037-49ba-bfbd-cd7480d099ee"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary id</td></tr><tr id="68d8bcc0-bba8-459c-a814-4449f1ebdc65"><td id="F^:g" class="">date</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">date, ex: 2023-01-01</td></tr><tr id="a54ad3cb-60d7-4179-9652-ff2fd061adce"><td id="F^:g" class="">order</td><td id="zc[n" class=""></td><td id="aZnA" class="">string</td><td id="=lDO" class="">asc or desc, asc by default</td></tr></tbody></table><h3 id="34faee3d-7878-4362-8d81-7cab33800118" class="">Request Body</h3><p id="5413deee-3451-4e4c-93fe-a396981d1d9c" class="">n/a</p><h3 id="cfd0b2ec-c3df-4e68-bec2-74b1fb4a971b" class="">Response</h3><p id="b748c171-353a-4fae-b1ca-384587c97dc0" class="">Success | code : 200</p><pre id="246e1e6b-9347-4a07-ae9b-44379741ae0c" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 1,
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/v1/itineraries/</summary><div class="indented"><p id="9d774d76-0827-410d-8897-4cc0326793ca" class="">Create new itinerary.</p><p id="03a6753d-ba48-48ae-9387-3707107a98db" class="">Note: authentication is required.</p><h3 id="4f80307a-49f6-4896-a0ae-798a8983aa49" class="">Parameters</h3><p id="9708b5b6-b0dc-4dd4-ad44-f6a8f5239cfb" class="">n/a</p><h3 id="e22d1413-cd26-499b-880f-363ae4eea968" class="">Request Body</h3><table id="f6d3d731-6874-4a8f-8cf4-d56eb2337f89" class="simple-table"><tbody><tr id="605c6f54-af61-4576-8cc3-72c3faf65c01"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="27847924-cbd9-4e2f-ae4f-05c83245d8ba"><td id="F^:g" class="">title</td><td id="zc[n" class=""></td><td id="aZnA" class="">string</td><td id="=lDO" class="">Itinerary title</td></tr></tbody></table><h3 id="b86d3f4c-0114-4b74-820c-ea0c88a02d64" class="">Response</h3><p id="d63c60d2-44dd-43ac-a7b9-1fabf47b3a3d" class="">Success | code : 200</p><pre id="8acbf191-4337-4b87-ac93-2b30a9c31f3d" class="code"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;id&quot;: 6,
+            &quot;holderId&quot;: 1, // user&#x27;s id
+            &quot;title&quot;: &quot;test_itinerary&quot;,
+            &quot;updatedAt&quot;: &quot;2023-11-06T10:52:55.424Z&quot;,
+            &quot;createdAt&quot;: &quot;2023-11-06T10:52:55.424Z&quot;
+        }
+    }</code></pre><p id="820df9e5-0bad-4837-a100-2a02c6d9707d" class="">Failure Response | code : 500</p><pre id="77ea5e58-d36f-4452-9c44-8d8ca2cba7bb" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: Missing title&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">PUT /api/v1/itineraries/</summary><div class="indented"><p id="d14eebc1-6474-416a-8cc1-b20b55af0381" class="">Update itinerary content.</p><p id="bcc4f5d1-5ae8-4ab7-961e-6d6a5672cb2b" class="">Note: authentication is required.</p><h3 id="c8cf15c5-0bab-46fb-bdb9-7c18f295b7d9" class="">Parameters</h3><p id="b688ca96-65a7-4fce-b264-f04032aa6848" class="">n/a</p><h3 id="499bb33e-f5c8-4b5b-98df-1b2686c2992c" class="">Request Body</h3><table id="0bfff3d0-4384-4a75-8fe8-18790a0b1bf8" class="simple-table"><tbody><tr id="b1d647b8-beac-42e6-9f28-a8f43e750546"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="b327ba8b-2e2b-4754-9021-b000f5c94c4f"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary id</td></tr><tr id="fc2d45b7-c9e5-4559-b3e7-e3aa43529f82"><td id="F^:g" class="">title</td><td id="zc[n" class=""></td><td id="aZnA" class="">string</td><td id="=lDO" class="">Itinerary title</td></tr><tr id="fcb81c26-72b9-4a2e-a293-b1f57c0e353c"><td id="F^:g" class="">image</td><td id="zc[n" class=""></td><td id="aZnA" class="">file</td><td id="=lDO" class="">Itinerary image</td></tr><tr id="d57888db-aaeb-49f7-8728-dc9dfa94b2c5"><td id="F^:g" class="">startTime</td><td id="zc[n" class=""></td><td id="aZnA" class="">date</td><td id="=lDO" class="">itinerary start time</td></tr><tr id="74e9f3a5-4268-47fe-b2b3-008383eb1bb7"><td id="F^:g" class="">endTime</td><td id="zc[n" class=""></td><td id="aZnA" class="">date</td><td id="=lDO" class="">itinerary end time</td></tr></tbody></table><h3 id="f4bab9b2-fb22-40fd-90ef-666e1272e2e7" class="">Response</h3><p id="4e1a501e-1528-4df0-8e25-dcef643d8ccf" class="">Success | code : 200</p><p id="ac66222c-092a-4eeb-a63f-68c171290364" class="">Note: image url will expire in one hour</p><pre id="dc151057-fa1e-4dc9-a38d-d00494fb7e07" class="code code-wrap"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;id&quot;: 4,
+            &quot;holderId&quot;: 1,
+            &quot;title&quot;: &quot;test itinerary&quot;,
+            &quot;image&quot;: &quot;https://itinerary-x-upload.s3.ap-northeast-1.amazonaws.com/itineraries/itineraryId-4/40187c429578538ff0c8de45b3fb69b836b233d65f465783a7a2796e9cc80cda?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=AKIAU77B7KHTQ7WYWCNK%2F20231117%2Fap-northeast-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20231117T091647Z&amp;X-Amz-Expires=3600&amp;X-Amz-Signature=4ed07aaf3a9986b2bcd9ac390834d6024b618a2ed8ccba94e7b7db5c37230956&amp;X-Amz-SignedHeaders=host&amp;x-id=GetObject&quot;,
+            &quot;startTime&quot;: &quot;2023-11-08T07:26:16Z&quot;,
+            &quot;endTime&quot;: &quot;2023-11-12T07:26:16Z&quot;,
+            &quot;createdAt&quot;: &quot;2023-11-06T10:51:32.000Z&quot;,
+            &quot;updatedAt&quot;: &quot;2023-11-17T09:16:47.237Z&quot;
+        }
+    }</code></pre><p id="44e6d920-09eb-4392-a7f5-2b77fe6c8bca" class="">Failure Response | code : 500</p><pre id="02293ea4-72f8-43b3-bc8a-33d990d7c08e" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;unauthorized&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">DELETE /api/v1/itineraries/</summary><div class="indented"><p id="90b47df3-f70a-4818-8f89-fc7ab245098e" class="">Delete itinerary.</p><p id="fe50cced-34f2-46a2-baa0-4ce80f3a8cab" class="">Note: authentication is required.</p><h3 id="558eaad3-a732-498a-adf6-01131f036abd" class="">Parameters</h3><p id="a70342a5-58de-40be-ad0a-79888a6c81f7" class="">n/a</p><h3 id="f594a24d-a126-4dac-bd26-e6aed1b28d42" class="">Request Body</h3><table id="57f1d00c-d51c-40bd-a3e5-df5af7527036" class="simple-table"><tbody><tr id="0d984598-bddb-4601-999a-39f04f877c02"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="582f6d3f-a1ce-4ef5-a18e-95729e40033a"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary id</td></tr></tbody></table><h3 id="aee2a239-1b5a-40ba-b202-4cc7a8b908ea" class="">Response</h3><p id="d0ad72cd-19e4-44e9-891f-d056b630e911" class="">Success | code : 200</p><pre id="c2dc8907-5b9e-444d-b5e5-aacb8dca10be" class="code"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;id&quot;: 11,
+            &quot;holderId&quot;: 1,
+            &quot;title&quot;: &quot;new itinerary&quot;,
+            &quot;image&quot;: null,
+            &quot;startTime&quot;: null,
+            &quot;endTime&quot;: null,
+            &quot;createdAt&quot;: &quot;2023-11-18T07:59:22.000Z&quot;,
+            &quot;updatedAt&quot;: &quot;2023-11-18T07:59:22.000Z&quot;
+        }
+    }</code></pre><p id="cc16079b-e337-4d4c-b470-1d448a617999" class="">Failure Response | code : 500</p><pre id="5078595e-385a-4dc1-bf41-864eb9e4dc47" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: Itinerary not found&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/v1/itineraries/participant</summary><div class="indented"><p id="89851ece-aa3f-45ad-99be-f7948777e909" class="">Add participant in the itinerary.</p><p id="7d3e545d-8733-4fd5-8f3b-af4546a2ac32" class="">Note: authentication is required.</p><h3 id="b6cc6d63-c01a-453e-97de-48e05d71014b" class="">Parameters</h3><p id="c62a82d1-2a80-4296-9b69-bfcaa4262364" class="">n/a</p><h3 id="86286625-d0b1-44af-8028-a296597159d7" class="">Request Body</h3><table id="d10c0698-7c39-4769-a5d8-8ba79375e154" class="simple-table"><tbody><tr id="0eed838d-1ffc-4997-8dbc-371044809ae8"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="528f9bab-98f6-4759-9ca7-3aa3479e3b85"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary id</td></tr><tr id="5be2ef3f-422f-412d-aa48-1a6ce07f3d18"><td id="F^:g" class="">participantId</td><td id="zc[n" class="">required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">user id you want to add</td></tr></tbody></table><h3 id="ba861b0f-3d1b-4d84-a0b8-732e3fc487ba" class="">Response</h3><p id="303c763a-112b-49b1-b274-acba70f83b5c" class="">Success | code : 200</p><pre id="89ba4483-89ca-4b7f-835e-0491f4169a43" class="code"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
             &quot;itineraryId&quot;: 1,
-            &quot;date&quot;: &quot;2023-01-01T01:23:45Z&quot;,
-            &quot;Place&quot;: {
-                &quot;id&quot;: 12,
-                &quot;name&quot;: &quot;Fake Sober Taipei&quot;,
-                &quot;address&quot;: &quot;No. 20號, Songshou Rd, Xinyi District, Taipei City, Taiwan 110&quot;,
-                &quot;rating&quot;: 4.6,
-                &quot;url&quot;: &quot;https://maps.google.com/?cid=9443478479194190557&quot;,
-                &quot;lat&quot;: 25.0352,
-                &quot;lng&quot;: 121.567
-            }
-        },
-        {
-            &quot;id&quot;: 2,
-            &quot;itineraryId&quot;: 1,
-            &quot;date&quot;: &quot;2023-01-01T02:23:45Z&quot;,
-            &quot;Place&quot;: {
-                &quot;id&quot;: 13,
-                &quot;name&quot;: &quot;GUMGUM Beer &amp; Wings&quot;,
-                &quot;address&quot;: &quot;No. 38, Alley 11, Lane 473, Guangfu S Rd, Xinyi District, Taipei City, Taiwan 110&quot;,
-                &quot;rating&quot;: 4.6,
-                &quot;url&quot;: &quot;https://maps.google.com/?cid=15607092943688749478&quot;,
-                &quot;lat&quot;: 25.0339,
-                &quot;lng&quot;: 121.559
-            }
-        }....
-    ]
-}</code></pre><p id="f877fdea-80a1-4088-bf9a-3dbfdfa401b4" class="">Failure Response | code : 500</p><pre id="7f44378a-f978-4e0c-a2fb-d789c306745b" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: Missing itineraryId&quot;
-}</code></pre><pre id="fda24c7c-54ad-41d9-bf10-120b9cf75aad" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: Destinations not found&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/destinations/</summary><div class="indented"><p id="126ca876-f1de-44d2-8a62-dfd8e4b2a3ed" class="">Note: It is necessary to get placeId with postPlace (/api/maps) before using the following api</p><p id="957400ca-3dd1-41c1-9bb9-09489b9f2f08" class="">Create the destination with placeId and date in the specific itinerary.</p><h3 id="0f50bfaf-0685-4980-929f-c25e5757f2b8" class="">Parameters</h3><p id="517a596d-a588-4451-8979-2449cbc86787" class="">n/a</p><h3 id="c6a408e8-8474-4b0d-9800-383c47d96dc4" class="">Request Body</h3><table id="6a66df43-632e-446f-90b0-b0b30b048382" class="simple-table"><tbody><tr id="0cf75b81-ddb5-4a35-9d15-e13777516219"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="83aba869-fb4d-4ce6-afc6-1e773f879f06"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary name</td></tr><tr id="95b0e5d2-5aae-439a-ac35-fc272c11dc45"><td id="F^:g" class="">date</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">date</td></tr><tr id="e13e0306-33fe-40fa-977f-ca3f7305529e"><td id="F^:g" class="">placeId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Place id, more info in note</td></tr></tbody></table><h3 id="e6336ea6-c838-47a3-a41a-7258722db14d" class="">Response</h3><p id="c85f3ef6-3642-4925-861b-0ab84db58558" class="">Success | code : 200</p><pre id="924c88fb-db45-438e-8985-0d16d939ee5e" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 10,
-        &quot;itineraryId&quot;: 1,
-        &quot;date&quot;: &quot;2023-01-01T12:23:45.000Z&quot;,
-        &quot;Place&quot;: {
-            &quot;id&quot;: 12,
-            &quot;name&quot;: &quot;Fake Sober Taipei&quot;,
-            &quot;address&quot;: &quot;No. 20號, Songshou Rd, Xinyi District, Taipei City, Taiwan 110&quot;,
+            &quot;participantId&quot;: 6,
+            &quot;updatedAt&quot;: &quot;2023-11-06T11:17:35.206Z&quot;,
+            &quot;createdAt&quot;: &quot;2023-11-06T11:17:35.206Z&quot;
+        }
+    }</code></pre><p id="27236eec-5b9e-47a7-b805-93fba02d8eb4" class="">Failure Response | code : 500</p><pre id="fc882849-3e62-4cb1-bef9-3014dbcf1a21" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: You are already having this participant!&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">DELETE /api/itineraries/participant</summary><div class="indented"><p id="dfd5636e-1287-490d-a923-27cf09a5add0" class="">Remove participant in the itinerary.</p><p id="f21e9cac-21c8-42a6-b865-bf70e7e1e3ac" class="">Note: authentication is required.</p><h3 id="c9fc5daf-5c1c-4c98-b3de-3b972cbac483" class="">Parameters</h3><p id="83e2cb4d-f100-44d6-afa4-db0b202ff60c" class="">n/a</p><h3 id="2c6eba01-9afc-4cc9-af0d-033e41a06001" class="">Request Body</h3><table id="1828313b-35ac-45b4-8e28-7e2b9a8e260f" class="simple-table"><tbody><tr id="023f3e23-c233-483e-b945-9f84c9d238b1"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="3b37733e-1f43-4a5e-b5d6-afbce18fc005"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary id</td></tr><tr id="bc7730ea-f8e2-44f6-af9f-942c118e9354"><td id="F^:g" class="">participantId</td><td id="zc[n" class="">required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">user id you want to delete</td></tr></tbody></table><h3 id="bba29051-ac06-4498-ac00-343ff084df3c" class="">Response</h3><p id="d725ad47-0fb7-4b46-ad39-f6e1ba5cbb56" class="">Success | code : 200</p><pre id="eb67993f-ab93-4f54-949e-aaa9239c0a9c" class="code"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;itineraryId&quot;: 9,
+            &quot;participantId&quot;: &quot;2&quot;
+        }
+    }</code></pre><p id="21e65480-3428-4df0-841a-ba3a4285e358" class="">Failure Response | code : 500</p><pre id="a42642d6-b2d2-4e93-b1e9-53517307e640" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: You haven&#x27;t added this user!&quot;
+    }</code></pre></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Map</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/v1/maps/</summary><div class="indented"><p id="80f6e89e-b4ed-4b05-ac0c-3619f3f7e4af" class="">Create the map info via google map api.</p><p id="150984aa-ab89-46f2-8826-e6af473a65f6" class="">Note: authentication is required.</p><h3 id="9c5e2078-4bab-4341-acd8-cfdf58f3ae11" class="">Parameters</h3><p id="e23c4ad2-15b4-4c1f-8c34-592538cc3450" class="">n/a</p><h3 id="bec2961f-9f7d-4955-8c1f-3ec6207be37d" class="">Request Body</h3><table id="4969f1a4-d339-4c92-b1bd-299ea42fcc3d" class="simple-table"><tbody><tr id="6d45f517-19b2-4277-beb3-af2c20ca455c"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="090b0fff-8fd5-4099-b06e-395224825577"><td id="F^:g" class="">placeId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">Place id from google map api</td></tr></tbody></table><h3 id="dfe4d903-4a0c-438e-8ead-90bc81922569" class="">Response</h3><p id="2b6047a9-56f5-4e37-9590-e984e2c666a2" class="">Success | code : 200</p><pre id="c700d8af-3bd7-4a9d-8868-80265b1138c1" class="code code-wrap"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;id&quot;: 39,
+            &quot;name&quot;: &quot;Draft Land&quot;,
+            &quot;placeId&quot;: &quot;ChIJpQsd38WrQjQRhjxdDMIXkPg&quot;,
+            &quot;address&quot;: &quot;106, Taiwan, Taipei City, Da’an District, Lane 248, Section 4, Zhongxiao E Rd, 2號1樓&quot;,
             &quot;rating&quot;: 4.6,
-            &quot;url&quot;: &quot;https://maps.google.com/?cid=9443478479194190557&quot;,
-            &quot;lat&quot;: 25.0352,
-            &quot;lng&quot;: 121.567
+            &quot;url&quot;: &quot;https://maps.google.com/?cid=17910841840250993798&quot;,
+            &quot;image&quot;: &quot;https://lh3.googleusercontent.com/places/ANXAkqE03mlVeXeg5wIh9Fpx7EaIYJoNhftvRaMrRJX4tcqUmYzs-vo2q4H0Vl0OrS7Z7nG16eIPfnKmxHBMKcDRZqaGadxR4HxUugg=s1600-w400&quot;,
+            &quot;lat&quot;: 25.0409777,
+            &quot;lng&quot;: 121.5540448,
+            &quot;intro&quot;: &quot;Bustling destination with a cool, understated ambiance serving innovative draft cocktails.&quot;,
+            &quot;updatedAt&quot;: &quot;2023-11-18T12:13:46.417Z&quot;,
+            &quot;createdAt&quot;: &quot;2023-11-18T12:13:46.417Z&quot;
         }
-    }
-}</code></pre><p id="1af36a76-9137-48e7-a5e0-eaf9827ade66" class="">Failure Response | code : 500</p><pre id="075de507-63d0-4604-ad70-d0e0f621ead8" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: Itinerary not found&quot;
-}</code></pre><pre id="efd366df-d000-4a3e-b53d-51225aea6b21" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: Place not found&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">PATCH /api/destinations/</summary><div class="indented"><p id="d213fa95-569d-4a82-9449-71989b735100" class="">Update destination order via date</p><h3 id="3f465398-1b6b-4727-bae1-9ccc06a19595" class="">Parameters</h3><p id="3be6bf8c-61eb-4f1f-9dd5-9da127f9fed6" class="">n/a</p><h3 id="0d1fb002-664b-4c30-96f1-f53d557792d4" class="">Request Body</h3><table id="a598a51e-9c15-4046-a043-a34aa1c15ebf" class="simple-table"><tbody><tr id="7b325cb9-e481-4acd-acc2-6102f73989a9"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="1495a13e-a8e4-44d2-93f8-6c65e96ab0a2"><td id="F^:g" class="">destinationId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">destination id</td></tr><tr id="3d65062c-3fd0-4b81-9043-9662fdcb44c1"><td id="F^:g" class="">date</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">time which plan to stay at the destanation</td></tr></tbody></table><h3 id="ff038c56-334d-494e-92d0-c365545805f5" class="">Response</h3><p id="87107e15-c9d4-49dd-88bb-962a3ff7be55" class="">Success | code : 200</p><pre id="351eedc8-715a-4361-8125-b79d8eff4772" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 6,
-        &quot;itineraryId&quot;: 1,
-        &quot;date&quot;: &quot;2023-01-01T22:23:45Z&quot;,
-        &quot;Place&quot;: {
+    }</code></pre><p id="39f94d61-5da4-4762-aa6a-0525da6e0f9b" class="">Failure Response | code : 500</p><pre id="b4a0e457-d86e-496e-8a2f-f12d68961bf3" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: placeId from Google Map is required&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/v1/maps/distanceMatrix</summary><div class="indented"><p id="5f28d80d-2134-41ae-9266-c9b487fe4a43" class="">Calculate the travel distance and time via google map api.</p><p id="99b97e69-1d86-438d-8e55-dd966f00ca54" class="">Note: authentication is required.</p><h3 id="7ed1353e-457d-44f5-ad9f-a2fec1fa9c64" class="">Parameters</h3><p id="51be2907-3ec6-4309-8b4c-4226c369aed3" class="">n/a</p><h3 id="55ff0521-6e73-47d6-aec8-48eaa2f632e1" class="">Request Body</h3><table id="1bed96f6-d4ea-4609-a530-b671c3c44e9c" class="simple-table"><tbody><tr id="fcdebe2e-6a36-43a8-afed-99689d695784"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="fb7124da-136d-4fde-9ed1-bd434521471d"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">itinerary id</td></tr><tr id="a002530b-6ea3-4f4d-be35-ffb09f52dcf9"><td id="F^:g" class="">date</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">time which plan to take the transportation</td></tr><tr id="607b4e2a-5881-44dd-8f7c-ff7cbfe0ca7f"><td id="F^:g" class="">transportationMode</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">Transportation modes include driving, walking, bicycling, transit (which encompasses bus, subway, train, tram, and rail</td></tr><tr id="0d7fc6d0-5942-4752-9d2b-6e1015cb07e3"><td id="F^:g" class="">originId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Origin place id</td></tr><tr id="2a74a090-66b8-4169-9562-93831ab43ef8"><td id="F^:g" class="">destinationId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Destination place id</td></tr></tbody></table><h3 id="d9040376-b68a-4d18-b4f5-024d5acea2bb" class="">Response</h3><p id="041fd902-8de8-4eef-8022-95eae773e700" class="">Success | code : 200</p><pre id="1b8c4103-d48c-41ec-8e5a-a1602b3f4fc0" class="code"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
             &quot;id&quot;: 15,
-            &quot;name&quot;: &quot;Taipei 101 Shopping center&quot;,
-            &quot;address&quot;: &quot;No. 45 號, City Hall Rd, Xinyi District, Taipei City, Taiwan 110&quot;,
-            &quot;rating&quot;: 4.4,
-            &quot;url&quot;: &quot;https://maps.google.com/?cid=12449305195821862972&quot;,
-            &quot;lat&quot;: 25.0341,
-            &quot;lng&quot;: 121.564
+            &quot;itineraryId&quot;: 1,
+            &quot;date&quot;: &quot;2023-01-01T04:23:44Z&quot;,
+            &quot;originId&quot;: 12,
+            &quot;destinationId&quot;: 13,
+            &quot;transportationMode&quot;: &quot;bicycling&quot;,
+            &quot;distanceText&quot;: &quot;1.4 公里&quot;,
+            &quot;distanceValue&quot;: 1424,
+            &quot;durationText&quot;: &quot;6 分鐘&quot;,
+            &quot;durationValue&quot;: 347,
+            &quot;color&quot;: &quot;hsl(6.305688591481333, 100%, 75%)&quot;,
+            &quot;updatedAt&quot;: &quot;2023-11-10T08:12:41.845Z&quot;,
+            &quot;createdAt&quot;: &quot;2023-11-10T08:12:41.845Z&quot;
         }
-    }
-}</code></pre><p id="262ddc72-5128-4127-a4f6-920e28f8ba88" class="">Failure Response | code : 500</p><pre id="fd962bfa-59bf-420c-b8c9-733ea05fab34" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: Missing destinationId&quot;
-}</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">DELETE /api/destinations/</summary><div class="indented"><p id="267bb623-44ec-4486-b0fa-cfeb55cb5c4b" class="">Delete specific destination via destination id</p><h3 id="1cca2213-0ac3-4a65-bbf9-6bc733ac0d8e" class="">Parameters</h3><p id="584f7306-53f2-43fc-a87a-d90ccd21a5c3" class="">n/a</p><h3 id="37bd8a6f-f284-4756-9354-d05df0797029" class="">Request Body</h3><table id="4dbdfc92-4c7f-4542-8727-e629c6ed9e6d" class="simple-table"><tbody><tr id="86108ecf-141a-4275-8f42-3cdcb5d06c4a"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="9dc3e8b8-47fb-43ac-8f5e-ae6f1ee81be5"><td id="F^:g" class="">destinationId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">destination id</td></tr></tbody></table><h3 id="1c9e33cb-f9fa-41bd-9b43-046d3aed0fc2" class="">Response</h3><p id="99e93aec-5790-480a-8ffc-98bf7f54984c" class="">Success | code : 200</p><pre id="6720e11c-f251-460d-a28c-61401ed38b5f" class="code"><code>{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 7,
-        &quot;itineraryId&quot;: 5,
-        &quot;date&quot;: &quot;2023-01-01T12:23:45.000Z&quot;,
-        &quot;Place&quot;: {
-            &quot;id&quot;: 15,
-            &quot;name&quot;: &quot;Taipei 101 Shopping center&quot;,
-            &quot;address&quot;: &quot;No. 45 號, City Hall Rd, Xinyi District, Taipei City, Taiwan 110&quot;,
-            &quot;rating&quot;: 4.4,
-            &quot;url&quot;: &quot;https://maps.google.com/?cid=12449305195821862972&quot;,
-            &quot;lat&quot;: 25.0341,
-            &quot;lng&quot;: 121.564
+    }</code></pre><p id="ae658185-de20-48ae-8dad-47002038c799" class="">Failure Response | code : 500</p><pre id="97105839-cf34-40a8-a93f-55f2a0335b8e" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: Missing required parameters&quot;
+    }</code></pre></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Destination</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">GET /api/v1/destinations/?itineraryId=&lt;int&gt;&amp;date=&lt;string&gt;</summary><div class="indented"><p id="89c99f7b-0a89-4642-87b5-a6ee996cab3e" class="">Get the destination info.</p><p id="8e589a83-975f-4706-b391-48c722426b88" class="">Note: authentication is required.</p><h3 id="2cd084c1-65b9-4525-846e-954d92bc15d4" class="">Parameters</h3><p id="82d044be-14c9-4b12-a3c8-6f8e4d3ba766" class="">n/a</p><h3 id="741ff47b-628e-47c2-a642-b82fa8482fec" class="">Query Parameters</h3><table id="5efd5fe2-1113-43a1-a252-b8638d00f875" class="simple-table"><tbody><tr id="7d4a1a30-a2e5-4484-8ce3-ed130c36bbac"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="5ca8b9fc-6037-49ba-bfbd-cd7480d099ee"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary id</td></tr><tr id="68d8bcc0-bba8-459c-a814-4449f1ebdc65"><td id="F^:g" class="">date</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">date, ex: 2023-01-01</td></tr><tr id="a54ad3cb-60d7-4179-9652-ff2fd061adce"><td id="F^:g" class="">order</td><td id="zc[n" class=""></td><td id="aZnA" class="">string</td><td id="=lDO" class="">asc or desc, asc by default</td></tr></tbody></table><h3 id="34faee3d-7878-4362-8d81-7cab33800118" class="">Request Body</h3><p id="5413deee-3451-4e4c-93fe-a396981d1d9c" class="">n/a</p><h3 id="cfd0b2ec-c3df-4e68-bec2-74b1fb4a971b" class="">Response</h3><p id="b748c171-353a-4fae-b1ca-384587c97dc0" class="">Success | code : 200</p><pre id="246e1e6b-9347-4a07-ae9b-44379741ae0c" class="code code-wrap"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: [
+            {
+                &quot;id&quot;: 17,
+                    &quot;itineraryId&quot;: 1,
+                    &quot;date&quot;: &quot;2023-01-01T12:23:45Z&quot;,
+                    &quot;Place&quot;: {
+                        &quot;id&quot;: 39,
+                        &quot;name&quot;: &quot;Draft Land&quot;,
+                        &quot;address&quot;: &quot;106, Taiwan, Taipei City, Da’an District, Lane 248, Section 4, Zhongxiao E Rd, 2號1樓&quot;,
+                        &quot;rating&quot;: 4.6,
+                        &quot;url&quot;: &quot;https://maps.google.com/?cid=17910841840250993798&quot;,
+                        &quot;lat&quot;: 25.041,
+                        &quot;lng&quot;: 121.554,
+                        &quot;intro&quot;: &quot;Bustling destination with a cool, understated ambiance serving innovative draft cocktails.&quot;,
+                        &quot;image&quot;: &quot;https://lh3.googleusercontent.com/places/ANXAkqE03mlVeXeg5wIh9Fpx7EaIYJoNhftvRaMrRJX4tcqUmYzs-vo2q4H0Vl0OrS7Z7nG16eIPfnKmxHBMKcDRZqaGadxR4HxUugg=s1600-w400&quot;
+    
+                }
+            }....
+        ]
+    }</code></pre><p id="f877fdea-80a1-4088-bf9a-3dbfdfa401b4" class="">Failure Response | code : 500</p><pre id="7f44378a-f978-4e0c-a2fb-d789c306745b" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: Missing itineraryId&quot;
+    }</code></pre><pre id="fda24c7c-54ad-41d9-bf10-120b9cf75aad" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: Destinations not found&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">POST /api/v1/destinations/</summary><div class="indented"><p id="126ca876-f1de-44d2-8a62-dfd8e4b2a3ed" class="">Note: It is necessary to get placeId with postPlace (/api/maps) before using the following api</p><p id="84dcc2e8-bdc1-47cc-8904-9609795596b5" class="">Note: authentication is required.</p><p id="957400ca-3dd1-41c1-9bb9-09489b9f2f08" class="">Create the destination with placeId and date in the specific itinerary.</p><h3 id="0f50bfaf-0685-4980-929f-c25e5757f2b8" class="">Parameters</h3><p id="517a596d-a588-4451-8979-2449cbc86787" class="">n/a</p><h3 id="c6a408e8-8474-4b0d-9800-383c47d96dc4" class="">Request Body</h3><table id="6a66df43-632e-446f-90b0-b0b30b048382" class="simple-table"><tbody><tr id="0cf75b81-ddb5-4a35-9d15-e13777516219"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="83aba869-fb4d-4ce6-afc6-1e773f879f06"><td id="F^:g" class="">itineraryId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Itinerary name</td></tr><tr id="95b0e5d2-5aae-439a-ac35-fc272c11dc45"><td id="F^:g" class="">date</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">date</td></tr><tr id="e13e0306-33fe-40fa-977f-ca3f7305529e"><td id="F^:g" class="">placeId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">Place id, more info in note</td></tr></tbody></table><h3 id="e6336ea6-c838-47a3-a41a-7258722db14d" class="">Response</h3><p id="c85f3ef6-3642-4925-861b-0ab84db58558" class="">Success | code : 200</p><pre id="924c88fb-db45-438e-8985-0d16d939ee5e" class="code code-wrap"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;id&quot;: 17,
+            &quot;itineraryId&quot;: 1,
+            &quot;date&quot;: &quot;2023-01-01T12:23:45Z&quot;,
+            &quot;Place&quot;: {
+                &quot;id&quot;: 39,
+                &quot;name&quot;: &quot;Draft Land&quot;,
+                &quot;address&quot;: &quot;106, Taiwan, Taipei City, Da’an District, Lane 248, Section 4, Zhongxiao E Rd, 2號1樓&quot;,
+                &quot;rating&quot;: 4.6,
+                &quot;url&quot;: &quot;https://maps.google.com/?cid=17910841840250993798&quot;,
+                &quot;lat&quot;: 25.041,
+                &quot;lng&quot;: 121.554,
+                &quot;intro&quot;: &quot;Bustling destination with a cool, understated ambiance serving innovative draft cocktails.&quot;,
+                &quot;image&quot;: &quot;https://lh3.googleusercontent.com/places/ANXAkqE03mlVeXeg5wIh9Fpx7EaIYJoNhftvRaMrRJX4tcqUmYzs-vo2q4H0Vl0OrS7Z7nG16eIPfnKmxHBMKcDRZqaGadxR4HxUugg=s1600-w400&quot;
+            }
         }
-    }
-}</code></pre><p id="a770383f-9cb6-4629-a6f1-6de0658e043a" class="">Failure Response | code : 500</p><pre id="23c3bd90-6701-4fd9-8fc0-ef2901c8cdb6" class="code"><code>{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Error: Destination not found&quot;
-}</code></pre></div></details></div></details><p id="68a30fbf-0879-41ea-bc73-1ff041bc196b" class="">
-</p><p id="d2af75df-da2b-48c0-96e0-dbaa2390ee4c" class="">
-</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+    }</code></pre><p id="1af36a76-9137-48e7-a5e0-eaf9827ade66" class="">Failure Response | code : 500</p><pre id="075de507-63d0-4604-ad70-d0e0f621ead8" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: Itinerary not found&quot;
+    }</code></pre><pre id="efd366df-d000-4a3e-b53d-51225aea6b21" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: Place not found&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">PATCH /api/v1/destinations/</summary><div class="indented"><p id="d213fa95-569d-4a82-9449-71989b735100" class="">Update destination order via date</p><p id="a4e7fb47-31d5-4699-8f38-7500a4638870" class="">Note: authentication is required.</p><h3 id="3f465398-1b6b-4727-bae1-9ccc06a19595" class="">Parameters</h3><p id="3be6bf8c-61eb-4f1f-9dd5-9da127f9fed6" class="">n/a</p><h3 id="0d1fb002-664b-4c30-96f1-f53d557792d4" class="">Request Body</h3><table id="a598a51e-9c15-4046-a043-a34aa1c15ebf" class="simple-table"><tbody><tr id="7b325cb9-e481-4acd-acc2-6102f73989a9"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="1495a13e-a8e4-44d2-93f8-6c65e96ab0a2"><td id="F^:g" class="">destinationId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">destination id</td></tr><tr id="3d65062c-3fd0-4b81-9043-9662fdcb44c1"><td id="F^:g" class="">date</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">string</td><td id="=lDO" class="">time which plan to stay at the destination</td></tr></tbody></table><h3 id="ff038c56-334d-494e-92d0-c365545805f5" class="">Response</h3><p id="87107e15-c9d4-49dd-88bb-962a3ff7be55" class="">Success | code : 200</p><pre id="351eedc8-715a-4361-8125-b79d8eff4772" class="code code-wrap"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;id&quot;: 17,
+            &quot;itineraryId&quot;: 1,
+            &quot;date&quot;: &quot;2023-01-01T12:23:22Z&quot;,
+            &quot;Place&quot;: {
+                &quot;id&quot;: 39,
+                &quot;name&quot;: &quot;Draft Land&quot;,
+                &quot;address&quot;: &quot;106, Taiwan, Taipei City, Da’an District, Lane 248, Section 4, Zhongxiao E Rd, 2號1樓&quot;,
+                &quot;rating&quot;: 4.6,
+                &quot;url&quot;: &quot;https://maps.google.com/?cid=17910841840250993798&quot;,
+                &quot;lat&quot;: 25.041,
+                &quot;lng&quot;: 121.554,
+                &quot;intro&quot;: &quot;Bustling destination with a cool, understated ambiance serving innovative draft cocktails.&quot;,
+                &quot;image&quot;: &quot;https://lh3.googleusercontent.com/places/ANXAkqE03mlVeXeg5wIh9Fpx7EaIYJoNhftvRaMrRJX4tcqUmYzs-vo2q4H0Vl0OrS7Z7nG16eIPfnKmxHBMKcDRZqaGadxR4HxUugg=s1600-w400&quot;
+            }
+        }
+    }</code></pre><p id="262ddc72-5128-4127-a4f6-920e28f8ba88" class="">Failure Response | code : 500</p><pre id="fd962bfa-59bf-420c-b8c9-733ea05fab34" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: Missing destinationId&quot;
+    }</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">DELETE /api/v1/destinations/</summary><div class="indented"><p id="267bb623-44ec-4486-b0fa-cfeb55cb5c4b" class="">Delete specific destination via destination id</p><h3 id="1cca2213-0ac3-4a65-bbf9-6bc733ac0d8e" class="">Parameters</h3><p id="584f7306-53f2-43fc-a87a-d90ccd21a5c3" class="">n/a</p><h3 id="37bd8a6f-f284-4756-9354-d05df0797029" class="">Request Body</h3><table id="4dbdfc92-4c7f-4542-8727-e629c6ed9e6d" class="simple-table"><tbody><tr id="86108ecf-141a-4275-8f42-3cdcb5d06c4a"><td id="F^:g" class=""><strong>Params</strong></td><td id="zc[n" class=""><strong>Required</strong></td><td id="aZnA" class=""><strong>Type</strong></td><td id="=lDO" class="">Description</td></tr><tr id="9dc3e8b8-47fb-43ac-8f5e-ae6f1ee81be5"><td id="F^:g" class="">destinationId</td><td id="zc[n" class="">Required</td><td id="aZnA" class="">int</td><td id="=lDO" class="">destination id</td></tr></tbody></table><h3 id="1c9e33cb-f9fa-41bd-9b43-046d3aed0fc2" class="">Response</h3><p id="99e93aec-5790-480a-8ffc-98bf7f54984c" class="">Success | code : 200</p><pre id="6720e11c-f251-460d-a28c-61401ed38b5f" class="code code-wrap"><code>{
+        &quot;status&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;id&quot;: 17,
+            &quot;itineraryId&quot;: 1,
+            &quot;date&quot;: &quot;2023-01-01T12:23:22.000Z&quot;,
+            &quot;Place&quot;: {
+                &quot;id&quot;: 39,
+                &quot;name&quot;: &quot;Draft Land&quot;,
+                &quot;address&quot;: &quot;106, Taiwan, Taipei City, Da’an District, Lane 248, Section 4, Zhongxiao E Rd, 2號1樓&quot;,
+                &quot;rating&quot;: 4.6,
+                &quot;url&quot;: &quot;https://maps.google.com/?cid=17910841840250993798&quot;,
+                &quot;lat&quot;: 25.041,
+                &quot;lng&quot;: 121.554,
+                &quot;intro&quot;: &quot;Bustling destination with a cool, understated ambiance serving innovative draft cocktails.&quot;,
+                &quot;image&quot;: &quot;https://lh3.googleusercontent.com/places/ANXAkqE03mlVeXeg5wIh9Fpx7EaIYJoNhftvRaMrRJX4tcqUmYzs-vo2q4H0Vl0OrS7Z7nG16eIPfnKmxHBMKcDRZqaGadxR4HxUugg=s1600-w400&quot;
+            }
+        }
+    }</code></pre><p id="a770383f-9cb6-4629-a6f1-6de0658e043a" class="">Failure Response | code : 500</p><pre id="23c3bd90-6701-4fd9-8fc0-ef2901c8cdb6" class="code"><code>{
+        &quot;status&quot;: &quot;error&quot;,
+        &quot;message&quot;: &quot;Error: Destination not found&quot;
+    }</code></pre></div></details></div></details><p id="68a30fbf-0879-41ea-bc73-1ff041bc196b" class="">
+    </p><p id="d2af75df-da2b-48c0-96e0-dbaa2390ee4c" class="">
+    </p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
