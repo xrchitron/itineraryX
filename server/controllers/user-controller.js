@@ -97,6 +97,17 @@ const userController = {
       next(err)
     }
   },
+  getParticipatedItineraries: async (req, res, next) => {
+    try {
+      const userId = req.user.id
+      if (!userId) throw new Error('Missing user id')
+      const userChatId = await userServices.getParticipatedItineraries(userId)
+      if (userChatId.itineraryId.length === 0) throw new Error('Chat not found')
+      res.status(200).json({ status: 'success', data: userChatId })
+    } catch (error) {
+      next(error)
+    }
+  },
   addFollowing: async (req, res, next) => {
     try {
       const { userId } = req.body

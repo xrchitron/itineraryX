@@ -43,17 +43,6 @@ const chatController = {
       next(error)
     }
   },
-  getUserChatId: async (req, res, next) => {
-    try {
-      const { userId } = req.params
-      if (!userId) throw new Error('Missing user id')
-      const userChatId = await chatServices.getUserChatId(userId)
-      if (userChatId.itineraryId.length === 0) throw new Error('Chat not found')
-      res.status(200).json({ status: 'success', data: userChatId })
-    } catch (error) {
-      next(error)
-    }
-  },
   postChat: async (req, res, next) => {
     try {
       const { itineraryId, userId, message, isImage } = req.body

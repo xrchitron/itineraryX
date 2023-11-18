@@ -1,4 +1,4 @@
-const { User, Followship } = require('../models')
+const { User, Followship, Participant } = require('../models')
 const userServices = {
   async createNewUser (name, email, password) {
     const user = await User.create({ name, email, password })
@@ -44,6 +44,19 @@ const userServices = {
       }
     })
     return followship
+  },
+  async getParticipatedItineraries (userId) {
+    const itineraryIds = await Participant.findAll({
+      where: { participantId: userId },
+      attributes: ['itineraryId'],
+      raw: true
+    })
+    const data = {}
+    const itineraryIdData = itineraryIds.map(data => {
+      return data.itineraryId
+    })
+    data.itineraryId = itineraryIdData
+    return data
   },
   async addFollowingById (followerId, followingId) {
     const followship = await Followship.create({
