@@ -69,7 +69,7 @@ const mapServices = {
       image: place.image,
       lat: place.geometry.location.lat,
       lng: place.geometry.location.lng,
-      intro: place.editorial_summary.overview
+      intro: place.editorial_summary.overview || null
     })
     return newPlace
   },
