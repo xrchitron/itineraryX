@@ -4,19 +4,23 @@ const { auth } = require('../middleware/auth')
 router
   .route('/')
   .post(auth, Map.postPlace) // get place info
-  // .get(auth, Map.getMap) // get map info with token
+  .get(auth, Map.getPlaceIdByGoogleMapApi) // get map info with token
+
+// router
+//   .route('/routes')
+//   .post(auth, Map.postRoute) // get route info without token
+//   .get(auth, Map.getRoute) // get route info with token
 
 router
-  .route('/routes')
-  .post(auth, Map.postRoute) // get route info without token
-  // .get(auth, Map.getRoute) // get route info with token
+  .route('/random')
+  .get(auth, Map.getRandomPlace) // get route info with token
 
 router
   .route('/distanceMatrix')
   .post(Map.getDistanceMatrix)
 
-router
-  .route('/:placeId')
-  .get(auth, Map.getPlace)
-  .delete(auth, Map.deletePlace) // delete place info
+// router
+//   .route('/:placeId')
+//   .get(auth, Map.getPlace)
+//   .delete(auth, Map.deletePlace) // delete place info
 module.exports = router

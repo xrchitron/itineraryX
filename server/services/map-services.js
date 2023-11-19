@@ -1,17 +1,13 @@
 const Sequelize = require('sequelize')
-const Op = Sequelize.Op
+// const Op = Sequelize.Op
 const { Place, Route } = require('../models')
 const axios = require('axios')
 const key = process.env.API_KEY
 const mapServices = {
-  // async getMap (url) {
-  //   const apiResponse = await axios.get(url)
-  //   return apiResponse.data.results[0]
-  //   // const fullAddress = response.formatted_address
-  //   // const placeId = response.place_id
-  //   // const { lat, lng } = response.geometry.location
-  //   // const geocodeResponse = { fullAddress, placeId, lat, lng }
-  // },
+  async getPlaceIdByGoogleMapApi (url) {
+    const apiResponse = await axios.get(url)
+    return apiResponse.data.results[0].place_id
+  },
   async getDistanceMatrixWithUrl (url) {
     const apiResponse = await axios.get(url)
     return apiResponse
@@ -37,29 +33,28 @@ const mapServices = {
     const place = await Place.findOne({ where: { placeId } })
     return place
   },
-  async getOrderedRoute (itineraryId, date, sort) {
-    const sortOrder = sort.order === 'asc' ? 'ASC' : 'DESC'
-    const sortKey = sort.key === 'distance' ? 'distanceValue' : 'durationValue'
-    const route = await Route.findAll({
-      where: {
-        itineraryId,
-        date: {
-          [Op.between]: [`${date} 00:00:00`, `${date} 23:59:59`]
-        }
-      },
-      attributes: ['id', 'date', 'distanceText', 'distanceValue', 'durationText', 'durationValue', 'color'],
-      include: [
-        { model: Place, as: 'Origin', attributes: ['name', 'address', 'url', 'lat', 'lng'] },
-        { model: Place, as: 'Destination', attributes: ['name', 'address', 'url', 'lat', 'lng'] }
-      ],
-      order: [[sortKey, sortOrder]]
-    })
-    return route
-  },
+  // async getOrderedRoute (itineraryId, date, sort) {
+  //   const sortOrder = sort.order === 'asc' ? 'ASC' : 'DESC'
+  //   const sortKey = sort.key === 'distance' ? 'distanceValue' : 'durationValue'
+  //   const route = await Route.findAll({
+  //     where: {
+  //       itineraryId,
+  //       date: {
+  //         [Op.between]: [`${date} 00:00:00`, `${date} 23:59:59`]
+  //       }
+  //     },
+  //     attributes: ['id', 'date', 'distanceText', 'distanceValue', 'durationText', 'durationValue', 'color'],
+  //     include: [
+  //       { model: Place, as: 'Origin', attributes: ['name', 'address', 'url', 'lat', 'lng'] },
+  //       { model: Place, as: 'Destination', attributes: ['name', 'address', 'url', 'lat', 'lng'] }
+  //     ],
+  //     order: [[sortKey, sortOrder]]
+  //   })
+  //   return route
+  // },
   async createPlace (place) {
     const foundPlace = await Place.findOne({ where: { placeId: place.place_id } })
     if (foundPlace) return foundPlace
-
     const newPlace = await Place.create({
       name: place.name,
       placeId: place.place_id,
@@ -69,7 +64,7 @@ const mapServices = {
       image: place.image,
       lat: place.geometry.location.lat,
       lng: place.geometry.location.lng,
-      intro: place.editorial_summary.overview || null
+      intro: (place.editorial_summary ? place.editorial_summary.overview : null)
     })
     return newPlace
   },
@@ -111,6 +106,13 @@ const mapServices = {
     const transitMode = ['bus', 'subway', 'train', 'tram', 'rail']
     if (transitMode.includes(transportationMode)) modeType = `transit_mode=${transportationMode}`
     return modeType
+  },
+  async getRandomPlace () {
+    const randomPlace = await Place.findOne({
+      order: Sequelize.literal('rand()'),
+      limit: 1
+    })
+    return randomPlace
   }
 
 }
