@@ -6,6 +6,8 @@ const key = process.env.API_KEY
 const mapServices = {
   async getPlaceIdByGoogleMapApi (url) {
     const apiResponse = await axios.get(url)
+    if (apiResponse.data.status !== 'OK') throw new Error('Invalid request')
+    if (apiResponse.data.results.length === 0) throw new Error('No result found')
     return apiResponse.data.results[0].place_id
   },
   async getDistanceMatrixWithUrl (url) {
@@ -112,6 +114,7 @@ const mapServices = {
       order: Sequelize.literal('rand()'),
       limit: 1
     })
+    if (!randomPlace) throw new Error('No place found, please try again')
     return randomPlace
   }
 
