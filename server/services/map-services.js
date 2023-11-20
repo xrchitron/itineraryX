@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-// const Op = Sequelize.Op
+const Op = Sequelize.Op
 const { Place, Route } = require('../models')
 const axios = require('axios')
 const key = process.env.API_KEY
@@ -111,6 +111,12 @@ const mapServices = {
   },
   async getRandomPlace () {
     const randomPlace = await Place.findOne({
+      where: {
+        id: {
+          [Op.gte]: 19, // Greater than or equal to 10
+          [Op.lte]: 28 // Less than or equal to 50
+        }
+      },
       order: Sequelize.literal('rand()'),
       limit: 1
     })
