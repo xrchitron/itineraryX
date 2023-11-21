@@ -36,12 +36,14 @@ const itineraryServices = {
     })
     return itinerary
   },
-  async createItinerary (holderId, title) {
+  async createItinerary (holderId, title, startTime, endTime) {
     const itinerary = await Itinerary.create({
       holderId,
-      title
+      title,
+      startTime,
+      endTime
     })
-    return itinerary
+    return itinerary.toJSON()
   },
   async updateItinerary (itinerary, title, image, startTime, endTime) {
     const updatedItinerary = await itinerary.update({

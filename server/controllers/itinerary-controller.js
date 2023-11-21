@@ -12,7 +12,7 @@ const itineraryController = {
 
       const itineraryData = itinerary.toJSON()
       // turn image name into url if image from s3 exist
-      itineraryData.image = await s3.getImage(itineraryData.image)
+      if (itineraryData.image) itineraryData.image = await s3.getImage(itineraryData.image)
       // turn avatar name into url if avatar from s3 exist
       itineraryData.ParticipantsUser = await Promise.all(itineraryData.ParticipantsUser.map(async participant => {
         delete participant.Participant
@@ -41,11 +41,13 @@ const itineraryController = {
   },
   postItinerary: async (req, res, next) => {
     try {
-      const { title } = req.body
+      const { title, startTime, endTime } = req.body
       if (!title) throw new Error('Missing title')
 
-      const newItinerary = await itineraryServices.createItinerary(req.user.id, title)
+      const newItinerary = await itineraryServices.createItinerary(req.user.id, title, startTime, endTime)
       await itineraryServices.createParticipant(newItinerary.id, req.user.id)
+      newItinerary.startTime = dateMethods.toISOString(newItinerary.startTime)
+      newItinerary.endTime = dateMethods.toISOString(newItinerary.endTime)
       res.status(200).json({ status: 'success', data: newItinerary })
     } catch (err) {
       next(err)
