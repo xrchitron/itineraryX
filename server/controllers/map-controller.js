@@ -75,13 +75,12 @@ const mapController = {
       const modeType = mapServices.checkModeType(transportationMode)
 
       // place data into url
-      const url = `https://maps.googleapis.com/maps/api/distancematrix/json?language=zh-TW&origins=${originData.lat},${originData.lng}&destinations=${destinationData.lat},${destinationData.lng}&${modeType}&key=${key}`
+      const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${originData.lat},${originData.lng}&destinations=${destinationData.lat},${destinationData.lng}&${modeType}&key=${key}`
 
       // get distance matrix
       const apiResponse = await mapServices.getDistanceMatrixWithUrl(url)
 
       // absorb elements from response
-      console.log(apiResponse)
       const elements = apiResponse.data.rows[0].elements[0]
 
       // check if routes are found
