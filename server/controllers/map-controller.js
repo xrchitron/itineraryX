@@ -36,15 +36,39 @@ const mapController = {
     try {
       const { itineraryId, date, transportationMode, originId, destinationId } = req.body
       if (!itineraryId || !date || !transportationMode || !originId || !destinationId) throw new Error('Missing required parameters')
+
       // get origin and destination place data
-      const origin = await mapServices.getPlace(originId)
-      const destination = await mapServices.getPlace(destinationId)
+      let origin
+      let destination
+      const setPlaceRedis = async (placeId, placeData) => {
+        redisServices.setRedis(`getPlace-pId${placeId}`, JSON.stringify(placeData), 'EX', 60 * 60 * 24)
+      }
+      const getOriginFromRedis = await redisServices.getRedis(`getPlace-pId${originId}`)
+      const getDestinationFromRedis = await redisServices.getRedis(`getPlace-pId${destinationId}`)
+      if (getOriginFromRedis) {
+        origin = JSON.parse(getOriginFromRedis)
+      } else {
+        origin = await mapServices.getPlace(originId)
+        await setPlaceRedis(originId, origin)
+      }
+      if (getDestinationFromRedis) {
+        destination = JSON.parse(getDestinationFromRedis)
+      } else {
+        destination = await mapServices.getPlace(destinationId)
+        await setPlaceRedis(destinationId, destination)
+      }
 
       // check if origin and destination place data exists
       if (!origin) throw new Error('Origin not found')
       if (!destination) throw new Error('Destination not found')
       // check if route data exists in redis
       const redisData = await redisServices.getRedis(`getRoute-iId${itineraryId}-oId${originId}-dId${destinationId}`)
+      const setRouteRedisAndRespond = async routeData => {
+        redisServices.setRedis(`getRoute-iId${itineraryId}-oId${originId}-dId${destinationId}`, JSON.stringify(routeData), 'EX', 60 * 60 * 24)
+        // convert date format
+        // routeData.date = dateMethods.toISOString(routeData.date)
+        res.status(200).json({ status: 'success', data: routeData })
+      }
       if (redisData) {
         const routeData = JSON.parse(redisData)
         // convert date format
@@ -58,11 +82,14 @@ const mapController = {
         const routeData = route.toJSON()
         // convert date format
         // routeData.date = dateMethods.toISOString(routeData.date)
-        redisServices.setRedis(`getRoute-iId${itineraryId}-oId${originId}-dId${destinationId}`, JSON.stringify(routeData), 'EX', 60 * 60 * 24)
-        res.status(200).json({ status: 'success', data: routeData })
+        await setRouteRedisAndRespond(routeData)
         return
       } else if (route && route.transportationMode !== transportationMode) {
-        await route.destroy()
+        // if route data exists but transportation mode is different, update transportation mode
+        const updatedRoute = await mapServices.updateRoute(route.id, transportationMode)
+        const routeData = updatedRoute.toJSON()
+        await setRouteRedisAndRespond(routeData)
+        return
       }
 
       // turn origin and destination place data into JSON
@@ -99,7 +126,7 @@ const mapController = {
       const destinationData = destination.toJSON()
       const apiResponse = await mapServices.distanceMatrix(originData, destinationData, transportationMode)
       if (!apiResponse.status === 'OK' || apiResponse.distance === undefined) throw new Error('No results found')
-      const updatedRoute = await route.update({ transportationMode, elements: apiResponse })
+      const updatedRoute = await mapServices.updateRoute(routeId, transportationMode, apiResponse)
       const routeData = updatedRoute.toJSON()
       // convert date format
       routeData.date = dateMethods.toISOString(routeData.date)

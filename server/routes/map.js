@@ -10,7 +10,7 @@ router
   .route('/routes')
   .get(auth, Map.getRoute) // get route info with token
   .post(auth, Map.postRoute) // get route info with token
-  // .patch(auth, Map.patchRoute) // get route info with token
+  .patch(auth, Map.patchRoute) // get route info with token
 
 router
   .route('/random')

@@ -101,8 +101,7 @@ const mapServices = {
   },
   async getRoute (itineraryId, originId, destinationId) {
     const route = await Route.findOne({
-      where: { itineraryId, originId, destinationId },
-      attributes: ['id', 'originId', 'destinationId', 'distanceText', 'distanceValue', 'durationText', 'durationValue', 'transportationMode']
+      where: { itineraryId, originId, destinationId }
     })
     return route
   },
@@ -116,6 +115,21 @@ const mapServices = {
     // absorb elements from response
     const elements = apiResponse.data.rows[0].elements[0]
     return elements
+  },
+  async getRouteById (routeId) {
+    const route = await Route.findByPk(routeId)
+    return route
+  },
+  async updateRoute (routeId, transportationMode, elements) {
+    const route = await Route.findByPk(routeId)
+    const updatedRoute = await route.update({
+      transportationMode,
+      distanceText: elements.distance.text,
+      distanceValue: elements.distance.value,
+      durationText: elements.duration.text,
+      durationValue: elements.duration.value
+    })
+    return updatedRoute
   }
 }
 module.exports = mapServices
