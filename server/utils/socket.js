@@ -14,10 +14,12 @@ async function connect (server) {
 
     socket.on('join_room', data => {
       socket.join(data)
+      console.log(socket.id + ' join room ' + data)
     })
 
     socket.on('send_message', data => {
       socket.nsp.to(data.room).emit('receive_message', data)
+      console.log(socket.id + ' send message to ' + data.room)
     })
     socket.on('disconnect', () => {
       console.log('User disconnected')

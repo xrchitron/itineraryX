@@ -31,6 +31,7 @@ const userController = {
     try {
       const userData = req.user.toJSON()
       delete userData.password
+      if (userData.avatar) userData.avatar = s3.getImage(userData.avatar)
       const token = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '30d' })
       res.status(200).json({
         status: 'success',
