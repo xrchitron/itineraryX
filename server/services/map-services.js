@@ -10,10 +10,10 @@ const mapServices = {
     if (apiResponse.data.results.length === 0) throw new Error('No result found')
     return apiResponse.data.results[0].place_id
   },
-  async getDistanceMatrixWithUrl (url) {
-    const apiResponse = await axios.get(url)
-    return apiResponse
-  },
+  // async getDistanceMatrixWithUrl (url) {
+  //   const apiResponse = await axios.get(url)
+  //   return apiResponse
+  // },
   async getPlaceDetail (placeId) {
     const url = 'https://maps.googleapis.com/maps/api/place/details/json?'
     const fields = ['name', 'place_id', 'formatted_address', 'geometry', 'rating', 'photos', 'url', 'editorial_summary']
@@ -35,25 +35,6 @@ const mapServices = {
     const place = await Place.findOne({ where: { placeId } })
     return place
   },
-  // async getOrderedRoute (itineraryId, date, sort) {
-  //   const sortOrder = sort.order === 'asc' ? 'ASC' : 'DESC'
-  //   const sortKey = sort.key === 'distance' ? 'distanceValue' : 'durationValue'
-  //   const route = await Route.findAll({
-  //     where: {
-  //       itineraryId,
-  //       date: {
-  //         [Op.between]: [`${date} 00:00:00`, `${date} 23:59:59`]
-  //       }
-  //     },
-  //     attributes: ['id', 'date', 'distanceText', 'distanceValue', 'durationText', 'durationValue', 'color'],
-  //     include: [
-  //       { model: Place, as: 'Origin', attributes: ['name', 'address', 'url', 'lat', 'lng'] },
-  //       { model: Place, as: 'Destination', attributes: ['name', 'address', 'url', 'lat', 'lng'] }
-  //     ],
-  //     order: [[sortKey, sortOrder]]
-  //   })
-  //   return route
-  // },
   async createPlace (place) {
     const foundPlace = await Place.findOne({ where: { placeId: place.place_id } })
     if (foundPlace) return foundPlace
@@ -88,15 +69,10 @@ const mapServices = {
         distanceText: elements.distance.text,
         distanceValue: elements.distance.value,
         durationText: elements.duration.text,
-        durationValue: elements.duration.value,
-        color: this.getRandomLightColor()
+        durationValue: elements.duration.value
       })
       return newRoute
     }
-  },
-  getRandomLightColor () {
-    const color = 'hsl(' + Math.random() * 360 + ', 100%, 75%)'
-    return color
   },
   checkModeType (transportationMode) {
     let modeType = ''
@@ -122,7 +98,24 @@ const mapServices = {
     })
     if (!randomPlace) throw new Error('No place found, please try again')
     return randomPlace
+  },
+  async getRoute (itineraryId, originId, destinationId) {
+    const route = await Route.findOne({
+      where: { itineraryId, originId, destinationId },
+      attributes: ['id', 'originId', 'destinationId', 'distanceText', 'distanceValue', 'durationText', 'durationValue', 'transportationMode']
+    })
+    return route
+  },
+  async distanceMatrix (origin, destination, mode) {
+    // check mode type
+    const modeType = this.checkModeType(mode)
+    // distance matrix url
+    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin.lat},${origin.lng}&destinations=${destination.lat},${destination.lng}&${modeType}&key=${key}`
+    // get distance matrix
+    const apiResponse = await axios.get(url)
+    // absorb elements from response
+    const elements = apiResponse.data.rows[0].elements[0]
+    return elements
   }
-
 }
 module.exports = mapServices

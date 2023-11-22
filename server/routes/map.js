@@ -6,21 +6,14 @@ router
   .post(auth, Map.postPlace) // get place info
   .get(auth, Map.getPlaceIdByGoogleMapApi) // get map info with token
 
-// router
-//   .route('/routes')
-//   .post(auth, Map.postRoute) // get route info without token
-//   .get(auth, Map.getRoute) // get route info with token
+router
+  .route('/routes')
+  .get(auth, Map.getRoute) // get route info with token
+  .post(auth, Map.postRoute) // get route info with token
+  // .patch(auth, Map.patchRoute) // get route info with token
 
 router
   .route('/random')
   .get(auth, Map.getRandomPlace) // get route info with token
 
-router
-  .route('/distanceMatrix')
-  .post(Map.getDistanceMatrix)
-
-// router
-//   .route('/:placeId')
-//   .get(auth, Map.getPlace)
-//   .delete(auth, Map.deletePlace) // delete place info
 module.exports = router

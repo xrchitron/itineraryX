@@ -25,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
     distanceValue: DataTypes.INTEGER,
     durationText: DataTypes.STRING,
     durationValue: DataTypes.INTEGER,
-    color: DataTypes.STRING,
     transportationMode: DataTypes.STRING
   }, {
     sequelize,
