@@ -81,7 +81,7 @@ const mapController = {
       const apiResponse = await mapServices.getDistanceMatrixWithUrl(url)
 
       // absorb elements from response
-      console.log(apiResponse.data)
+      console.log(apiResponse)
       const elements = apiResponse.data.rows[0].elements[0]
 
       // check if routes are found
