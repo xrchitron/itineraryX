@@ -20,10 +20,10 @@ passport.use(new LocalStrategy(
   (req, email, password, cb) => {
     User.findOne({ where: { email } })
       .then(user => {
-        if (!user) return cb(new Error('Account or password incorrect!')) // didn't support SSR
+        if (!user) return cb(new Error('Account or password incorrect!'))
         bcrypt.compare(password, user.password)
           .then(res => {
-            if (!res) return cb(new Error('Account or password incorrect!')) // didn't support SSR
+            if (!res) return cb(new Error('Account or password incorrect!'))
             return cb(null, user)
           })
       })
@@ -49,7 +49,7 @@ passport.use(new JWTStrategy(jwtOptions, async (jwtPayload, cb) => {
       const userData = user.toJSON()
       delete userData.password
       // set user data to redis
-      redisServices.setRedis(`getUser-uid${jwtPayload.id}`, JSON.stringify(userData))
+      redisServices.setRedis(`getUser-uid${jwtPayload.id}`, JSON.stringify(userData), 'EX', 3600)
       cb(null, userData)
     } else {
       cb(null, false)
