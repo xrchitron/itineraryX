@@ -63,17 +63,17 @@ const itineraryController = {
 
       // upload image to s3, delete previous image and get new image url
       const { file } = req
-      let imageUrl = null
       let imageFileName = null
       if (file) {
         imageFileName = await s3.uploadItineraryImage(itineraryId, file)
         if (image) await s3.deleteImage(image)
-        imageUrl = await s3.getImage(imageFileName)
       }
       image = imageFileName || image
       const updatedItinerary = await itineraryServices.updateItinerary(itinerary, title, image, startTime, endTime)
       // turn image name into url if image from s3 exist
-      updatedItinerary.image = imageUrl || await s3.getImage(updatedItinerary.image)
+      if (updatedItinerary.image) {
+        updatedItinerary.image = await s3.getImage(updatedItinerary.image)
+      }
       // turn time into iso string
       updatedItinerary.startTime = dateMethods.toISOString(updatedItinerary.startTime)
       updatedItinerary.endTime = dateMethods.toISOString(updatedItinerary.endTime)
