@@ -89,8 +89,8 @@ const mapServices = {
     const randomPlace = await Place.findOne({
       where: {
         id: {
-          [Op.gte]: 19, // Greater than or equal to 10
-          [Op.lte]: 28 // Less than or equal to 50
+          [Op.gte]: 1, // Greater than or equal to 1
+          [Op.lte]: 10 // Less than or equal to 10
         }
       },
       order: Sequelize.literal('rand()'),
