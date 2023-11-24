@@ -100,14 +100,14 @@ const itineraryController = {
   },
   postParticipant: async (req, res, next) => {
     try {
-      const { itineraryId, participantId } = req.body
-      const user = await userServices.getUserById(participantId)
-      const participant = await itineraryServices.getParticipant(itineraryId, participantId)
+      const { itineraryId, email } = req.body
+      const user = await userServices.getUserByEmail(email)
+      const participant = await itineraryServices.getParticipant(itineraryId, user.id)
 
       if (!user) throw new Error("User didn't exist!")
       if (participant) throw new Error('You are already having this participant!')
 
-      const newParticipant = await itineraryServices.createParticipant(itineraryId, participantId)
+      const newParticipant = await itineraryServices.createParticipant(itineraryId, user.id)
       res.status(200).json({ status: 'success', data: newParticipant })
     } catch (err) {
       next(err)

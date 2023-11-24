@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Place.hasMany(models.Route, { foreignKey: 'originId', as: 'OriginPlace' })
       Place.hasMany(models.Route, { foreignKey: 'destinationId', as: 'DestinationPlace' })
+      Place.hasMany(models.Destination, { foreignKey: 'placeId', as: 'Destination' })
     }
   }
   Place.init({

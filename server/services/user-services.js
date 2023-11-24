@@ -5,7 +5,7 @@ const userServices = {
     return user
   },
   async getUserByEmail (email) {
-    const user = await User.findOne({ where: { email } })
+    const user = await User.findOne({ where: { email }, attributes: ['id', 'name', 'avatar'] })
     return user
   },
   async getUserByName (name) {

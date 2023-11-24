@@ -171,6 +171,17 @@ const mapController = {
     } catch (err) {
       next(err)
     }
+  },
+  getShowRoutes: async (req, res, next) => {
+    try {
+      const { itineraryId, date } = req.query
+      if (!itineraryId || !date) throw new Error('Missing required parameters')
+      const placeDetails = await mapServices.getShowRoutes(itineraryId, date)
+      if (!placeDetails || placeDetails.length === 0) throw new Error('Place details not found')
+      res.status(200).json({ status: 'success', data: placeDetails })
+    } catch (err) {
+      next(err)
+    }
   }
 
 }

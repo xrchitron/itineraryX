@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
-const { Place, Route } = require('../models')
+const { Place, Route, Destination } = require('../models')
 const axios = require('axios')
 const key = process.env.API_KEY
 const mapServices = {
@@ -130,6 +130,23 @@ const mapServices = {
       durationValue: elements.duration.value
     })
     return updatedRoute
+  },
+  async getShowRoutes (itineraryId, date) {
+    const routeData = await Destination.findAll({
+      where: {
+        itineraryId,
+        date: {
+          [Op.between]: [`${date} 00:00:00`, `${date} 23:59:59`]
+        }
+      },
+      attributes: ['placeId'],
+      include: [
+        { model: Place, attributes: ['lat', 'lng'] }
+      ],
+      raw: true
+
+    })
+    return routeData
   }
 }
 module.exports = mapServices
