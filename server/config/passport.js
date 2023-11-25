@@ -17,17 +17,26 @@ passport.use(new LocalStrategy(
     passReqToCallback: true
   },
   // authenticate user
-  (req, email, password, cb) => {
-    User.findOne({ where: { email } })
-      .then(user => {
-        if (!user) return cb(new Error('Account or password incorrect!'))
-        bcrypt.compare(password, user.password)
-          .then(res => {
-            if (!res) return cb(new Error('Account or password incorrect!'))
-            return cb(null, user)
-          })
-      })
-      .catch(err => cb(err))
+  async (req, email, password, cb) => {
+    try {
+      const user = await User.findOne({ where: { email } })
+      if (!user) {
+        const error = new Error("Haven't registered yet!")
+        error.status = 401
+        return cb(error)
+      }
+
+      const res = await bcrypt.compare(password, user.password)
+      if (!res) {
+        const error = new Error('Password incorrect!')
+        error.status = 403
+        return cb(error)
+      }
+
+      return cb(null, user)
+    } catch (err) {
+      return cb(err)
+    }
   }
 ))
 const jwtOptions = {
