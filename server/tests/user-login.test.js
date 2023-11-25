@@ -70,7 +70,5 @@ describe(`POST ${url}`, function () {
           done()
         }
       })
-  }
-  )
-}
-)
+  })
+})

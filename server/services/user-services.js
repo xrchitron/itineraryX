@@ -13,9 +13,6 @@ const userServices = {
     return user
   },
   async getUserWithFollows (id) {
-    // const userCheck = await User.findByPk(id)
-    // if (userCheck.length === 0) throw new Error("User didn't exist!")
-
     const user = await User.findByPk(id, {
       include: [
         { model: User, as: 'Followers', attributes: ['id', 'name', 'avatar'] },
@@ -68,6 +65,15 @@ const userServices = {
   async deleteFollowship (followship) {
     const deletedFollowship = followship.destroy()
     return deletedFollowship
+  },
+  async processFollowshipAndS3Avatar (followship, s3) {
+    // delete Followship object and get avatar url from s3
+    await Promise.all(followship.map(async follow => {
+      delete follow.Followship
+      if (follow.avatar) {
+        follow.avatar = await s3.getImage(follow.avatar)
+      }
+    }))
   }
 }
 module.exports = userServices
