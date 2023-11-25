@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs')
 
 const { User } = require('../models')
 const redisServices = require('../utils/redis')
+const HttpError = require('../utils/httpError')
 
 const JWTStrategy = passportJWT.Strategy
 const ExtractJWT = passportJWT.ExtractJwt
@@ -20,18 +21,10 @@ passport.use(new LocalStrategy(
   async (req, email, password, cb) => {
     try {
       const user = await User.findOne({ where: { email } })
-      if (!user) {
-        const error = new Error("Haven't registered yet!")
-        error.status = 401
-        return cb(error)
-      }
+      if (!user) return cb(new HttpError(401, "Haven't registered yet!"))
 
       const res = await bcrypt.compare(password, user.password)
-      if (!res) {
-        const error = new Error('Password incorrect!')
-        error.status = 403
-        return cb(error)
-      }
+      if (!res) return cb(new HttpError(403, 'Password incorrect!'))
 
       return cb(null, user)
     } catch (err) {
