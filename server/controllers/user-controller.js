@@ -10,18 +10,22 @@ const userController = {
       const userInput = req.body
       // if two password different, establish a new error
       if (userInput.password !== userInput.passwordCheck) throw new Error('Password do not match!')
-      // confirm whether email das exist, throw error if true
+      // confirm whether email data exist, throw error if true
       const user = await userServices.getUserByEmail(userInput.email)
       if (user) throw new Error('Email already exist')
+
       const userName = await userServices.getUserByName(userInput.name)
       if (userName) throw new Error('User name already exist')
+
       const hash = await bcrypt.hash(userInput.password, 10) // hash password
       const newUser = await userServices.createNewUser(userInput.name, userInput.email, hash) // create user
+
       // delete password
       const userData = newUser.toJSON()
       delete userData.password
+
       const token = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '30d' })
-      // return data
+
       res.status(200).json({ status: 'success', data: { token, user: userData } })
     } catch (err) {
       next(err)
@@ -41,7 +45,7 @@ const userController = {
       next(err)
     }
   },
-  getUser: async (req, res, next) => {
+  getUserWithFollows: async (req, res, next) => {
     try {
       const { userId } = req.params
       const user = await userServices.getUserWithFollows(userId)

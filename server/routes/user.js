@@ -5,15 +5,15 @@ const { auth } = require('../middleware/auth')
 const upload = require('../middleware/multer')
 router
   .route('/')
-  .put(auth, upload.single('avatar'), User.putUser) // update user info
+  .put(auth, upload.single('avatar'), User.putUser)
 
 router
   .route('/signup')
-  .post(User.signUp) // create new user
+  .post(User.signUp)
 
 router
   .route('/login')
-  .post(passport.authenticate('local', { session: false }), User.login) // login user
+  .post(passport.authenticate('local', { session: false }), User.login)
 
 router
   .route('/itineraryId')
@@ -21,12 +21,11 @@ router
 
 router
   .route('/followings')
-  .post(auth, User.addFollowing) // add following
-  .delete(auth, User.removeFollowing) // remove following
-  // .get(auth, User.getFollowings) // get followings
+  .post(auth, User.addFollowing)
+  .delete(auth, User.removeFollowing)
 
 router
   .route('/:userId')
-  .get(auth, User.getUser) // get user info by other user id
+  .get(auth, User.getUserWithFollows) // get user info with followings and followers
 
 module.exports = router
