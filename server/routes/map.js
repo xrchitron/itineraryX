@@ -17,7 +17,7 @@ router
   .get(auth, Map.getRandomPlace) // get route info with token
 
 router
-  .route('/routes/show')
-  .get(auth, Map.getShowRoutes) // get place info with token
+  .route('/routes/latLng')
+  .get(auth, Map.getRoutesLatLng)
 
 module.exports = router

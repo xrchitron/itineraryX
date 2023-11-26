@@ -131,22 +131,37 @@ const mapServices = {
     })
     return updatedRoute
   },
-  async getShowRoutes (itineraryId, date) {
+  async getRoutesLatLng (itineraryId, startDate, endDate) {
     const routeData = await Destination.findAll({
       where: {
         itineraryId,
         date: {
-          [Op.between]: [`${date} 00:00:00`, `${date} 23:59:59`]
+          [Op.between]: [`${startDate} 00:00:00`, `${endDate} 23:59:59`]
         }
       },
-      attributes: ['placeId'],
+      attributes: ['placeId', 'date'],
+      order: [['date', 'ASC']],
       include: [
         { model: Place, attributes: ['lat', 'lng'] }
       ],
       raw: true
-
     })
-    return routeData
+
+    const routeDataGroupByDate = this.routeDataGroupByDate(routeData)
+    return routeDataGroupByDate
+  },
+  routeDataGroupByDate (routeData) {
+    const routeDataGroupByDate = routeData.reduce((acc, cur) => {
+      const date = cur.date.toISOString().split('T')[0]
+      const curData = {}
+      if (!acc[date]) acc[date] = []
+      curData.lat = Number(cur['Place.lat'])
+      curData.lng = Number(cur['Place.lng'])
+      acc[date].push(curData)
+      return acc
+    }
+    , {})
+    return routeDataGroupByDate
   }
 }
 module.exports = mapServices
