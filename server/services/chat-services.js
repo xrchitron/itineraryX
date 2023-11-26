@@ -39,7 +39,7 @@ const chatServices = {
     }))
     return chatWithImage
   },
-  chatData: async chatWithImage => {
+  getChatData: chatWithImage => {
     const chatData = chatWithImage.map(chat => {
       const time = dateMethods.toISOString(chat.createdAt)
       return {
@@ -52,6 +52,32 @@ const chatServices = {
       }
     })
     return chatData
+  },
+  postChatData: async (chat, participant, storedMessage) => {
+    let userAvatar = participant.ParticipantUser.avatar
+    const time = dateMethods.toISOString(chat.createdAt)
+    // convert image to url
+    if (userAvatar) userAvatar = await s3.getImage(userAvatar)
+    if (chat.isImage) storedMessage = await s3.getImage(storedMessage)
+    const chatData = {
+      id: chat.id,
+      user: participant.ParticipantUser.name,
+      avatar: userAvatar,
+      message: storedMessage,
+      isImage: chat.isImage,
+      time
+    }
+    return chatData
+  },
+  processMessage: async (message, file, itineraryId, isImage) => {
+    if (!isImage) return message
+
+    const fileName = await s3.uploadChatImage(itineraryId, file)
+    return fileName
+  },
+  processBoolean: boolean => {
+    if (boolean === 'true' || boolean === '1' || boolean === 1 || boolean === true) return true
+    return false
   }
 }
 module.exports = chatServices
