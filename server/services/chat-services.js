@@ -48,6 +48,7 @@ const chatServices = {
         user: chat.userChat.name,
         avatar: chat.userChat.avatar,
         message: chat.message,
+        isImage: chat.isImage,
         time
       }
     })
