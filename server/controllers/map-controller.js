@@ -1,5 +1,6 @@
 const mapServices = require('../services/map-services')
 const dateMethods = require('../utils/date-methods')
+const HttpError = require('../utils/httpError')
 const redisServices = require('../utils/redis')
 const key = process.env.API_KEY
 const mapController = {
@@ -172,12 +173,14 @@ const mapController = {
       next(err)
     }
   },
-  getShowRoutes: async (req, res, next) => {
+  getRoutesLatLng: async (req, res, next) => {
     try {
-      const { itineraryId, date } = req.query
-      if (!itineraryId || !date) throw new Error('Missing required parameters')
-      const placeDetails = await mapServices.getShowRoutes(itineraryId, date)
-      if (!placeDetails || placeDetails.length === 0) throw new Error('Place details not found')
+      const { itineraryId, startDate, endDate } = req.query
+      if (!itineraryId || !startDate || !endDate) throw new HttpError(400, 'Missing required parameters')
+
+      const placeDetails = await mapServices.getRoutesLatLng(itineraryId, startDate, endDate)
+      if (!placeDetails || placeDetails.length === 0) throw new HttpError(404, 'Place details not found')
+
       res.status(200).json({ status: 'success', data: placeDetails })
     } catch (err) {
       next(err)
