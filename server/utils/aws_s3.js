@@ -21,7 +21,7 @@ const s3 = new S3Client({
 }
 )
 
-async function uploadImage (userEmail, file) {
+async function uploadUserAvatar (userEmail, file) {
   const imageName = randomImageName()
   const key = `users/${userEmail}/${imageName}`
   const params = {
@@ -86,4 +86,4 @@ async function deleteImage (imageName) {
   return true
 }
 
-module.exports = { uploadImage, uploadChatImage, uploadItineraryImage, getImage, deleteImage }
+module.exports = { uploadUserAvatar, uploadChatImage, uploadItineraryImage, getImage, deleteImage }
