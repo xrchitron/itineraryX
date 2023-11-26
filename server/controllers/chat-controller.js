@@ -1,7 +1,6 @@
 const chatServices = require('../services/chat-services')
 const itineraryServices = require('../services/itinerary-services')
-const dateMethods = require('../utils/date-methods')
-const s3 = require('../utils/aws_s3')
+// const s3 = require('../utils/aws_s3')
 const HttpError = require('../utils/httpError')
 const chatController = {
   getChats: async (req, res, next) => {
@@ -19,7 +18,7 @@ const chatController = {
       // image in the database is file name, need to convert to url
       const chatWithImage = await chatServices.getChatWithImage(chats)
 
-      const chatData = await chatServices.chatData(chatWithImage)
+      const chatData = chatServices.getChatData(chatWithImage)
       res.status(200).json({ status: 'success', data: chatData })
     } catch (error) {
       next(error)
@@ -27,37 +26,28 @@ const chatController = {
   },
   postChat: async (req, res, next) => {
     try {
-      const { itineraryId, userId, message, isImage } = req.body
+      let { itineraryId, message, isImage } = req.body
+      const userId = req.user.id
       const { file } = req
 
-      if (!itineraryId || !userId) throw new Error('Missing itinerary id or user id')
-      if (!isImage && !message) throw new Error('Empty message')
+      if (!itineraryId) throw new HttpError(400, 'Missing itinerary id')
+      if (!message && !isImage) throw new HttpError(400, 'Empty message')
+      if (isImage && !file) throw new HttpError(400, 'Missing image file')
 
-      // check participant exist
+      // check isImage is boolean
+      isImage = chatServices.processBoolean(isImage)
+      // check participant exist in the itinerary, if not, permission denied
       const participant = await itineraryServices.getParticipant(itineraryId, userId)
-      if (!participant) throw new Error('User not in itinerary')
+      if (!participant) throw new HttpError(403, 'User not in itinerary, permission denied')
 
-      // message management
-      let storedMessage
-      if (message) storedMessage = message
-      if (file && isImage) storedMessage = await s3.uploadChatImage(itineraryId, file)
-      if (!storedMessage) throw new Error('Empty message')
+      const storedMessage = await chatServices.processMessage(message, file, itineraryId, isImage)
+      if (!storedMessage) throw new HttpError(400, 'Message is image but file not uploaded successfully')
 
-      // create chat
-      const chat = await chatServices.postChat(itineraryId, userId, message, isImage)
-      // convert date format
-      const time = dateMethods.toISOString(chat.createdAt)
-      // convert image to url
-      let userAvatar = participant.ParticipantUser.avatar
-      if (userAvatar) userAvatar = await s3.getImage(userAvatar)
-      // output data
-      const chatData = {
-        id: chat.id,
-        user: participant.ParticipantUser.name,
-        avatar: userAvatar,
-        message: storedMessage,
-        time
-      }
+      const chat = await chatServices.postChat(itineraryId, userId, storedMessage, isImage)
+      if (!chat) throw new HttpError(500, 'Chat not created successfully')
+
+      const chatData = await chatServices.postChatData(chat, participant, storedMessage)
+
       res.status(200).json({ status: 'success', data: chatData })
     } catch (error) {
       next(error)
