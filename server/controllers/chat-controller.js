@@ -2,42 +2,24 @@ const chatServices = require('../services/chat-services')
 const itineraryServices = require('../services/itinerary-services')
 const dateMethods = require('../utils/date-methods')
 const s3 = require('../utils/aws_s3')
+const HttpError = require('../utils/httpError')
 const chatController = {
   getChats: async (req, res, next) => {
     try {
       const { itineraryId } = req.params
-      if (!itineraryId) throw new Error('Missing itinerary id')
+      if (!itineraryId) throw new HttpError(400, 'Missing itinerary id')
       const userId = req.user.id.toString()
-      const participants = await itineraryServices.getParticipantId(itineraryId)
 
-      // check participant valid or not
-      const participantArray = participants.map(participant => {
-        return participant.participantId
-      })
-      const participantValid = participantArray.includes(userId)
-      if (!participantValid) throw new Error('User not in itinerary')
+      // if user is not participant, chat contents will not allow to show
+      const participantValid = await chatServices.checkParticipantValidation(itineraryId, userId)
+      if (!participantValid) throw new HttpError(403, 'Permission denied')
 
-      // get chats
       const chats = await chatServices.getChats(itineraryId)
 
-      // convert image to url
-      const chatWithImage = await Promise.all(chats.map(async chat => {
-        if (chat.isImage) chat.message = await s3.getImage(chat.message)
-        if (chat.userChat.avatar !== null) chat.userChat.avatar = await s3.getImage(chat.userChat.avatar)
-        return chat
-      }))
+      // image in the database is file name, need to convert to url
+      const chatWithImage = await chatServices.getChatWithImage(chats)
 
-      const chatData = chatWithImage.map(chat => {
-        const time = dateMethods.toISOString(chat.createdAt)
-        return {
-          chatId: chat.id,
-          userId: chat.userChat.id,
-          user: chat.userChat.name,
-          avatar: chat.userChat.avatar,
-          message: chat.message,
-          time
-        }
-      })
+      const chatData = await chatServices.chatData(chatWithImage)
       res.status(200).json({ status: 'success', data: chatData })
     } catch (error) {
       next(error)
