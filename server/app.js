@@ -23,14 +23,12 @@ const itineraryRoute = require('./routes/itinerary')
 const destinationRoute = require('./routes/destination')
 const mapRoute = require('./routes/map')
 const chatRoute = require('./routes/chat')
-const redisRoute = require('./routes/redis')
 
 app.use(`/api/${process.env.API_VERSION}/users`, userRoute)
 app.use(`/api/${process.env.API_VERSION}/itineraries`, itineraryRoute)
 app.use(`/api/${process.env.API_VERSION}/destinations`, destinationRoute)
 app.use(`/api/${process.env.API_VERSION}/maps`, mapRoute)
 app.use(`/api/${process.env.API_VERSION}/chats`, chatRoute)
-app.use(`/api/${process.env.API_VERSION}/redis`, redisRoute)
 
 // page not found
 app.use((req, res) => {
