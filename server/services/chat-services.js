@@ -1,5 +1,8 @@
 const { Chat, User } = require('../models')
 // const Sequelize = require('sequelize')
+const itineraryServices = require('./itinerary-services')
+const dateMethods = require('../utils/date-methods')
+const s3 = require('../utils/aws_s3')
 const chatServices = {
   getChats: async itineraryId => {
     const chats = await Chat.findAll({
@@ -17,6 +20,38 @@ const chatServices = {
   postChat: async (itineraryId, userId, message, isImage) => {
     const chat = await Chat.create({ itineraryId, userId, message, isImage })
     return chat
+  },
+  checkParticipantValidation: async (itineraryId, userId) => {
+    const participants = await itineraryServices.getParticipantId(itineraryId)
+
+    // check participant valid or not
+    const participantArray = participants.map(participant => {
+      return participant.participantId
+    })
+    const participantValid = participantArray.includes(userId)
+    return participantValid
+  },
+  getChatWithImage: async chats => {
+    const chatWithImage = await Promise.all(chats.map(async chat => {
+      if (chat.isImage) chat.message = await s3.getImage(chat.message)
+      if (chat.userChat.avatar !== null) chat.userChat.avatar = await s3.getImage(chat.userChat.avatar)
+      return chat
+    }))
+    return chatWithImage
+  },
+  chatData: async chatWithImage => {
+    const chatData = chatWithImage.map(chat => {
+      const time = dateMethods.toISOString(chat.createdAt)
+      return {
+        chatId: chat.id,
+        userId: chat.userChat.id,
+        user: chat.userChat.name,
+        avatar: chat.userChat.avatar,
+        message: chat.message,
+        time
+      }
+    })
+    return chatData
   }
 }
 module.exports = chatServices

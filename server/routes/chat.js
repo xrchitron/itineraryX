@@ -4,11 +4,10 @@ const { auth } = require('../middleware/auth')
 
 router
   .route('/')
-  .post(auth, Chat.postChat) // create new Chat
-  // .put(auth, Chat.putChat) // update Chat info
-  // .delete(auth, Chat.deleteChat) // delete Chat info
+  .post(auth, Chat.postChat)
+
 router
   .route('/:itineraryId')
-  .get(auth, Chat.getChats) // get Chats info by token
+  .get(auth, Chat.getChats)
 
 module.exports = router
