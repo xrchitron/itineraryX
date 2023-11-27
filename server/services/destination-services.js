@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const { Destination, Place } = require('../models')
+const dateMethods = require('../utils/date-methods')
 const destinationServices = {
   async createDestination (itineraryId, date, placeId) {
     const destination = await Destination.create({
@@ -38,6 +39,19 @@ const destinationServices = {
       }
     })
     return destinations
+  },
+  processDestinationTimeFormat (data) {
+    const destinationData = data.toJSON()
+    destinationData.date = dateMethods.toISOString(destinationData.date)
+    return destinationData
+  },
+  processDestinationsTimeFormat (data) {
+    const destinationsData = data.map(destination => {
+      const destinationData = destination.toJSON()
+      destinationData.date = dateMethods.toISOString(destinationData.date)
+      return destinationData
+    })
+    return destinationsData
   }
 }
 module.exports = destinationServices
