@@ -1,28 +1,28 @@
 const destinationServices = require('../services/destination-services')
 const itineraryServices = require('../services/itinerary-services')
 const mapServices = require('../services/map-services')
-const dateMethods = require('../utils/date-methods')
+const HttpError = require('../utils/httpError')
 const destinationController = {
   postDestination: async (req, res, next) => {
     try {
       const { itineraryId, date, placeId } = req.body
-      if (!itineraryId || !date || !placeId) throw new Error('Missing itineraryId, date, or placeId')
+      if (!itineraryId) throw new HttpError(400, 'itineraryId is required')
+      if (!date) throw new HttpError(400, 'date is required')
+      if (!placeId) throw new HttpError(400, 'placeId is required')
 
-      // check if placeId exists
       const place = await mapServices.getPlace(placeId)
-      if (!place) throw new Error('Place not found')
-      // check if itineraryId exists
-      const itinerary = await itineraryServices.getItineraryByPk(itineraryId)
-      if (!itinerary) throw new Error('Itinerary not found')
+      if (!place) throw new HttpError(404, 'Place not found')
 
-      // create destination
+      const itinerary = await itineraryServices.getItineraryByPk(itineraryId)
+      if (!itinerary) throw new HttpError(404, 'Itinerary not found')
+
       const destination = await destinationServices.createDestination(itineraryId, date, placeId)
-      if (!destination) throw new Error("Destination didn't create successfully")
+      if (!destination) throw new HttpError(500, 'Failed to create destination')
 
       // get destination data
       let destinationData = await destinationServices.getDestination(destination.id)
-      destinationData = destinationData.toJSON()
-      destinationData.date = dateMethods.toISOString(destinationData.date)
+
+      destinationData = destinationServices.processDestinationTimeFormat(destinationData)
       res.status(200).json({ status: 'success', data: destinationData })
     } catch (err) {
       next(err)
@@ -32,28 +32,18 @@ const destinationController = {
     try {
       const { itineraryId, date } = req.query
       let { order } = req.query
-      if (!itineraryId) throw new Error('Missing itineraryId')
+      if (!itineraryId) throw new HttpError(400, 'Missing itineraryId')
+      if (!date) throw new HttpError(400, 'Missing date')
+      if (!order) order = 'asc' // default order is ascending
 
-      // check if date exists
-      if (!date) throw new Error('Missing date')
-
-      // check if order exists
-      if (!order) order = 'asc'
-
-      // check if itineraryId exists
       const itinerary = await itineraryServices.getItineraryByPk(itineraryId)
-      if (!itinerary) throw new Error('Itinerary not found')
+      if (!itinerary) throw new HttpError(404, 'Itinerary not found')
 
-      // get destinations
       const destinations = await destinationServices.getDestinations(itineraryId, date, order)
-      if (!destinations || destinations.length === 0) throw new Error('Destinations not found')
+      if (!destinations || destinations.length === 0) throw new HttpError(404, 'Destinations not found')
 
-      // get destinations data
-      const destinationsData = destinations.map(destination => {
-        const destinationData = destination.toJSON()
-        destinationData.date = dateMethods.toISOString(destinationData.date)
-        return destinationData
-      })
+      const destinationsData = destinationServices.processDestinationsTimeFormat(destinations)
+
       res.status(200).json({ status: 'success', data: destinationsData })
     } catch (err) {
       next(err)
@@ -62,19 +52,19 @@ const destinationController = {
   patchDestination: async (req, res, next) => {
     try {
       const { destinationId, date } = req.body
-      if (!destinationId) throw new Error('Missing destinationId')
-      if (!date) throw new Error('Missing date')
-      // check if destination exists
-      const destination = await destinationServices.getDestination(destinationId)
-      if (!destination) throw new Error('Destination not found')
-      // update destination
-      const updatedDestination = await destination.update({ date })
-      if (!updatedDestination) throw new Error("Destination didn't update successfully")
+      if (!destinationId) throw new HttpError(400, 'destinationId is required')
+      if (!date) throw new HttpError(400, 'date is required')
 
-      // get destination data
+      const destination = await destinationServices.getDestination(destinationId)
+      if (!destination) throw new HttpError(404, 'Destination not found')
+
+      const updatedDestination = await destination.update({ date })
+      if (!updatedDestination) throw new HttpError(500, 'Failed to update destination')
+
       let destinationData = await destinationServices.getDestination(destinationId)
-      destinationData = destinationData.toJSON()
-      destinationData.date = dateMethods.toISOString(destinationData.date)
+
+      destinationData = destinationServices.processDestinationTimeFormat(destinationData)
+
       res.status(200).json({ status: 'success', data: destinationData })
     } catch (err) {
       next(err)
@@ -83,15 +73,13 @@ const destinationController = {
   deleteDestination: async (req, res, next) => {
     try {
       const { destinationId } = req.body
-      if (!destinationId) throw new Error('destinationId is required')
+      if (!destinationId) throw new HttpError(400, 'destinationId is required')
 
-      // check if destination exists
       const destination = await destinationServices.getDestination(destinationId)
-      if (!destination) throw new Error('Destination not found')
+      if (!destination) throw new HttpError(404, 'Destination not found')
 
-      // delete destination
       const deletedDestination = await destination.destroy()
-      if (!deletedDestination) throw new Error("Destination didn't delete successfully")
+      if (!deletedDestination) throw new HttpError(500, 'Failed to delete destination')
 
       res.status(200).json({ status: 'success', data: deletedDestination })
     } catch (err) {
