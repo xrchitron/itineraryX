@@ -1,4 +1,6 @@
 const { User, Itinerary, Participant } = require('../models')
+const s3 = require('../utils/aws_s3')
+const dateMethods = require('../utils/date-methods')
 const itineraryServices = {
   async getItinerary (id, holderId) {
     const itinerary = await Itinerary.findOne({
@@ -46,6 +48,7 @@ const itineraryServices = {
     return itinerary.toJSON()
   },
   async updateItinerary (itinerary, title, image, startTime, endTime) {
+    console.log(typeof image)
     const updatedItinerary = await itinerary.update({
       title: title || itinerary.title,
       image: image || itinerary.image,
@@ -108,6 +111,47 @@ const itineraryServices = {
       participantId: deletedParticipant.participantId
     }
     return returnData
+  },
+  async processGetItineraryData (itinerary) {
+    const itineraryData = itinerary.toJSON()
+    // turn image name into url if image from s3 exist
+    if (itineraryData.image) itineraryData.image = await s3.getImage(itineraryData.image)
+    // turn avatar name into url if avatar from s3 exist
+    itineraryData.ParticipantsUser = await Promise.all(itineraryData.ParticipantsUser.map(async participant => {
+      delete participant.Participant
+      if (participant.avatar) participant.avatar = await s3.getImage(participant.avatar)
+      return participant
+    }))
+    return itineraryData
+  },
+  async processGetItinerariesData (itineraries) {
+    const itinerariesData = await Promise.all(itineraries.map(async itinerary => {
+      // turn image name into url if image from s3 exist
+      if (itinerary.image)itinerary.image = await s3.getImage(itinerary.image)
+      return itinerary
+    }))
+    return itinerariesData
+  },
+  async processPutItineraryImage (itinerary, file) {
+    itinerary = itinerary.toJSON()
+    let image = itinerary.image
+    // upload image to s3, delete previous image and get new image url
+    let imageFileName = null
+    if (file) {
+      imageFileName = await s3.uploadItineraryImage(itinerary.id, file)
+      if (image) await s3.deleteImage(image)
+    }
+    image = imageFileName || image
+    return image
+  },
+  async processUpdatedItineraryData (itinerary) {
+    // turn image name into url if image from s3 exist
+    if (itinerary.image) itinerary.image = await s3.getImage(itinerary.image)
+
+    // turn time into iso string
+    itinerary.startTime = dateMethods.toISOString(itinerary.startTime)
+    itinerary.endTime = dateMethods.toISOString(itinerary.endTime)
+    return itinerary
   }
 }
 module.exports = itineraryServices
