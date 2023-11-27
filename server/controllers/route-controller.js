@@ -147,6 +147,19 @@ const routeController = {
     } catch (err) {
       next(err)
     }
+  },
+  getRoutes: async (req, res, next) => {
+    try {
+      const { itineraryId, startDate, endDate } = req.query
+      if (!itineraryId || !startDate || !endDate) throw new HttpError(400, 'Missing required parameters')
+
+      const routes = await routeServices.getRoutes(itineraryId, startDate, endDate)
+      if (!routes || routes.length === 0) throw new HttpError(404, 'Routes not found')
+
+      res.status(200).json({ status: 'success', data: routes })
+    } catch (err) {
+      next(err)
+    }
   }
 }
 module.exports = routeController

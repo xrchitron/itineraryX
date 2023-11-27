@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const { Place, Route, Destination } = require('../models')
-// const HttpError = require('../utils/httpError')
 
 const routeServices = {
   async getRoute (itineraryId, originId, destinationId) {
@@ -64,10 +63,10 @@ const routeServices = {
       raw: true
     })
 
-    const routeDataGroupByDate = this.routeDataGroupByDate(routeData)
-    return routeDataGroupByDate
+    const routeGroupByDate = this.routeGroupByDate(routeData)
+    return routeGroupByDate
   },
-  routeDataGroupByDate (routeData) {
+  routeGroupByDate (routeData) {
     const routeDataGroupByDate = routeData.reduce((acc, cur) => {
       const date = cur.date.toISOString().split('T')[0]
       const curData = {}
@@ -79,6 +78,34 @@ const routeServices = {
     }
     , {})
     return routeDataGroupByDate
+  },
+  async getRoutes (itineraryId, startDate, endDate) {
+    const routes = await Route.findAll({
+      where: {
+        itineraryId,
+        date: {
+          [Op.between]: [`${startDate} 00:00:00`, `${endDate} 23:59:59`]
+        }
+      },
+      attributes: ['id', 'date', 'transportationMode', 'distanceText', 'durationText', 'originId', 'destinationId'],
+      order: [['date', 'ASC']],
+      raw: true
+    })
+    const routesGroupByDate = this.routesGroupByDate(routes)
+    return routesGroupByDate
+  },
+  routesGroupByDate (routes) {
+    const routesGroupByDate = routes.reduce((acc, cur) => {
+      const date = cur.date.toISOString().split('T')[0]
+      if (!acc[date]) acc[date] = []
+      acc[date].push(cur)
+      delete cur.date
+      cur.routeId = cur.id
+      delete cur.id
+      return acc
+    }
+    , {})
+    return routesGroupByDate
   }
 }
 module.exports = routeServices
