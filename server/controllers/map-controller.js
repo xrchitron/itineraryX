@@ -36,6 +36,7 @@ const mapController = {
   getRandomPlace: async (req, res, next) => {
     try {
       const data = await mapServices.getRandomPlace()
+      if (!data) throw new HttpError(500, 'Failed to get random place')
 
       res.status(200).json({ status: 'success', data })
     } catch (err) {
