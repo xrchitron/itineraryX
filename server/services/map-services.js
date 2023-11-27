@@ -2,18 +2,19 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const { Place, Route, Destination } = require('../models')
 const axios = require('axios')
+const HttpError = require('../utils/httpError')
 const key = process.env.API_KEY
 const mapServices = {
-  async getPlaceIdByGoogleMapApi (url) {
+  async getPlaceIdByGoogleMapApi (address) {
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`
     const apiResponse = await axios.get(url)
-    if (apiResponse.data.status !== 'OK') throw new Error('Invalid request')
-    if (apiResponse.data.results.length === 0) throw new Error('No result found')
-    return apiResponse.data.results[0].place_id
+    if (apiResponse.data.status !== 'OK') throw new HttpError(400, 'Invalid request')
+    if (apiResponse.data.results.length === 0) throw new HttpError(404, 'No result found')
+    // return apiResponse.data.results[0].place_id
+    const placeId = apiResponse.data.results[0].place_id
+    const data = { placeId }
+    return data
   },
-  // async getDistanceMatrixWithUrl (url) {
-  //   const apiResponse = await axios.get(url)
-  //   return apiResponse
-  // },
   async getPlaceDetail (placeId) {
     const url = 'https://maps.googleapis.com/maps/api/place/details/json?'
     const fields = ['name', 'place_id', 'formatted_address', 'geometry', 'rating', 'photos', 'url', 'editorial_summary']
@@ -22,10 +23,14 @@ const mapServices = {
     if (placeDetail.data.status !== 'OK') throw new Error('Invalid request')
     return placeDetail.data.result
   },
-  async getPhotoByReference (photoReference) {
+  async getPhotoByReference (placeDetail) {
+    const photoReference = placeDetail.photos[1].photo_reference
     const url = 'https://maps.googleapis.com/maps/api/place/photo?'
     const photo = await axios.get(url + `maxwidth=400&photoreference=${photoReference}&key=${key}`)
-    return photo.request.res.responseUrl
+    if (photo.status !== 200) throw new HttpError(400, 'Invalid request')
+    const photoUrl = photo.request.res.responseUrl
+    placeDetail.image = photoUrl
+    return placeDetail
   },
   async getPlace (placeId) {
     const place = await Place.findByPk(placeId)

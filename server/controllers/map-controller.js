@@ -2,15 +2,17 @@ const mapServices = require('../services/map-services')
 const dateMethods = require('../utils/date-methods')
 const HttpError = require('../utils/httpError')
 const redisServices = require('../utils/redis')
-const key = process.env.API_KEY
 const mapController = {
-  getPlaceIdByGoogleMapApi: async (req, res, next) => { // not used anymore
+  getPlaceIdByGoogleMapApi: async (req, res, next) => {
+    // only for testing
     try {
       const { address } = req.query
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`
-      const apiResponse = await mapServices.getPlaceIdByGoogleMapApi(url)
-      const data = { placeId: apiResponse }
-      res.status(200).json({ status: 'success', data })
+      if (!address) throw new HttpError(400, 'Address is required')
+
+      const placeId = await mapServices.getPlaceIdByGoogleMapApi(address)
+      if (!placeId) throw new HttpError(404, 'Place not found')
+
+      res.status(200).json({ status: 'success', data: placeId })
     } catch (err) {
       next(err)
     }
@@ -18,16 +20,16 @@ const mapController = {
   postPlace: async (req, res, next) => {
     try {
       const { placeId } = req.body
-      if (!placeId) throw new Error('placeId from Google Map is required')
+      if (!placeId) throw new HttpError(400, 'placeId from Google Map API is required')
 
-      const placeDetail = await mapServices.getPlaceDetail(placeId)
-      if (!placeDetail) throw new Error('Place not found')
-      // get photo
-      const photoReference = placeDetail.photos[1].photo_reference
-      const photo = await mapServices.getPhotoByReference(photoReference)
-      placeDetail.image = photo
+      let placeDetail = await mapServices.getPlaceDetail(placeId)
+      if (!placeDetail) throw new HttpError(404, 'Place not found')
+
+      placeDetail = await mapServices.getPhotoByReference(placeDetail)
+
       const placeData = await mapServices.createPlace(placeDetail)
-      if (!placeData) throw new Error("Place didn't create successfully")
+      if (!placeData) throw new HttpError(500, "Place didn't create successfully")
+
       res.status(200).json({ status: 'success', data: placeData })
     } catch (err) {
       next(err)
