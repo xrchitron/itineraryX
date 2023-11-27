@@ -96,13 +96,18 @@ const itineraryController = {
   postParticipant: async (req, res, next) => {
     try {
       const { itineraryId, email } = req.body
-      const user = await userServices.getUserByEmail(email)
-      const participant = await itineraryServices.getParticipant(itineraryId, user.id)
+      if (!itineraryId) throw new HttpError(400, 'Missing itinerary id')
+      if (!email) throw new HttpError(400, 'Missing email')
 
-      if (!user) throw new Error("User didn't exist!")
-      if (participant) throw new Error('You are already having this participant!')
+      const user = await userServices.getUserByEmail(email)
+      if (!user) throw new HttpError(404, 'User not found')
+
+      const participant = await itineraryServices.getParticipant(itineraryId, user.id)
+      if (participant) throw new HttpError(409, 'You are already having this participant!')
 
       const newParticipant = await itineraryServices.createParticipant(itineraryId, user.id)
+      if (!newParticipant) throw new HttpError(500, 'Failed to add participant')
+
       res.status(200).json({ status: 'success', data: newParticipant })
     } catch (err) {
       next(err)
@@ -111,9 +116,15 @@ const itineraryController = {
   deleteParticipant: async (req, res, next) => {
     try {
       const { itineraryId, participantId } = req.body
+      if (!itineraryId) throw new HttpError(400, 'Missing itinerary id')
+      if (!participantId) throw new HttpError(400, 'Missing participant id')
+
       const participant = await itineraryServices.getParticipant(itineraryId, participantId)
-      if (!participant) throw new Error("You haven't added this user!")
+      if (!participant) throw new HttpError(404, "You haven't added this user!")
+
       const deletedParticipant = await itineraryServices.deleteParticipant(participant)
+      if (!deletedParticipant) throw new HttpError(500, 'Failed to delete participant')
+
       res.status(200).json({ status: 'success', data: deletedParticipant })
     } catch (err) {
       next(err)
