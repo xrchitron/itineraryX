@@ -1,7 +1,9 @@
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const { Place, Route, Destination } = require('../models')
-
+const dateMethods = require('../utils/date-methods')
+const redisServices = require('../utils/redis')
+const mapServices = require('../services/map-services')
 const routeServices = {
   async getRoute (itineraryId, originId, destinationId) {
     const route = await Route.findOne({
@@ -106,6 +108,20 @@ const routeServices = {
     }
     , {})
     return routesGroupByDate
+  },
+  processRouteDateFormat (routeData) {
+    routeData.date = dateMethods.toISOString(routeData.date)
+    return routeData
+  },
+  async getPlaceFromRedisOrDB (responseFromRedis, placeId) {
+    let place
+    if (responseFromRedis) {
+      place = JSON.parse(responseFromRedis)
+    } else {
+      place = await mapServices.getPlace(placeId)
+      await redisServices.setPlace(placeId, place)
+    }
+    return place
   }
 }
 module.exports = routeServices

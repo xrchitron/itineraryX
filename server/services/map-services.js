@@ -33,7 +33,7 @@ const mapServices = {
     return placeDetail
   },
   async getPlace (placeId) {
-    const place = await Place.findByPk(placeId)
+    const place = await Place.findByPk(placeId, { raw: true })
     return place
   },
   async getPlaceByPlaceId (placeId) {
