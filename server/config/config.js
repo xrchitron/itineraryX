@@ -20,6 +20,26 @@ module.exports = {
     password: process.env.RDS_PASSWORD,
     port: process.env.RDS_PORT,
     database: process.env.RDS_DB_NAME,
-    dialect: 'mysql'
+    dialect: 'mysql',
+    retry: {
+      match: [
+        /ETIMEDOUT/,
+        /EHOSTUNREACH/,
+        /ECONNRESET/,
+        /ECONNREFUSED/,
+        /ETIMEDOUT/,
+        /ESOCKETTIMEDOUT/,
+        /EHOSTUNREACH/,
+        /EPIPE/,
+        /EAI_AGAIN/,
+        /SequelizeConnectionError/,
+        /SequelizeConnectionRefusedError/,
+        /SequelizeHostNotFoundError/,
+        /SequelizeHostNotReachableError/,
+        /SequelizeInvalidConnectionError/,
+        /SequelizeConnectionTimedOutError/
+      ],
+      max: 5
+    }
   }
 }
