@@ -92,7 +92,7 @@ const routeController = {
   },
   deleteRoute: async (req, res, next) => {
     try {
-      const { routeId } = req.body
+      const { routeId } = req.params
       if (!routeId) throw new HttpError(400, 'Route id is required')
 
       const route = await routeServices.getRouteById(routeId)

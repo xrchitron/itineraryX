@@ -72,7 +72,7 @@ const destinationController = {
   },
   deleteDestination: async (req, res, next) => {
     try {
-      const { destinationId } = req.body
+      const { destinationId } = req.params
       if (!destinationId) throw new HttpError(400, 'destinationId is required')
 
       const destination = await destinationServices.getDestination(destinationId)

@@ -7,6 +7,9 @@ router
   .get(auth, Route.getRoute)
   .post(auth, Route.postRoute)
   .patch(auth, Route.patchRoute)
+
+router
+  .route('/:routeId')
   .delete(auth, Route.deleteRoute)
 
 router

@@ -6,6 +6,9 @@ router
   .get(auth, Destination.getDestinations) // get destinations
   .post(auth, Destination.postDestination) // add destination
   .patch(auth, Destination.patchDestination) // update destination
+
+router
+  .route('/:destinationId')
   .delete(auth, Destination.deleteDestination) // delete destination
 
 module.exports = router
