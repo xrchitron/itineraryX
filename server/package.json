@@ -8,7 +8,7 @@
     "dev": "nodemon app.js",
     "lint": "eslint \"**/*.js\" --fix",
     "test": "mocha tests --exit --recursive --timeout 5000",
-    "dbmigrate": "npx sequelize db:migrate"
+    "dbmigrate": "npx sequelize db:migrate && npx sequelize db:seed:all"
   },
   "keywords": [
     "itinerary"
