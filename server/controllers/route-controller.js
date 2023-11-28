@@ -70,7 +70,7 @@ const routeController = {
       const origin = await routeServices.getPlaceFromRedisOrDB(getOriginFromRedis, route.originId)
       if (!origin) throw new HttpError(404, 'Origin not found')
 
-      // get origin data from redis or database
+      // get destination data from redis or database
       const getDestinationFromRedis = await redisServices.getPlace(route.destinationId)
       const destination = await routeServices.getPlaceFromRedisOrDB(getDestinationFromRedis, route.destinationId)
       if (!destination) throw new HttpError(404, 'Destination not found')
@@ -86,6 +86,22 @@ const routeController = {
       redisServices.setRoute(routeData.itineraryId, routeData.originId, routeData.destinationId, routeData)
 
       res.status(200).json({ status: 'success', data: routeData })
+    } catch (err) {
+      next(err)
+    }
+  },
+  deleteRoute: async (req, res, next) => {
+    try {
+      const { routeId } = req.body
+      if (!routeId) throw new HttpError(400, 'Route id is required')
+
+      const route = await routeServices.getRouteById(routeId)
+      if (!route) throw new HttpError(404, 'Route not found')
+
+      const deletedRoute = await routeServices.deleteRoute(route)
+      if (!deletedRoute) throw new HttpError(500, 'Delete route failed')
+
+      res.status(200).json({ status: 'success', data: deletedRoute.toJSON() })
     } catch (err) {
       next(err)
     }

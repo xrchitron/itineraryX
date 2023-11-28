@@ -122,6 +122,9 @@ const routeServices = {
       await redisServices.setPlace(placeId, place)
     }
     return place
+  },
+  async deleteRoute (route) {
+    return await route.destroy()
   }
 }
 module.exports = routeServices
