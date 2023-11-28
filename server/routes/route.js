@@ -7,6 +7,7 @@ router
   .get(auth, Route.getRoute)
   .post(auth, Route.postRoute)
   .patch(auth, Route.patchRoute)
+  .delete(auth, Route.deleteRoute)
 
 router
   .route('/latLng')
