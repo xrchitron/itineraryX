@@ -115,7 +115,7 @@ const itineraryController = {
   },
   deleteParticipant: async (req, res, next) => {
     try {
-      const { itineraryId, participantId } = req.body
+      const { itineraryId, participantId } = req.query
       if (!itineraryId) throw new HttpError(400, 'Missing itinerary id')
       if (!participantId) throw new HttpError(400, 'Missing participant id')
 
