@@ -15,7 +15,7 @@ const routeController = {
       const route = await routeServices.getRoute(itineraryId, originId, destinationId)
       if (!route) throw new HttpError(404, 'Route not found')
 
-      const routeData = routeServices.processRouteDateFormat(route.toJSON())
+      const routeData = route.toJSON()
 
       // set route data to redis in order to reduce database query
       redisServices.setRoute(itineraryId, originId, destinationId, routeData)
@@ -27,8 +27,8 @@ const routeController = {
   },
   postRoute: async (req, res, next) => {
     try {
-      const { itineraryId, date, transportationMode, originId, destinationId } = req.body
-      if (!itineraryId || !date || !transportationMode || !originId || !destinationId) throw new HttpError(400, 'Missing required parameters')
+      const { itineraryId, transportationMode, originId, destinationId } = req.body
+      if (!itineraryId || !transportationMode || !originId || !destinationId) throw new HttpError(400, 'Missing required parameters')
 
       // get origin from redis or database
       const getOriginFromRedis = await redisServices.getPlace(originId)
@@ -44,9 +44,9 @@ const routeController = {
       const apiResponse = await mapServices.distanceMatrix(origin, destination, transportationMode)
       if (!apiResponse.status === 'OK' || apiResponse.distance === undefined) throw new HttpError(404, 'No results found')
 
-      const createdRoute = await routeServices.createRoute(itineraryId, date, origin.id, destination.id, transportationMode, apiResponse)
+      const createdRoute = await routeServices.createRoute(itineraryId, origin.id, destination.id, transportationMode, apiResponse)
 
-      const routeData = routeServices.processRouteDateFormat(createdRoute.toJSON())
+      const routeData = createdRoute.toJSON()
       redisServices.setRoute(itineraryId, origin.id, destination.id, routeData)
 
       res.status(200).json({ status: 'success', data: routeData })
@@ -82,7 +82,7 @@ const routeController = {
       const updatedRoute = await routeServices.updateRoute(routeId, transportationMode, apiResponse)
       if (!updatedRoute) throw new HttpError(500, 'Update route failed')
 
-      const routeData = routeServices.processRouteDateFormat(updatedRoute.toJSON())
+      const routeData = updatedRoute.toJSON()
       redisServices.setRoute(routeData.itineraryId, routeData.originId, routeData.destinationId, routeData)
 
       res.status(200).json({ status: 'success', data: routeData })
@@ -118,19 +118,19 @@ const routeController = {
     } catch (err) {
       next(err)
     }
-  },
-  getRoutes: async (req, res, next) => {
-    try {
-      const { itineraryId, startDate, endDate } = req.query
-      if (!itineraryId || !startDate || !endDate) throw new HttpError(400, 'Missing required parameters')
-
-      const routes = await routeServices.getRoutes(itineraryId, startDate, endDate)
-      if (!routes || routes.length === 0) throw new HttpError(404, 'Routes not found')
-
-      res.status(200).json({ status: 'success', data: routes })
-    } catch (err) {
-      next(err)
-    }
   }
+  // getRoutes: async (req, res, next) => {
+  //   try {
+  //     const { itineraryId, startDate, endDate } = req.query
+  //     if (!itineraryId || !startDate || !endDate) throw new HttpError(400, 'Missing required parameters')
+
+  //     const routes = await routeServices.getRoutes(itineraryId, startDate, endDate)
+  //     if (!routes || routes.length === 0) throw new HttpError(404, 'Routes not found')
+
+  //     res.status(200).json({ status: 'success', data: routes })
+  //   } catch (err) {
+  //     next(err)
+  //   }
+  // }
 }
 module.exports = routeController
