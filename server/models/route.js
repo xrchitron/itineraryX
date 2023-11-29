@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Route.init({
     itineraryId: DataTypes.INTEGER,
-    date: DataTypes.DATE,
     originId: DataTypes.INTEGER,
     destinationId: DataTypes.INTEGER,
     distanceText: DataTypes.STRING,
