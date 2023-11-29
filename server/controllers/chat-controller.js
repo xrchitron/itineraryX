@@ -32,10 +32,10 @@ const chatController = {
 
       if (!itineraryId) throw new HttpError(400, 'Missing itinerary id')
       if (!message && !isImage) throw new HttpError(400, 'Empty message')
-      if (isImage && !file) throw new HttpError(400, 'Missing image file')
-
       // check isImage is boolean
       isImage = chatServices.processBoolean(isImage)
+      if (isImage && !file) throw new HttpError(400, 'Missing image file')
+
       // check participant exist in the itinerary, if not, permission denied
       const participant = await itineraryServices.getParticipant(itineraryId, userId)
       if (!participant) throw new HttpError(403, 'User not in itinerary, permission denied')

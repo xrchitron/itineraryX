@@ -108,6 +108,9 @@ const itineraryController = {
       const newParticipant = await itineraryServices.createParticipant(itineraryId, user.id)
       if (!newParticipant) throw new HttpError(500, 'Failed to add participant')
 
+      // send email to invite user
+      // itineraryServices.sendInviteEmail(email, itineraryId, user.name)  //not in use yet
+
       res.status(200).json({ status: 'success', data: newParticipant })
     } catch (err) {
       next(err)
@@ -115,7 +118,7 @@ const itineraryController = {
   },
   deleteParticipant: async (req, res, next) => {
     try {
-      const { itineraryId, participantId } = req.body
+      const { itineraryId, participantId } = req.query
       if (!itineraryId) throw new HttpError(400, 'Missing itinerary id')
       if (!participantId) throw new HttpError(400, 'Missing participant id')
 

@@ -94,7 +94,7 @@ const userServices = {
   },
   async processUserAvatar (user, file) {
     // delete previous avatar from s3 if user upload new avatar
-    if (user.avatar || file) await s3.deleteImage(user.avatar)
+    if (user.avatar && file) await s3.deleteImage(user.avatar)
 
     let imageName = null // if no file, imageName = null, image will not be updated
     if (file) imageName = await s3.uploadUserAvatar(user.email, file)
