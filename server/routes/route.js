@@ -16,8 +16,8 @@ router
   .route('/latLng')
   .get(auth, Route.getRoutesLatLng)
 
-router
-  .route('/all')
-  .get(auth, Route.getRoutes)
+// router
+//   .route('/all')
+//   .get(auth, Route.getRoutes)
 
 module.exports = router

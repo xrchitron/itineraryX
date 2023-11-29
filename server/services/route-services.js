@@ -1,28 +1,24 @@
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const { Place, Route, Destination } = require('../models')
-const dateMethods = require('../utils/date-methods')
+// const dateMethods = require('../utils/date-methods')
 const redisServices = require('../utils/redis')
 const mapServices = require('../services/map-services')
 const routeServices = {
   async getRoute (itineraryId, originId, destinationId) {
     const route = await Route.findOne({
-      where: { itineraryId, originId, destinationId }
+      where: { itineraryId, originId, destinationId },
+      attributes: ['id', 'transportationMode', 'distanceText', 'distanceValue', 'durationText', 'durationValue', 'originId', 'destinationId']
     })
     return route
   },
-  async createRoute (itineraryId, date, originId, destinationId, transportationMode, elements) {
+  async createRoute (itineraryId, originId, destinationId, transportationMode, elements) {
     const foundRoute = await Route.findOne({ where: { originId, destinationId, transportationMode } })
     if (foundRoute) {
-      // check if date is the same or not
-      if (foundRoute.date === date) return foundRoute
-      // if date is different, update date
-      const updatedRoute = await foundRoute.update({ date })
-      return updatedRoute
+      return foundRoute
     } else {
       const newRoute = await Route.create({
         itineraryId,
-        date,
         originId,
         destinationId,
         transportationMode,
@@ -81,21 +77,21 @@ const routeServices = {
     , {})
     return routeDataGroupByDate
   },
-  async getRoutes (itineraryId, startDate, endDate) {
-    const routes = await Route.findAll({
-      where: {
-        itineraryId,
-        date: {
-          [Op.between]: [`${startDate} 00:00:00`, `${endDate} 23:59:59`]
-        }
-      },
-      attributes: ['id', 'date', 'transportationMode', 'distanceText', 'durationText', 'originId', 'destinationId'],
-      order: [['date', 'ASC']],
-      raw: true
-    })
-    const routesGroupByDate = this.routesGroupByDate(routes)
-    return routesGroupByDate
-  },
+  // async getRoutes (itineraryId, startDate, endDate) {
+  //   const routes = await Route.findAll({
+  //     where: {
+  //       itineraryId,
+  //       date: {
+  //         [Op.between]: [`${startDate} 00:00:00`, `${endDate} 23:59:59`]
+  //       }
+  //     },
+  //     attributes: ['id', 'date', 'transportationMode', 'distanceText', 'durationText', 'originId', 'destinationId'],
+  //     order: [['date', 'ASC']],
+  //     raw: true
+  //   })
+  //   const routesGroupByDate = this.routesGroupByDate(routes)
+  //   return routesGroupByDate
+  // },
   routesGroupByDate (routes) {
     const routesGroupByDate = routes.reduce((acc, cur) => {
       const date = cur.date.toISOString().split('T')[0]
@@ -109,10 +105,10 @@ const routeServices = {
     , {})
     return routesGroupByDate
   },
-  processRouteDateFormat (routeData) {
-    routeData.date = dateMethods.toISOString(routeData.date)
-    return routeData
-  },
+  // processRouteDateFormat (routeData) {
+  //   routeData.date = dateMethods.toISOString(routeData.date)
+  //   return routeData
+  // },
   async getPlaceFromRedisOrDB (responseFromRedis, placeId) {
     let place
     if (responseFromRedis) {
