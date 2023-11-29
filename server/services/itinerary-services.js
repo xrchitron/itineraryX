@@ -152,6 +152,13 @@ const itineraryServices = {
     itinerary.startTime = dateMethods.toISOString(itinerary.startTime)
     itinerary.endTime = dateMethods.toISOString(itinerary.endTime)
     return itinerary
+  },
+  sendInviteEmail: async (email, itineraryId, name) => {
+    const { sendEmail } = require('../utils/aws-ses-send-email')
+    sendEmail(email,
+      'You have been invited to join a trip!',
+       `<h1>Hi ${name},</h1><p>You have been invited to join a trip! Please click the link below to join the trip.</p><a href="https://trip-planner-frontend.herokuapp.com/itinerary/${itineraryId}">Join the trip</a>`
+    )
   }
 }
 module.exports = itineraryServices
