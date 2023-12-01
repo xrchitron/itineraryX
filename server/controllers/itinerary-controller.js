@@ -42,7 +42,7 @@ const itineraryController = {
       if (!newItinerary) throw new HttpError(500, 'Failed to create itinerary')
 
       const holderAsParticipant = await itineraryServices.createParticipant(newItinerary.id, req.user.id)
-      if (!holderAsParticipant) throw new HttpError(500, 'Failed to create participant')
+      if (!holderAsParticipant) throw new HttpError(500, 'Failed to create holder as participant')
 
       newItinerary.startTime = dateMethods.toISOString(newItinerary.startTime)
       newItinerary.endTime = dateMethods.toISOString(newItinerary.endTime)
@@ -123,7 +123,7 @@ const itineraryController = {
       if (!participantId) throw new HttpError(400, 'Missing participant id')
 
       const participant = await itineraryServices.getParticipant(itineraryId, participantId)
-      if (!participant) throw new HttpError(404, "You haven't added this user!")
+      if (!participant) throw new HttpError(409, "You haven't added this user!")
 
       const deletedParticipant = await itineraryServices.deleteParticipant(participant)
       if (!deletedParticipant) throw new HttpError(500, 'Failed to delete participant')

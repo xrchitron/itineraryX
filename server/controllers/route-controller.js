@@ -6,7 +6,9 @@ const routeController = {
   getRoute: async (req, res, next) => {
     try {
       const { itineraryId, originId, destinationId } = req.query
-      if (!itineraryId || !originId || !destinationId) throw new HttpError(400, 'Missing required parameters')
+      if (!itineraryId) throw new HttpError(400, 'Itinerary id is required')
+      if (!originId) throw new HttpError(400, 'Origin id is required')
+      if (!destinationId) throw new HttpError(400, 'Destination id is required')
 
       // query redis first, if data exists, return data to reduce database query
       const getRouteFromRedis = await redisServices.getRoute(itineraryId, originId, destinationId)
@@ -28,7 +30,10 @@ const routeController = {
   postRoute: async (req, res, next) => {
     try {
       const { itineraryId, transportationMode, originId, destinationId } = req.body
-      if (!itineraryId || !transportationMode || !originId || !destinationId) throw new HttpError(400, 'Missing required parameters')
+      if (!itineraryId) throw new HttpError(400, 'Itinerary id is required')
+      if (!transportationMode) throw new HttpError(400, 'Transportation mode is required')
+      if (!originId) throw new HttpError(400, 'Origin id is required')
+      if (!destinationId) throw new HttpError(400, 'Destination id is required')
 
       // get origin from redis or database
       const getOriginFromRedis = await redisServices.getPlace(originId)
@@ -42,9 +47,10 @@ const routeController = {
 
       // get distance matrix data from google map api
       const apiResponse = await mapServices.distanceMatrix(origin, destination, transportationMode)
-      if (!apiResponse.status === 'OK' || apiResponse.distance === undefined) throw new HttpError(404, 'No results found')
+      if (!apiResponse.status === 'OK' || apiResponse.distance === undefined) throw new HttpError(404, 'No distanceMatrix results found')
 
       const createdRoute = await routeServices.createRoute(itineraryId, origin.id, destination.id, transportationMode, apiResponse)
+      if (!createdRoute) throw new HttpError(500, 'Create route failed')
 
       const routeData = createdRoute.toJSON()
       redisServices.setRoute(itineraryId, origin.id, destination.id, routeData)
@@ -57,7 +63,8 @@ const routeController = {
   patchRoute: async (req, res, next) => {
     try {
       const { routeId, transportationMode } = req.body
-      if (!routeId || !transportationMode) throw new HttpError(400, 'Missing required parameters')
+      if (!routeId) throw new HttpError(400, 'Route id is required')
+      if (!transportationMode) throw new HttpError(400, 'Transportation mode is required')
 
       const route = await routeServices.getRouteById(routeId)
       if (!route) throw new HttpError(404, 'Route not found')
@@ -77,7 +84,7 @@ const routeController = {
 
       // get distance matrix data from google map api
       const apiResponse = await mapServices.distanceMatrix(origin, destination, transportationMode)
-      if (!apiResponse.status === 'OK' || apiResponse.distance === undefined) throw new HttpError(404, 'No results found')
+      if (!apiResponse.status === 'OK' || apiResponse.distance === undefined) throw new HttpError(404, 'No distanceMatrix results found')
 
       const updatedRoute = await routeServices.updateRoute(routeId, transportationMode, apiResponse)
       if (!updatedRoute) throw new HttpError(500, 'Update route failed')
@@ -109,7 +116,9 @@ const routeController = {
   getRoutesLatLng: async (req, res, next) => {
     try {
       const { itineraryId, startDate, endDate } = req.query
-      if (!itineraryId || !startDate || !endDate) throw new HttpError(400, 'Missing required parameters')
+      if (!itineraryId) throw new HttpError(400, 'Itinerary id is required')
+      if (!startDate) throw new HttpError(400, 'Start date is required')
+      if (!endDate) throw new HttpError(400, 'End date is required')
 
       const placeDetails = await routeServices.getRoutesLatLng(itineraryId, startDate, endDate)
       if (!placeDetails || placeDetails.length === 0) throw new HttpError(404, 'Place details not found')
