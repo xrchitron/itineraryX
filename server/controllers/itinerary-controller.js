@@ -109,7 +109,7 @@ const itineraryController = {
       if (!newParticipant) throw new HttpError(500, 'Failed to add participant')
 
       // send email to invite user
-      // itineraryServices.sendInviteEmail(email, itineraryId, user.name)  //not in use yet
+      itineraryServices.sendInviteEmail(email, itineraryId, user.name)
 
       res.status(200).json({ status: 'success', data: newParticipant })
     } catch (err) {
