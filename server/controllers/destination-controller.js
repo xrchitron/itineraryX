@@ -19,8 +19,9 @@ const destinationController = {
       const destination = await destinationServices.createDestination(itineraryId, date, placeId)
       if (!destination) throw new HttpError(500, 'Failed to create destination')
 
-      // get destination data
+      // get destination data after create
       let destinationData = await destinationServices.getDestination(destination.id)
+      if (!destinationData) throw new HttpError(500, 'Failed to get destination')
 
       destinationData = destinationServices.processDestinationTimeFormat(destinationData)
       res.status(200).json({ status: 'success', data: destinationData })
@@ -61,7 +62,11 @@ const destinationController = {
       const updatedDestination = await destination.update({ date })
       if (!updatedDestination) throw new HttpError(500, 'Failed to update destination')
 
-      const destinationData = destinationServices.processDestinationTimeFormat(updatedDestination)
+      // get destination data after update
+      let destinationData = await destinationServices.getDestination(destinationId)
+      if (!destinationData) throw new HttpError(500, 'Failed to get destination')
+
+      destinationData = destinationServices.processDestinationTimeFormat(destinationData)
 
       res.status(200).json({ status: 'success', data: destinationData })
     } catch (err) {
