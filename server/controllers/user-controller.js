@@ -121,6 +121,46 @@ const userController = {
     } catch (err) {
       next(err)
     }
+  },
+  forgetPassword: async (req, res, next) => {
+    try {
+      const { email } = req.body
+      if (!email) throw new HttpError(400, 'Missing email')
+
+      const user = await userServices.getUserByEmail(email)
+      if (!user) throw new HttpError(404, 'User not found')
+
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' })
+      const link = `${process.env.CLIENT_URL}/reset-password/${token}`
+
+      // send email to reset password
+      userServices.sendResetPasswordEmail(email, link)
+
+      res.status(200).json({ status: 'success', data: { link } })
+    } catch (err) {
+      next(err)
+    }
+  },
+  resetPassword: async (req, res, next) => {
+    try {
+      const { token, password, passwordCheck } = req.body
+      if (!token) throw new HttpError(400, 'Missing token')
+      if (password !== passwordCheck) throw new HttpError(400, 'Password do not match!')
+
+      const decoded = jwt.verify(token, process.env.JWT_SECRET)
+      if (!decoded) throw new HttpError(400, 'Token is invalid or expired')
+
+      const user = await userServices.getUserById(decoded.id)
+      if (!user) throw new HttpError(404, 'User not found')
+
+      const hash = await bcrypt.hash(password, 10)
+      const updatedUser = await userServices.resetPassword(decoded.id, hash)
+      if (!updatedUser) throw new HttpError(500, 'Reset password failed!')
+
+      res.status(200).json({ status: 'success', data: updatedUser })
+    } catch (err) {
+      next(err)
+    }
   }
 }
 module.exports = userController
