@@ -8,6 +8,11 @@ router
   .put(auth, upload.single('avatar'), User.putUser)
 
 router
+  .route('/forgetPassword')
+  .post(User.forgetPassword)
+  .patch(User.resetPassword)
+
+router
   .route('/signup')
   .post(User.signUp)
 

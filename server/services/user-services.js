@@ -1,5 +1,6 @@
 const { User, Followship, Participant } = require('../models')
 const s3 = require('../utils/aws_s3')
+const { sendEmail } = require('../utils/aws-ses-send-email')
 const userServices = {
   async createNewUser (name, email, password) {
     const user = await User.create({ name, email, password })
@@ -99,6 +100,22 @@ const userServices = {
     let imageName = null // if no file, imageName = null, image will not be updated
     if (file) imageName = await s3.uploadUserAvatar(user.email, file)
     return imageName
+  },
+  sendResetPasswordEmail (email, link) {
+    const title = 'Reset Password'
+    const emailContent = `<p>Click the link below to reset your password</p>
+    <a href="${link}">Reset Password</a>
+    <p>This link will expire in 1 hour</p>`
+    sendEmail(email, title, emailContent)
+  },
+  async resetPassword (id, password) {
+    const user = await User.findByPk(id)
+    const updatedUser = await user.update({ password })
+    const userData = updatedUser.toJSON()
+    delete userData.password
+    delete userData.createdAt
+    delete userData.updatedAt
+    return userData
   }
 }
 module.exports = userServices
