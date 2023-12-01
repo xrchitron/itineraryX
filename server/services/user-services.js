@@ -1,6 +1,8 @@
+require('dotenv').config()
 const { User, Followship, Participant } = require('../models')
 const s3 = require('../utils/aws_s3')
 const { sendEmail } = require('../utils/aws-ses-send-email')
+const HttpError = require('../utils/httpError')
 const userServices = {
   async createNewUser (name, email, password) {
     const user = await User.create({ name, email, password })
@@ -32,7 +34,7 @@ const userServices = {
   },
   async putUserAvatar (id, name, filePath) {
     const user = await User.findByPk(id)
-    if (!user) throw new Error("User didn't exist!")
+    if (!user) throw new HttpError(404, "User didn't exist!")
     return user.update({ name, avatar: filePath || user.avatar })
   },
   async getFollowship (followerId, followingId) {
@@ -101,12 +103,14 @@ const userServices = {
     if (file) imageName = await s3.uploadUserAvatar(user.email, file)
     return imageName
   },
-  sendResetPasswordEmail (email, link) {
+  sendResetPasswordEmail (email, token) {
     const title = 'Reset Password'
+    const link = `${process.env.CLIENT_URL}/reset-password/${token}`
     const emailContent = `<p>Click the link below to reset your password</p>
     <a href="${link}">Reset Password</a>
     <p>This link will expire in 1 hour</p>`
     sendEmail(email, title, emailContent)
+    return link
   },
   async resetPassword (id, password) {
     const user = await User.findByPk(id)

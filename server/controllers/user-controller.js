@@ -131,10 +131,9 @@ const userController = {
       if (!user) throw new HttpError(404, 'User not found')
 
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' })
-      const link = `${process.env.CLIENT_URL}/reset-password/${token}`
 
       // send email to reset password
-      userServices.sendResetPasswordEmail(email, link)
+      const link = userServices.sendResetPasswordEmail(email, token)
 
       res.status(200).json({ status: 'success', data: { link } })
     } catch (err) {

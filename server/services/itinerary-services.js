@@ -1,6 +1,8 @@
+require('dotenv').config()
 const { User, Itinerary, Participant } = require('../models')
 const s3 = require('../utils/aws_s3')
 const dateMethods = require('../utils/date-methods')
+const { sendEmail } = require('../utils/aws-ses-send-email')
 const itineraryServices = {
   async getItinerary (id, holderId) {
     const itinerary = await Itinerary.findOne({
@@ -154,11 +156,10 @@ const itineraryServices = {
     return itinerary
   },
   sendInviteEmail: async (email, itineraryId, name) => {
-    const { sendEmail } = require('../utils/aws-ses-send-email')
-    sendEmail(email,
-      'You have been invited to join a trip!',
-       `<h1>Hi ${name},</h1><p>You have been invited to join a trip! Please click the link below to join the trip.</p><a href="https://trip-planner-frontend.herokuapp.com/itinerary/${itineraryId}">Join the trip</a>`
-    )
+    const title = 'You have been invited to join a trip!'
+    const link = `${process.env.CLIENT_URL}/itinerary/${itineraryId}`
+    const emailContent = `<h1>Hi ${name},</h1><p>You have been invited to join a trip! Please click the link below to join the trip.</p><a href="${link}">Join the trip</a>`
+    sendEmail(email, title, emailContent)
   }
 }
 module.exports = itineraryServices
