@@ -11,9 +11,10 @@ const chatController = {
 
       // if user is not participant, chat contents will not allow to show
       const participantValid = await chatServices.checkParticipantValidation(itineraryId, userId)
-      if (!participantValid) throw new HttpError(403, 'Permission denied')
+      if (!participantValid) throw new HttpError(403, 'User not in itinerary, permission denied')
 
       const chats = await chatServices.getChats(itineraryId)
+      if (!chats) throw new HttpError(404, 'Chats not found')
 
       // image in the database is file name, need to convert to url
       const chatWithImage = await chatServices.getChatWithImage(chats)
@@ -41,7 +42,7 @@ const chatController = {
       if (!participant) throw new HttpError(403, 'User not in itinerary, permission denied')
 
       const storedMessage = await chatServices.processMessage(message, file, itineraryId, isImage)
-      if (!storedMessage) throw new HttpError(400, 'Message is image but file not uploaded successfully')
+      if (!storedMessage) throw new HttpError(500, 'Message is image but file not uploaded successfully')
 
       const chat = await chatServices.postChat(itineraryId, userId, storedMessage, isImage)
       if (!chat) throw new HttpError(500, 'Chat not created successfully')

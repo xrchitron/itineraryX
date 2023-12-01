@@ -60,6 +60,9 @@ const userController = {
       const { file } = req
       if (!name) throw new HttpError(400, 'User name is required!')
 
+      const userName = await userServices.getUserByName(name)
+      if (userName) throw new HttpError(409, 'User name already exist')
+
       const user = await userServices.getUserById(userId)
       if (!user) throw new HttpError(404, "User didn't exist!")
 
