@@ -105,7 +105,7 @@ const userServices = {
   },
   sendResetPasswordEmail (email, token) {
     const title = 'Reset Password'
-    const link = `${process.env.CLIENT_URL}/reset-password/${token}`
+    const link = `${process.env.CLIENT_URL}/reset-password/?token=${token}`
     const emailContent = `<p>Click the link below to reset your password</p>
     <a href="${link}">Reset Password</a>
     <p>This link will expire in 1 hour</p>`
