@@ -163,6 +163,22 @@ const userController = {
     } catch (err) {
       next(err)
     }
+  },
+  checkTokenValid: async (req, res, next) => {
+    try {
+      const { token } = req.body
+      if (!token) throw new HttpError(400, 'Missing token')
+
+      const decoded = jwt.verify(token, process.env.JWT_SECRET)
+      if (!decoded) throw new HttpError(400, 'Token is invalid or expired')
+
+      const user = await userServices.getUserById(decoded.id)
+      if (!user) throw new HttpError(404, 'User not found')
+
+      res.status(200).json({ status: 'success', data: user })
+    } catch (err) {
+      next(err)
+    }
   }
 }
 module.exports = userController

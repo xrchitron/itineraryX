@@ -13,6 +13,10 @@ router
   .patch(User.resetPassword)
 
 router
+  .route('/token')
+  .post(User.checkTokenValid)
+
+router
   .route('/signup')
   .post(User.signUp)
 
