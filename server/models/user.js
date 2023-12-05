@@ -11,16 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate (models) {
       // define association here
-      // User.belongsToMany(User, {
-      //   through: models.Followship,
-      //   foreignKey: 'followingId',
-      //   as: 'Followers'
-      // })
-      // User.belongsToMany(User, {
-      //   through: models.Followship,
-      //   foreignKey: 'followerId',
-      //   as: 'Followings'
-      // })
+      User.belongsToMany(User, {
+        through: models.Followship,
+        foreignKey: 'followingId',
+        as: 'Followers'
+      })
+      User.belongsToMany(User, {
+        through: models.Followship,
+        foreignKey: 'followerId',
+        as: 'Followings'
+      })
       User.hasMany(models.Itinerary, { foreignKey: 'holderId' })
       User.belongsToMany(models.Itinerary, {
         through: models.Participant,

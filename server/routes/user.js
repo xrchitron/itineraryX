@@ -34,6 +34,12 @@ router
   .delete(auth, User.removeFollowing)
 
 router
+  .route('/notifications')
+  .get(auth, User.getNotifications)
+  .post(auth, User.postNotification)
+  .patch(auth, User.updateNotification)
+
+router
   .route('/:userId')
   .get(auth, User.getUserWithFollows) // get user info with followings and followers
 

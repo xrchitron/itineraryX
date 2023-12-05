@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { User, Followship, Participant } = require('../models')
+const { User, Followship, Participant, Notification } = require('../models')
 const s3 = require('../utils/aws_s3')
 const { sendEmail } = require('../utils/aws-ses-send-email')
 const HttpError = require('../utils/httpError')
@@ -120,6 +120,33 @@ const userServices = {
     delete userData.createdAt
     delete userData.updatedAt
     return userData
+  },
+  async getNotifications (userId) {
+    const notifications = await Notification.findAll({
+      where: { userId },
+      order: [['createdAt', 'DESC']],
+      limit: 10,
+      attributes: ['id', 'message', 'isRead', 'createdAt'],
+      raw: true
+    })
+    return notifications
+  },
+  postNotification (userId, message) {
+    const notification = Notification.create({ userId, message })
+    return notification
+  },
+  async updateNotification (id) {
+    const notification = await Notification.findByPk(id)
+    if (!notification) throw new HttpError(404, 'Notification not found')
+    const updatedNotification = await notification.update({ isRead: true })
+    return updatedNotification
+  },
+  processNotificationMessage (message) {
+    message = message.toJSON()
+    delete message.createdAt
+    delete message.updatedAt
+    delete message.user_id
+    return message
   }
 }
 module.exports = userServices
