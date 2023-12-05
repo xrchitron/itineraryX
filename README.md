@@ -27,25 +27,33 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 ### Co-editing itinerary
 - Add destination info with Google Map Api and calculate duration value from place to place.
 - Using Socket.IO room to separate itinerary rooms, providing co-edit correctly to planers.
-- Apply Redis to temperately store frequent place data to protect database from high-frequent searching
 
 ### Chatroom
 - Many-to-many online chatroom using Socket.IO room.
 - Upload images with AWS S3 and multer.
 
+### Email notification
+- Email notification from subscriber to subscriber with AWS SES
+
+### Database protection
+- Apply Redis to temperately store frequent place data to protect database from high-frequent searching
+
 ## System Architecture
 
 - Serve application on AWS Elastic Beanstalk
-- DataBase is on AWS RDS MySQL cloud service
 - Speed up searching speed with Redis on AWS EC2
+- CRUD MySQL database on AWS RDS via Sequelize
+- Store image in AWS S3
+- Send Email via AWS SES
+- Get place detail via Google Map API
 
 <div align="center">
-<img width="90%" alt="System Architecture" src="..."/>
+<img width="90%" alt="System Architecture" src="https://raw.githubusercontent.com/xrchitron/itineraryX/main/server/public/img/system_architecture_diagram.jpg"/>
 </div>
 
 ## Database Schema
 <div align="center">
-<img width="90%" alt="database schema" src="https://raw.githubusercontent.com/xrchitron/itineraryX/main/server/public/img/itineraryX_ERD-01.jpg"/>
+<img width="90%" alt="database schema" src="https://raw.githubusercontent.com/xrchitron/itineraryX/main/server/public/img/itineraryX_ERD.jpg"/>
 </div>
 
 ## Features
@@ -61,8 +69,9 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 - Many-to-many online chatroom
 - Discuss the plan with the route at the same time
 
-**Add participant notification**
-- Inviting Email would be sent when adding a new participant
+**Email notification**
+- Reset password email would be sent when user forget password
+- Inviting email would be sent when adding a new participant
 
 **Social Media**
 - Friend system
@@ -87,4 +96,4 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Links
-- [itineraryX](http://itinerary-x-production-dev.ap-northeast-1.elasticbeanstalk.com/)
+- [itineraryX](https://www.itineraryx.online/)
