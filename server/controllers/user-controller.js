@@ -179,6 +179,45 @@ const userController = {
     } catch (err) {
       next(err)
     }
+  },
+  getNotifications: async (req, res, next) => {
+    try {
+      const userId = req.user.id
+      const notifications = await userServices.getNotifications(userId)
+      if (!notifications) throw new HttpError(404, 'Notifications not found')
+
+      res.status(200).json({ status: 'success', data: notifications })
+    } catch (err) {
+      next(err)
+    }
+  },
+  postNotification: async (req, res, next) => {
+    try {
+      const { userId, message, redirectUrl } = req.body
+      if (!userId) throw new HttpError(400, 'Missing user id')
+      if (!message) throw new HttpError(400, 'Missing message')
+      if (!redirectUrl) throw new HttpError(400, 'Missing redirect url')
+
+      const notification = await userServices.postNotification(userId, message, redirectUrl)
+      if (!notification) throw new HttpError(500, 'Post notification failed!')
+
+      res.status(200).json({ status: 'success', data: notification })
+    } catch (err) {
+      next(err)
+    }
+  },
+  updateNotification: async (req, res, next) => {
+    try {
+      const { notificationId } = req.body
+      if (!notificationId) throw new HttpError(400, 'Missing notification id')
+
+      const updatedNotification = await userServices.updateNotification(notificationId)
+      if (!updatedNotification) throw new HttpError(500, 'Update notification failed!')
+      const data = userServices.processNotificationMessage(updatedNotification)
+      res.status(200).json({ status: 'success', data })
+    } catch (err) {
+      next(err)
+    }
   }
 }
 module.exports = userController

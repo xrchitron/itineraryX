@@ -1,3 +1,4 @@
+require('dotenv').config()
 const itineraryServices = require('../services/itinerary-services')
 const userServices = require('../services/user-services')
 const s3 = require('../utils/aws_s3')
@@ -109,7 +110,11 @@ const itineraryController = {
       if (!newParticipant) throw new HttpError(500, 'Failed to add participant')
 
       // send email to invite user
-      itineraryServices.sendInviteEmail(email, itineraryId, user.name)
+      const link = `${process.env.CLIENT_URL}/map/edit/${itineraryId}`
+      // itineraryServices.sendInviteEmail(email, itineraryId, user.name)
+
+      const notification = userServices.postNotification(user.id, `${req.user.name} invited you to join a trip! Click to join!`, link)
+      if (!notification) throw new HttpError(500, 'Failed to send notification')
 
       res.status(200).json({ status: 'success', data: newParticipant })
     } catch (err) {

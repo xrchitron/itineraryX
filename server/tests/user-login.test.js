@@ -28,7 +28,7 @@ describe(`POST ${url}`, function () {
   }
   )
 
-  it('It should return 400 if user type in incorrect email', function (done) {
+  it('It should return 401 if user type in incorrect email', function (done) {
     request(app)
       .post(url)
       .set('Accept', 'application/json')

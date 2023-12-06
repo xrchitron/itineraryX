@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         as: 'ParticipatingItineraries'
       })
       User.hasMany(models.Chat, { foreignKey: 'userId' })
+      User.hasMany(models.Notification, { foreignKey: 'userId' })
     }
   }
   User.init({

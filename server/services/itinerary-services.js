@@ -157,9 +157,10 @@ const itineraryServices = {
   },
   sendInviteEmail: async (email, itineraryId, name) => {
     const title = 'You have been invited to join a trip!'
-    const link = `${process.env.CLIENT_URL}/itinerary/${itineraryId}`
+    const link = `${process.env.CLIENT_URL}/map/edit/${itineraryId}`
     const emailContent = `<h1>Hi ${name},</h1><p>You have been invited to join a trip! Please click the link below to join the trip.</p><a href="${link}">Join the trip</a>`
-    sendEmail(email, title, emailContent)
+    await sendEmail(email, title, emailContent)
+    return link
   }
 }
 module.exports = itineraryServices
