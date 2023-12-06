@@ -9,7 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      user_id: {
+      receiver_id: {
+        type: Sequelize.INTEGER
+      },
+      sender_id: {
         type: Sequelize.INTEGER
       },
       message: {
@@ -18,6 +21,9 @@ module.exports = {
       is_read: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
+      },
+      redirect_url: {
+        type: Sequelize.STRING
       },
       created_at: {
         allowNull: false,

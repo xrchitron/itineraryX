@@ -121,24 +121,27 @@ const userServices = {
     delete userData.updatedAt
     return userData
   },
-  async getNotifications (userId) {
+  async getNotifications (receiverId) {
     const notifications = await Notification.findAll({
-      where: { userId },
+      where: { receiverId },
       order: [['createdAt', 'DESC']],
       limit: 10,
-      attributes: ['id', 'message', 'isRead', 'redirectUrl', 'createdAt'],
-      raw: true
+      attributes: ['id', 'message', 'isRead', 'redirectUrl'],
+      include: [
+        { model: User, as: 'Sender', attributes: ['id', 'name'] }
+      ]
     })
     return notifications
   },
-  postNotification (userId, message, redirectUrl) {
-    const notification = Notification.create({ userId, message, redirectUrl })
+  postNotification (receiverId, senderId, message, redirectUrl) {
+    const notification = Notification.create({ receiverId, senderId, message, redirectUrl })
     return notification
   },
   async updateNotification (id) {
     const notification = await Notification.findByPk(id)
     if (!notification) throw new HttpError(404, 'Notification not found')
-    const updatedNotification = await notification.update({ isRead: true })
+    const isRead = !notification.isRead
+    const updatedNotification = await notification.update({ isRead })
     return updatedNotification
   },
   processNotificationMessage (message) {
