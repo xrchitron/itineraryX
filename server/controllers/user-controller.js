@@ -193,11 +193,12 @@ const userController = {
   },
   postNotification: async (req, res, next) => {
     try {
-      const { userId, message } = req.body
+      const { userId, message, redirectUrl } = req.body
       if (!userId) throw new HttpError(400, 'Missing user id')
       if (!message) throw new HttpError(400, 'Missing message')
+      if (!redirectUrl) throw new HttpError(400, 'Missing redirect url')
 
-      const notification = await userServices.postNotification(userId, message)
+      const notification = await userServices.postNotification(userId, message, redirectUrl)
       if (!notification) throw new HttpError(500, 'Post notification failed!')
 
       res.status(200).json({ status: 'success', data: notification })

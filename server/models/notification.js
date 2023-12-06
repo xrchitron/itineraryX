@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
   Notification.init({
     userId: DataTypes.INTEGER,
     message: DataTypes.STRING,
-    isRead: DataTypes.BOOLEAN
+    isRead: DataTypes.BOOLEAN,
+    redirectUrl: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Notification',

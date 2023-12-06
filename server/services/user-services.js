@@ -126,13 +126,13 @@ const userServices = {
       where: { userId },
       order: [['createdAt', 'DESC']],
       limit: 10,
-      attributes: ['id', 'message', 'isRead', 'createdAt'],
+      attributes: ['id', 'message', 'isRead', 'redirectUrl', 'createdAt'],
       raw: true
     })
     return notifications
   },
-  postNotification (userId, message) {
-    const notification = Notification.create({ userId, message })
+  postNotification (userId, message, redirectUrl) {
+    const notification = Notification.create({ userId, message, redirectUrl })
     return notification
   },
   async updateNotification (id) {
