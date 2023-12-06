@@ -11,11 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate (models) {
       // define association here
-      Notification.belongsTo(models.User, { foreignKey: 'user_id' })
+      Notification.belongsTo(models.User, { foreignKey: 'receiverId', as: 'Receiver' })
+      Notification.belongsTo(models.User, { foreignKey: 'senderId', as: 'Sender' })
     }
   }
   Notification.init({
-    userId: DataTypes.INTEGER,
+    receiverId: DataTypes.INTEGER,
+    senderId: DataTypes.INTEGER,
     message: DataTypes.STRING,
     isRead: DataTypes.BOOLEAN,
     redirectUrl: DataTypes.STRING

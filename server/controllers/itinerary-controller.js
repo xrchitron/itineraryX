@@ -86,6 +86,12 @@ const itineraryController = {
       const deletedItinerary = await itineraryServices.deleteItinerary(itinerary)
       if (!deletedItinerary) throw new HttpError(500, 'Failed to delete itinerary')
 
+      const deletedParticipants = await itineraryServices.deleteParticipants(itineraryId)
+      if (!deletedParticipants) throw new HttpError(500, 'Failed to delete participants')
+
+      // delete destinations but content could be null
+      itineraryServices.deleteDestinations(itineraryId)
+
       // delete itinerary image from s3 to save storage
       if (deletedItinerary.image) await s3.deleteImage(deletedItinerary.image)
 
@@ -113,7 +119,7 @@ const itineraryController = {
       const link = `${process.env.CLIENT_URL}/map/edit/${itineraryId}`
       // itineraryServices.sendInviteEmail(email, itineraryId, user.name)
 
-      const notification = userServices.postNotification(user.id, `${req.user.name} invited you to join a trip! Click to join!`, link)
+      const notification = userServices.postNotification(user.id, req.user.id, `${req.user.name} invited you to join a trip! Click to join!`, link)
       if (!notification) throw new HttpError(500, 'Failed to send notification')
 
       res.status(200).json({ status: 'success', data: newParticipant })

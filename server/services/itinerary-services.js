@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { User, Itinerary, Participant } = require('../models')
+const { User, Itinerary, Participant, Destination } = require('../models')
 const s3 = require('../utils/aws_s3')
 const dateMethods = require('../utils/date-methods')
 const { sendEmail } = require('../utils/aws-ses-send-email')
@@ -161,6 +161,22 @@ const itineraryServices = {
     const emailContent = `<h1>Hi ${name},</h1><p>You have been invited to join a trip! Please click the link below to join the trip.</p><a href="${link}">Join the trip</a>`
     await sendEmail(email, title, emailContent)
     return link
+  },
+  deleteParticipants: async itineraryId => {
+    const participants = await Participant.destroy({
+      where: {
+        itineraryId
+      }
+    })
+    return participants
+  },
+  deleteDestinations: async itineraryId => {
+    const destinations = await Destination.destroy({
+      where: {
+        itineraryId
+      }
+    })
+    return destinations
   }
 }
 module.exports = itineraryServices
