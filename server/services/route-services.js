@@ -123,6 +123,14 @@ const routeServices = {
   },
   async deleteRoute (route) {
     return await route.destroy()
+  },
+  processGetRouteData (route) {
+    const routeData = route.toJSON()
+    routeData.originLatLng = routeData.Origin
+    routeData.destinationLatLng = routeData.Destination
+    delete routeData.Origin
+    delete routeData.Destination
+    return routeData
   }
 }
 module.exports = routeServices

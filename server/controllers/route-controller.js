@@ -17,7 +17,7 @@ const routeController = {
       const route = await routeServices.getRoute(itineraryId, originId, destinationId)
       if (!route) throw new HttpError(404, 'Route not found')
 
-      const routeData = route.toJSON()
+      const routeData = routeServices.processGetRouteData(route)
 
       // set route data to redis in order to reduce database query
       redisServices.setRoute(itineraryId, originId, destinationId, routeData)
