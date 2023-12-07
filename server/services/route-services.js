@@ -8,7 +8,9 @@ const routeServices = {
   async getRoute (itineraryId, originId, destinationId) {
     const route = await Route.findOne({
       where: { itineraryId, originId, destinationId },
-      attributes: ['id', 'transportationMode', 'distanceText', 'distanceValue', 'durationText', 'durationValue', 'originId', 'destinationId']
+      attributes: ['id', 'transportationMode', 'distanceText', 'distanceValue', 'durationText', 'durationValue', 'originId', 'destinationId'],
+      include: [{ model: Place, as: 'Origin', attributes: ['lat', 'lng'] },
+        { model: Place, as: 'Destination', attributes: ['lat', 'lng'] }]
     })
     return route
   },
@@ -121,6 +123,14 @@ const routeServices = {
   },
   async deleteRoute (route) {
     return await route.destroy()
+  },
+  processGetRouteData (route) {
+    const routeData = route.toJSON()
+    routeData.originLatLng = routeData.Origin
+    routeData.destinationLatLng = routeData.Destination
+    delete routeData.Origin
+    delete routeData.Destination
+    return routeData
   }
 }
 module.exports = routeServices
