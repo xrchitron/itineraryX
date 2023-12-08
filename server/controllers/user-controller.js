@@ -191,7 +191,9 @@ const userController = {
       const notifications = await userServices.getNotifications(receiverId)
       if (!notifications) throw new HttpError(404, 'Notifications not found')
 
-      res.status(200).json({ status: 'success', data: notifications })
+      const notificationData = await userServices.processGetNotificationsAvatar(notifications)
+
+      res.status(200).json({ status: 'success', data: notificationData })
     } catch (err) {
       next(err)
     }
@@ -218,7 +220,7 @@ const userController = {
       if (!notificationId) throw new HttpError(400, 'Missing notification id')
       const updatedNotification = await userServices.updateNotification(notificationId)
       if (!updatedNotification) throw new HttpError(500, 'Update notification failed!')
-      const data = userServices.processNotificationMessage(updatedNotification)
+      const data = userServices.processUpdateNotificationMessage(updatedNotification)
       res.status(200).json({ status: 'success', data })
     } catch (err) {
       next(err)

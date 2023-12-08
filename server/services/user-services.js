@@ -128,8 +128,9 @@ const userServices = {
       limit: 10,
       attributes: ['id', 'message', 'isRead', 'redirectUrl'],
       include: [
-        { model: User, as: 'Sender', attributes: ['id', 'name'] }
-      ]
+        { model: User, as: 'Sender', attributes: ['id', 'name', 'avatar'] }
+      ],
+      raw: true
     })
     return notifications
   },
@@ -144,12 +145,19 @@ const userServices = {
     const updatedNotification = await notification.update({ isRead })
     return updatedNotification
   },
-  processNotificationMessage (message) {
+  processUpdateNotificationMessage (message) {
     message = message.toJSON()
     delete message.createdAt
     delete message.updatedAt
     delete message.user_id
     return message
+  },
+  async processGetNotificationsAvatar (notification) {
+    const notificationData = await Promise.all(notification.map(async data => {
+      if (data['Sender.avatar']) data['Sender.avatar'] = await s3.getImage(data['Sender.avatar'])
+      return data
+    }))
+    return notificationData
   }
 }
 module.exports = userServices
