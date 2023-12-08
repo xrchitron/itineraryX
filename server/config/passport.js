@@ -39,12 +39,12 @@ const jwtOptions = {
 passport.use(new JWTStrategy(jwtOptions, async (jwtPayload, cb) => {
   try {
     // check if user data exists in redis
-    // const redisData = await redisServices.getRedis(`getUser-uid${jwtPayload.id}`)
-    // if (redisData) {
-    //   const userData = JSON.parse(redisData)
-    //   cb(null, userData)
-    //   return
-    // }
+    const redisData = await redisServices.getRedis(`getUser-uid${jwtPayload.id}`)
+    if (redisData) {
+      const userData = JSON.parse(redisData)
+      cb(null, userData)
+      return
+    }
     // check if user data exists in database
     const user = await User.findByPk(jwtPayload.id)
     if (user) {
@@ -68,12 +68,12 @@ passport.serializeUser((user, cb) => {
 // 反序列化 就是透過 user id，把整個 user 物件實例拿出來
 passport.deserializeUser(async (id, cb) => {
   try {
-    // const redisData = await redisServices.getRedis(`getUser-uid${id}`)
-    // if (redisData) {
-    //   const userData = JSON.parse(redisData)
-    //   cb(null, userData)
-    //   return
-    // }
+    const redisData = await redisServices.getRedis(`getUser-uid${id}`)
+    if (redisData) {
+      const userData = JSON.parse(redisData)
+      cb(null, userData)
+      return
+    }
     const user = await User.findByPk(id)
     cb(null, user.toJSON())
   } catch (err) {
