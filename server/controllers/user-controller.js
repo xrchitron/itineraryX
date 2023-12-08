@@ -1,4 +1,5 @@
 const userServices = require('../services/user-services')
+const redisServices = require('../utils/redis')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -72,6 +73,10 @@ const userController = {
       if (!UpdatedUser) throw new HttpError(500, 'Update user failed!')
 
       const userData = userServices.deleteUserPassword(UpdatedUser)
+
+      // update user info in redis
+      redisServices.setRedis(`getUser-uid${userData.id}`, JSON.stringify(userData), 'EX', 3600)
+
       if (userData.avatar) userData.avatar = await s3.getImage(userData.avatar)
 
       res.status(200).json({ status: 'success', data: { user: userData } })
