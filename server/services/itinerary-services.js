@@ -40,13 +40,13 @@ const itineraryServices = {
     })
     return itinerary
   },
-  async createItinerary (holderId, title, startTime, endTime) {
+  async createItinerary (holderId, title, startTime, endTime, t) {
     const itinerary = await Itinerary.create({
       holderId,
       title,
       startTime,
       endTime
-    })
+    }, { transaction: t })
     return itinerary.toJSON()
   },
   async updateItinerary (itinerary, title, image, startTime, endTime) {
@@ -59,8 +59,8 @@ const itineraryServices = {
     })
     return updatedItinerary.toJSON()
   },
-  async deleteItinerary (itinerary) {
-    const deletedItinerary = itinerary.destroy()
+  async deleteItinerary (itinerary, t) {
+    const deletedItinerary = itinerary.destroy({}, { transaction: t })
     return deletedItinerary
   },
   async getParticipant (itineraryId, participantId) {
@@ -99,11 +99,11 @@ const itineraryServices = {
     })
     return participants
   },
-  async createParticipant (itineraryId, participantId) {
+  async createParticipant (itineraryId, participantId, t) {
     const participant = await Participant.create({
       itineraryId,
       participantId
-    })
+    }, { transaction: t })
     return participant
   },
   async deleteParticipant (participant) {
@@ -162,20 +162,16 @@ const itineraryServices = {
     await sendEmail(email, title, emailContent)
     return link
   },
-  deleteParticipants: async itineraryId => {
+  deleteParticipants: async (itineraryId, t) => {
     const participants = await Participant.destroy({
-      where: {
-        itineraryId
-      }
-    })
+      where: { itineraryId }
+    }, { transaction: t })
     return participants
   },
-  deleteDestinations: async itineraryId => {
+  deleteDestinations: async (itineraryId, t) => {
     const destinations = await Destination.destroy({
-      where: {
-        itineraryId
-      }
-    })
+      where: { itineraryId }
+    }, { transaction: t })
     return destinations
   }
 }
