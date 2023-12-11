@@ -8,6 +8,6 @@ router
 
 router
   .route('/random')
-  .get(auth, Map.getRandomPlace) // get route info with token
+  .get(Map.getRandomPlace) // get route info with token
 
 module.exports = router
