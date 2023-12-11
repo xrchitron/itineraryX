@@ -16,7 +16,7 @@ const routeController = {
 
       const route = await routeServices.getRoute(itineraryId, originId, destinationId)
       if (!route) throw new HttpError(404, 'Route not found')
-
+      // rename route data
       const routeData = routeServices.processGetRouteData(route)
 
       // set route data to redis in order to reduce database query
@@ -49,11 +49,16 @@ const routeController = {
       const apiResponse = await mapServices.distanceMatrix(origin, destination, transportationMode)
       if (!apiResponse.status === 'OK' || apiResponse.distance === undefined) throw new HttpError(404, 'No distanceMatrix results found')
 
-      const createdRoute = await routeServices.createRoute(itineraryId, origin.id, destination.id, transportationMode, apiResponse)
+      const createdRoute = await routeServices.createRoute(itineraryId, originId, destinationId, transportationMode, apiResponse)
       if (!createdRoute) throw new HttpError(500, 'Create route failed')
 
-      const routeData = createdRoute.toJSON()
-      redisServices.setRoute(itineraryId, origin.id, destination.id, routeData)
+      // get related data from database
+      const route = await routeServices.getRoute(itineraryId, originId, destinationId)
+      if (!route) throw new HttpError(404, 'Route not found')
+      // rename route data
+      const routeData = routeServices.processGetRouteData(route)
+      // set route data to redis in order to reduce database query
+      redisServices.setRoute(itineraryId, originId, destinationId, routeData)
 
       res.status(200).json({ status: 'success', data: routeData })
     } catch (err) {
