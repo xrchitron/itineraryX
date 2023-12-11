@@ -8,7 +8,9 @@ A website for **co-editing itinerary and discussing plans**.
 
 **itineraryX** is used for co-editing itinerary and discussing plans in one platform
 
-#### Get Start on itineraryX : [itineraryX Website](https://www.itineraryx...)
+#### Get Start on itineraryX :
+- [itineraryX Website](https://www.itineraryx...)
+- [itineraryX API Website](https://www.itineraryx.online/)
 
 ## Test account :
 Welcome to use the accounts below to enjoy itineraryX co-editing service.
@@ -37,6 +39,7 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 
 ### Database protection
 - Apply Redis to temperately store frequent place data to protect database from high-frequent searching
+- Apply transaction to delete reference data
 
 ## System Architecture
 
@@ -59,6 +62,7 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 ## Features
 
 **Co-editing itinerary**
+- Add participant into itinerary via email
 - Add destinations to itinerary
 - Calculate duration value between destinations
 - Show planned route on the Google Map
@@ -73,17 +77,20 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 - Reset password email would be sent when user forget password
 - Inviting email would be sent when adding a new participant
 
+**Message notification**
+- Receive notifications form sender
+- update message status from unread to read
+- Redirect to the url which the message mentioned
+
 **Social Media**
-- Friend system
-- Following other users
-- Change personal avatar
-- Sign-up and sign-in
+- Change personal avatar and username
+- Sign-up, sign-in and logout
 
 ## Tech Stack
 **Client:**  Socket.IO / React / MaterialUI
- ( [Front-End Repostority](https://github.com/Chious/itineraryX) )
+ ( [Front-End Repository](https://github.com/Chious/itineraryX) )
 
-**Server:** Node / Express / Nginx / Socket.IO / multer
+**Server:** Node / Express / Nginx / Redis / Socket.IO / multer
 
 **Database:** AWS RDS MySQL
 
@@ -94,6 +101,3 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
-
-## Links
-- [itineraryX](https://www.itineraryx.online/)
