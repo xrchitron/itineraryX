@@ -5,8 +5,8 @@ const { Server } = require('socket.io')
 async function connect (server) {
   const io = new Server(server, {
     cors: {
-      origin: ['http://itinerary-x-dev.ap-northeast-1.elasticbeanstalk.com/', 'http://localhost:5173', 'http://localhost:3000'],
-      methods: ['GET', 'POST']
+      origin: ['http://localhost:5173', 'http://localhost:3000'],
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
     }
   })
   io.on('connection', socket => {
