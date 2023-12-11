@@ -94,7 +94,7 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 
 **Database:** AWS RDS MySQL
 
-**AWS Cloud service:** EC2 / S3 / SES
+**AWS Cloud service:** Elastic Beanstalk / Route 53 / EC2 / S3 / SES
 
 **API Test:** mocha / supertest
 
