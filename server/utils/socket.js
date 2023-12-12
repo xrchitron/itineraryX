@@ -21,6 +21,17 @@ async function connect (server) {
       socket.nsp.to(data.room).emit('receive_message', data)
       console.log(socket.id + ' send message to ' + data.room)
     })
+
+    socket.on('send_mapInfo', data => {
+      socket.nsp.to(data.room).emit('receive_mapInfo', data)
+      console.log(socket.id + ' send mapInfo to ' + data.room)
+    })
+
+    socket.on('send_notification', data => {
+      socket.nsp.to(data.room).emit('receive_notification', data)
+      console.log(socket.id + ' send notification to ' + data.room)
+    })
+
     socket.on('disconnect', () => {
       console.log('User disconnected')
     })
