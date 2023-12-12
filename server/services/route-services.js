@@ -33,7 +33,12 @@ const routeServices = {
     }
   },
   async getRouteById (routeId) {
-    const route = await Route.findByPk(routeId)
+    const route = await Route.findByPk(routeId,
+      {
+        attributes: ['id', 'transportationMode', 'distanceText', 'distanceValue', 'durationText', 'durationValue', 'originId', 'destinationId'],
+        include: [{ model: Place, as: 'Origin', attributes: ['lat', 'lng'] },
+          { model: Place, as: 'Destination', attributes: ['lat', 'lng'] }]
+      })
     return route
   },
   async updateRoute (routeId, transportationMode, elements) {

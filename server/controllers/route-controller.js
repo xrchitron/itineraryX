@@ -75,7 +75,10 @@ const routeController = {
       if (!route) throw new HttpError(404, 'Route not found')
 
       // if route transportation mode is the same, return route data to reduce database query
-      if (route.transportationMode === transportationMode) return res.status(200).json({ status: 'success', data: route.toJSON() })
+      if (route.transportationMode === transportationMode) {
+        const routeData = routeServices.processGetRouteData(route)
+        return res.status(200).json({ status: 'success', data: routeData })
+      }
 
       // get origin data from redis or database
       const getOriginFromRedis = await redisServices.getPlace(route.originId)
@@ -94,8 +97,13 @@ const routeController = {
       const updatedRoute = await routeServices.updateRoute(routeId, transportationMode, apiResponse)
       if (!updatedRoute) throw new HttpError(500, 'Update route failed')
 
-      const routeData = updatedRoute.toJSON()
-      redisServices.setRoute(routeData.itineraryId, routeData.originId, routeData.destinationId, routeData)
+      // get related data from database
+      const routeWithLatLng = await routeServices.getRoute(updatedRoute.itineraryId, route.originId, route.destinationId)
+      if (!routeWithLatLng) throw new HttpError(404, 'Route not found')
+      // rename route data
+      const routeData = routeServices.processGetRouteData(routeWithLatLng)
+      // set route data to redis in order to reduce database query
+      redisServices.setRoute(updatedRoute.itineraryId, route.originId, route.destinationId, routeData)
 
       res.status(200).json({ status: 'success', data: routeData })
     } catch (err) {
