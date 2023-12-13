@@ -5,11 +5,12 @@ const { Server } = require('socket.io')
 async function connect (server) {
   const io = new Server(server, {
     cors: {
-      origin: ['https://itinerary-x.vercel.app', 'https://main--hilarious-cocada-1fa835.netlify.app/', 'http://localhost:5173', 'http://localhost:3000'],
+      origin: ['https://itinerary-x.vercel.app', 'https://main--hilarious-cocada-1fa835.netlify.app', 'http://localhost:5173', 'http://localhost:3000'],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
       upgrades: ['websocket'],
       pingInterval: 25000,
-      pingTimeout: 20000
+      pingTimeout: 20000,
+      credentials: true
     }
   })
   io.on('connection', socket => {
@@ -25,9 +26,14 @@ async function connect (server) {
       console.log(socket.id + ' send message to ' + data.room)
     })
 
-    socket.on('send_mapInfo', data => {
-      socket.nsp.to(data.room).emit('receive_mapInfo', data)
-      console.log(socket.id + ' send mapInfo to ' + data.room)
+    socket.on('send_destinations', data => {
+      socket.nsp.to(data.room).emit('receive_destinations', data)
+      console.log(socket.id + ' send destinations to ' + data.room)
+    })
+
+    socket.on('send_routes', data => {
+      socket.nsp.to(data.room).emit('receive_routes', data)
+      console.log(socket.id + ' send routes to ' + data.room)
     })
 
     socket.on('send_notification', data => {
