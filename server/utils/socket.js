@@ -6,7 +6,10 @@ async function connect (server) {
   const io = new Server(server, {
     cors: {
       origin: ['https://itinerary-x.vercel.app', 'http://localhost:5173', 'http://localhost:3000'],
-      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+      upgrades: ['websocket'],
+      pingInterval: 25000,
+      pingTimeout: 20000
     }
   })
   io.on('connection', socket => {
