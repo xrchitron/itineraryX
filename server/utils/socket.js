@@ -27,17 +27,17 @@ async function connect (server) {
     })
 
     socket.on('send_destinations', data => {
-      socket.nsp.to(data.room).emit('receive_destinations', data)
+      socket.to(data.room).emit('receive_destinations', data)
       console.log(socket.id + ' send destinations to ' + data.room)
     })
 
     socket.on('send_routes', data => {
-      socket.nsp.to(data.room).emit('receive_routes', data)
+      socket.to(data.room).emit('receive_routes', data)
       console.log(socket.id + ' send routes to ' + data.room)
     })
 
     socket.on('send_notification', data => {
-      socket.nsp.to(data.room).emit('receive_notification', data)
+      socket.to(data.room).emit('receive_notification', data)
       console.log(socket.id + ' send notification to ' + data.room)
     })
 
