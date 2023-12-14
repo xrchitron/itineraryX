@@ -14,7 +14,7 @@ app.use(cors())
 
 // initial route
 app.get('/', (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, 'public', 'api-document.html'))
+  res.status(200).sendFile(path.join(__dirname, 'public', 'welcome.html'))
 })
 
 // api routes
@@ -34,7 +34,7 @@ app.use(`/api/${process.env.API_VERSION}/chats`, chatRoute)
 
 // page not found
 app.use((req, res) => {
-  res.status(404).json({ status: 'error', message: 'Page not found' })
+  res.status(404).json({ status: 'error', message: 'Route not found' })
 })
 
 server.listen(port, () => {

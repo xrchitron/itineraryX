@@ -4,12 +4,29 @@
 
 A website for **co-editing itinerary and discussing plans**.
 
+## Table of contents
+
+- [Introduction](#introduction)
+   - [Get Start on itineraryX](#get-start-on-itineraryx)
+- [Test account](#test-account)
+- [Technical Detail](#technical-detail)
+   - [Co-editing itinerary](#co-editing-itinerary)
+   - [Chatroom](#chatroom)
+   - [Email notification](#email-notification)
+   - [Database protection](#database-protection)
+- [System Architecture](#system-architecture)
+- [Database Schema](#database-schema)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Team member](#team-member)
+- [License](#license)
+
 ## Introduction
 
-**itineraryX** is used for co-editing itinerary and discussing plans in one platform
+**itineraryX** is a travel-centric app designed to simplify the process of planning and collaboratively editing your ideal travel itinerary.
 
 #### Get Start on itineraryX :
-- [itineraryX Website](https://www.itineraryx...)
+- [itineraryX Website](https://itinerary-x.vercel.app/)
 - [itineraryX API Website](https://www.itineraryx.online/)
 
 ## Test account :
@@ -26,18 +43,20 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
    ```
 
 ## Technical Detail
+
 ### Co-editing itinerary
-- Add destination info with Google Map Api and calculate duration value from place to place.
-- Using Socket.IO room to separate itinerary rooms, providing co-edit correctly to planers.
+- Add destination info with Google Map Api to get calculated duration value from place to place.
+- Using Socket.IO room to separate itinerary rooms, providing co-edit when other planer update the itinerary detail.
 
 ### Chatroom
-- Many-to-many online chatroom using Socket.IO room.
+- Many-to-many online chatroom with Socket.IO.
 - Upload images with AWS S3 and multer.
 
 ### Email notification
-- Email notification from subscriber to subscriber with AWS SES
+- Email notification from subscriber to subscriber with AWS SES (in the sandbox)
 
 ### Database protection
+- Utilize Object-Relational Mapping (ORM) to mitigate the risk of SQL injection attacks
 - Apply Redis to temperately store frequent place data to protect database from high-frequent searching
 - Apply transaction to delete reference data
 
@@ -74,7 +93,7 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 - Discuss the plan with the route at the same time
 
 **Email notification**
-- Reset password email would be sent when user forget password
+- Reset password email would be sent when user forget password with 1 hour token
 - Inviting email would be sent when adding a new participant
 
 **Message notification**
@@ -98,6 +117,12 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 
 **API Test:** mocha / supertest
 
+## Team member
+
+- Back-end | PM - [Chester](https://github.com/xrchitron)
+- Front-end - [Sam](https://github.com/Chious)
+- Front-end - [Ching](https://github.com/Ching0810)
+- Front-end - [Jessie](https://github.com/jessie758)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
