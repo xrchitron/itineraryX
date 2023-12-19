@@ -3,7 +3,7 @@
 edit by YU-HAO CHEN in Taipei
 
 [Linkedin](https://www.notion.so/Backend-tips-7f62795e3f5e4952a28bf9eb4fa2452e?pvs=21) | [email](mailto:yuhaochen1124@gmail.com)
-Note: All response and request time (except created_at and updated_at) follow from ISO Format, for more info, please reference: [this link](https://www.w3schools.com/js/js_date_formats.asp)
+- Note: All response and request time (except created_at and updated_at) follow from ISO Format, for more info, please reference: [this link](https://www.w3schools.com/js/js_date_formats.asp)
 
 ## Table of contents
 - [System Architecture](#system-architecture)
