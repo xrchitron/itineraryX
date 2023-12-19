@@ -75,7 +75,11 @@ passport.deserializeUser(async (id, cb) => {
       return
     }
     const user = await User.findByPk(id)
-    cb(null, user.toJSON())
+    const userData = user.toJSON()
+    delete userData.password
+    // set user data to redis
+    redisServices.setRedis(`getUser-uid${id}`, JSON.stringify(userData), 'EX', 3600)
+    cb(null, userData)
   } catch (err) {
     cb(err)
   }
