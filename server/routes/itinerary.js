@@ -4,7 +4,7 @@ const { auth } = require('../middleware/auth')
 const upload = require('../middleware/multer')
 router
   .route('/:itineraryId')
-  .get(auth, Itinerary.getItinerary) // get Itinerary info by itinerary id
+  .get(Itinerary.getItinerary) // get Itinerary info by itinerary id
 
 router
   .route('/')
