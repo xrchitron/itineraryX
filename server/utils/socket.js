@@ -5,7 +5,7 @@ const { Server } = require('socket.io')
 async function connect (server) {
   const io = new Server(server, {
     cors: {
-      origin: ['https://itinerary-x.vercel.app', 'https://main--hilarious-cocada-1fa835.netlify.app', 'http://localhost:5173', 'http://localhost:3000'],
+      origin: ['https://itinerary-x.vercel.app', 'http://localhost:5173', 'http://localhost:3000'],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
       upgrades: ['websocket'],
       pingInterval: 25000,
