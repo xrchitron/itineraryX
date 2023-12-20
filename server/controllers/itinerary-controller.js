@@ -132,7 +132,7 @@ const itineraryController = {
       await t.commit()
 
       // send email to invite user
-      const link = `${process.env.CLIENT_URL}/edit/${itineraryId}`
+      const link = `${process.env.CLIENT_URL}/itinerary/${itineraryId}`
       // itineraryServices.sendInviteEmail(email, itineraryId, user.name)  //temp cancel
 
       const notification = userServices.postNotification(user.id, req.user.id, `${req.user.name} invited you to join a trip! Click to join!`, link)
