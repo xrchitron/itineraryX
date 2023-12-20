@@ -3,7 +3,7 @@ const Destination = require('../controllers/destination-controller')
 const { auth } = require('../middleware/auth')
 router
   .route('/')
-  .get(auth, Destination.getDestinations) // get destinations
+  .get(Destination.getDestinations) // get destinations
   .post(auth, Destination.postDestination) // add destination
   .patch(auth, Destination.patchDestination) // update destination
 

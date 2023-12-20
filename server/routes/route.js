@@ -4,7 +4,7 @@ const { auth } = require('../middleware/auth')
 
 router
   .route('/')
-  .get(auth, Route.getRoute)
+  .get(Route.getRoute)
   .post(auth, Route.postRoute)
   .patch(auth, Route.patchRoute)
 
