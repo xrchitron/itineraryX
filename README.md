@@ -135,25 +135,33 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 - Home page, Register, Login, Logout.
 - Basic CRUD and upload image to AWS S3.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/k7VQXnbHTf0?si=UNe65A2a6imFGrzh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+- <video src=https://github.com/xrchitron/itineraryX/assets/125111607/cb02ccf9-5c81-4b12-a98a-48dcb6884dfb>
+   Sorry, your browser doesn't support embedded videos. ![Creating User Demo](https://youtu.be/k7VQXnbHTf0)
+</video>
 
 ### Reset password
 - Reset password with 1-hour token.
 - Send email via AWS SES.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/sZD8jHsTyc8?si=NlAC9rp7fwJVTcBy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+- <video src=https://github.com/xrchitron/itineraryX/assets/125111607/b99b0d78-c357-4642-97e4-c1c82b49cd4e>
+   Sorry, your browser doesn't support embedded videos. ![Reset password Demo](https://youtu.be/sZD8jHsTyc8)
+</video>
 
 ### CRUD itinerary
 - Basic CRUD itinerary.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/APgg0Q4EHb0?si=lY0XdkMWI9MjEI0n" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+- <video src=https://github.com/xrchitron/itineraryX/assets/125111607/34a745d3-0aa0-467d-8d1e-bd98d5c51f42>
+   Sorry, your browser doesn't support embedded videos. ![CRUD itinerary Demo](https://youtu.be/APgg0Q4EHb0)
+</video>
 
 ### Adding participant into itinerary
 - Adding participant into itinerary.
 - Receiver will get the notification via socket.io.
 - Redirect to the specific itinerary.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/2vJXtdnQvx0?si=UeNONkxzmwWwg6rT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+- <video src=https://github.com/xrchitron/itineraryX/assets/125111607/d4ba1db8-3bf4-4a1f-a29c-2c0ab4bb2421>
+   Sorry, your browser doesn't support embedded videos. ![Adding participant into itinerary Demo](https://youtu.be/2vJXtdnQvx0)
+</video>
 
 ### Editing itinerary
 - CRUD the itinerary and get place info from Google Map API.
@@ -161,18 +169,25 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 - Switch transportation mode.
 - Unreasonable Stay period warning.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ZhT8dwD5CD0?si=EFukWdCZoZeYNaYV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+- <video src=https://github.com/xrchitron/itineraryX/assets/125111607/baa4e888-2079-48ec-8b4c-aad1aeac9484>
+   Sorry, your browser doesn't support embedded videos. ![Editing itinerary Demo](https://youtu.be/ZhT8dwD5CD0)
+</video>
 
 ### View mode & Co-editing
 - People can visit the page without login (uneditable & no real-time update).
 - When users log in, they can co-edit the itinerary in real-time with socket.IO.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/lp_O-Wer46c?si=vD-rsMj8YuMRxzgb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+- <video src=https://github.com/xrchitron/itineraryX/assets/125111607/0e34f491-3bb3-474c-b2e5-f0d2e65409a1>
+   Sorry, your browser doesn't support embedded videos. ![View mode & Co-editing Demo](https://youtu.be/lp_O-Wer46c)
+</video>
 
 ### Chatroom with image and message
 - Messaging and sending email in the chatroom via socket.io.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/1s_RJ5KT37A?si=cbm1NYL0RTicL4-O" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+- <video src=https://github.com/xrchitron/itineraryX/assets/125111607/09d2e8a5-612c-40e1-9e47-17ced1a10b9c>
+   Sorry, your browser doesn't support embedded videos. ![Chatroom with image and message Demo](https://youtu.be/1s_RJ5KT37A)
+</video>
+
 
 ## Team member
 
