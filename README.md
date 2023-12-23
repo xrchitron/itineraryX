@@ -18,6 +18,14 @@ A website for **co-editing itinerary and discussing plans**.
 - [Database Schema](#database-schema)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
+- [Demo](#demo)
+   - [Creating User](#creating-user)
+   - [Reset password](#reset-password)
+   - [CRUD itinerary](#crud-itinerary)
+   - [Adding participant into itinerary](#adding-participant-into-itinerary)
+   - [Editing itinerary](#editing-itinerary)
+   - [View mode & Co-editing](#view-mode--co-editing)
+   - [Chatroom with image and message](#chatroom-with-image-and-message)
 - [Team member](#team-member)
 - [License](#license)
 
@@ -78,6 +86,11 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 <img width="90%" alt="database schema" src="https://raw.githubusercontent.com/xrchitron/itineraryX/main/server/public/img/itineraryX_ERD.jpg"/>
 </div>
 
+## WebSocket Structure
+<div align="center">
+<img width="90%" alt="webSocket structure" src="https://raw.githubusercontent.com/xrchitron/itineraryX/main/server/public/img/socket_type.jpg"/>
+</div>
+
 ## Features
 
 **Co-editing itinerary**
@@ -116,6 +129,44 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 **AWS Cloud service:** Elastic Beanstalk / Route 53 / EC2 / S3 / SES
 
 **API Test:** mocha / supertest
+
+## Demo
+### Creating User
+- Home page, Register, Login, Logout.
+- Basic CRUD and upload image to AWS S3.
+<video src=https://youtu.be/k7VQXnbHTf0></video>
+
+### Reset password
+- Reset password with 1 hour token
+- Send email via AWS SES
+<video src=https://youtu.be/sZD8jHsTyc8></video>
+
+### CRUD itinerary
+- Basic CRUD itinerary
+<video src=https://youtu.be/APgg0Q4EHb0></video>
+
+### Adding participant into itinerary
+- Adding participant into itinerary
+- Receiver will get the notification via socket.io
+- Redirect to the specific itinerary
+<video src=https://youtu.be/2vJXtdnQvx0></video>
+
+### Editing itinerary
+- CRUD the itinerary and get place info from Google Map API
+- Fasten API server response time with Redis
+- Switch transportation mode
+- Unreasonable Stay period warning
+<video src=https://youtu.be/ZhT8dwD5CD0></video>
+
+### View mode & Co-editing
+- people can visit page without login (uneditable & no realtime update)
+- When user login, users are able to co-edit the itinerary in realtime with socket.io
+<video src=https://youtu.be/lp_O-Wer46c></video>
+
+
+### Chatroom with image and message
+- messaging and sending email in the chatroom via socket.io
+<video src=https://youtu.be/1s_RJ5KT37A></video>
 
 ## Team member
 
