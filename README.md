@@ -134,40 +134,45 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 ### Creating User
 - Home page, Register, Login, Logout.
 - Basic CRUD and upload image to AWS S3.
-[Creating User Demo](https://youtu.be/k7VQXnbHTf0)
+
+- [Creating User Demo](https://www.youtube.com/watch?v=k7VQXnbHTf0)
 
 ### Reset password
-- Reset password with 1 hour token
-- Send email via AWS SES
-[Reset Password Demo](https://youtu.be/sZD8jHsTyc8)
+- Reset password with 1-hour token.
+- Send email via AWS SES.
+
+- [Reset Password Demo](https://www.youtube.com/watch?v=sZD8jHsTyc8)
 
 ### CRUD itinerary
-- Basic CRUD itinerary
-[CRUD Itinerary Demo](https://youtu.be/APgg0Q4EHb0)
+- Basic CRUD itinerary.
+
+- [CRUD Itinerary Demo](https://www.youtube.com/watch?v=APgg0Q4EHb0)
 
 ### Adding participant into itinerary
-- Adding participant into itinerary
-- Receiver will get the notification via socket.io
-- Redirect to the specific itinerary
-[Adding Participant Demo](https://youtu.be/2vJXtdnQvx0)
+- Adding participant into itinerary.
+- Receiver will get the notification via socket.io.
+- Redirect to the specific itinerary.
+
+- [Adding Participant Demo](https://www.youtube.com/watch?v=2vJXtdnQvx0)
 
 ### Editing itinerary
-- CRUD the itinerary and get place info from Google Map API
-- Fasten API server response time with Redis
-- Switch transportation mode
-- Unreasonable Stay period warning
-[Editing itinerary Demo](https://youtu.be/ZhT8dwD5CD0)
+- CRUD the itinerary and get place info from Google Map API.
+- Fasten API server response time with Redis.
+- Switch transportation mode.
+- Unreasonable Stay period warning.
+
+- [Editing Itinerary Demo](https://www.youtube.com/watch?v=ZhT8dwD5CD0)
 
 ### View mode & Co-editing
-- people can visit page without login (uneditable & no realtime update)
-- When user login, users are able to co-edit the itinerary in realtime with socket.IO
-[View mode & Co-editing Demo](https://youtu.be/lp_O-Wer46c)
+- People can visit the page without login (uneditable & no real-time update).
+- When users log in, they can co-edit the itinerary in real-time with socket.IO.
 
+- [View Mode & Co-editing Demo](https://www.youtube.com/watch?v=lp_O-Wer46c)
 
 ### Chatroom with image and message
-- messaging and sending email in the chatroom via socket.io
-[Chatroom with image and message Demo](https://youtu.be/1s_RJ5KT37A)
+- Messaging and sending email in the chatroom via socket.io.
 
+- [Chatroom with Image and Message Demo](https://www.youtube.com/watch?v=1s_RJ5KT37A)
 
 ## Team member
 
