@@ -135,25 +135,25 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 - Home page, Register, Login, Logout.
 - Basic CRUD and upload image to AWS S3.
 
-- [Creating User Demo](https://www.youtube.com/watch?v=k7VQXnbHTf0)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/k7VQXnbHTf0?si=UNe65A2a6imFGrzh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ### Reset password
 - Reset password with 1-hour token.
 - Send email via AWS SES.
 
-- [Reset Password Demo](https://www.youtube.com/watch?v=sZD8jHsTyc8)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/sZD8jHsTyc8?si=NlAC9rp7fwJVTcBy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ### CRUD itinerary
 - Basic CRUD itinerary.
 
-- [CRUD Itinerary Demo](https://www.youtube.com/watch?v=APgg0Q4EHb0)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/APgg0Q4EHb0?si=lY0XdkMWI9MjEI0n" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ### Adding participant into itinerary
 - Adding participant into itinerary.
 - Receiver will get the notification via socket.io.
 - Redirect to the specific itinerary.
 
-- [Adding Participant Demo](https://www.youtube.com/watch?v=2vJXtdnQvx0)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2vJXtdnQvx0?si=UeNONkxzmwWwg6rT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ### Editing itinerary
 - CRUD the itinerary and get place info from Google Map API.
@@ -161,18 +161,18 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 - Switch transportation mode.
 - Unreasonable Stay period warning.
 
-- [Editing Itinerary Demo](https://www.youtube.com/watch?v=ZhT8dwD5CD0)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ZhT8dwD5CD0?si=EFukWdCZoZeYNaYV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ### View mode & Co-editing
 - People can visit the page without login (uneditable & no real-time update).
 - When users log in, they can co-edit the itinerary in real-time with socket.IO.
 
-- [View Mode & Co-editing Demo](https://www.youtube.com/watch?v=lp_O-Wer46c)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/lp_O-Wer46c?si=vD-rsMj8YuMRxzgb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ### Chatroom with image and message
 - Messaging and sending email in the chatroom via socket.io.
 
-- [Chatroom with Image and Message Demo](https://www.youtube.com/watch?v=1s_RJ5KT37A)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1s_RJ5KT37A?si=cbm1NYL0RTicL4-O" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## Team member
 
