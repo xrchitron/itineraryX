@@ -26,6 +26,7 @@ A website for **co-editing itinerary and discussing plans**.
    - [Editing itinerary](#editing-itinerary)
    - [View mode & Co-editing](#view-mode--co-editing)
    - [Chatroom with image and message](#chatroom-with-image-and-message)
+   - [Place info and redirecting to Google Maps](#place-info-and-redirecting-to-google-maps)
 - [Team member](#team-member)
 - [License](#license)
 
@@ -188,6 +189,12 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
    Sorry, your browser doesn't support embedded videos. ![Chatroom with image and message Demo](https://youtu.be/1s_RJ5KT37A)
 </video>
 
+### Place info and redirecting to Google Maps
+- Checking place information and redirect to google map for detail and navigation
+
+- <video src=https://github.com/xrchitron/itineraryX/assets/125111607/6a5d8fe5-743c-46ed-ae72-a5e053ee01d3>
+   Sorry, your browser doesn't support embedded videos. ![Place info and redirecting to Google Maps Demo](https://youtu.be/yG2qw4PxRqs)
+</video>
 
 ## Team member
 
