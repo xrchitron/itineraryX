@@ -1,7 +1,7 @@
 require('dotenv').config()
 const { User, Followship, Participant, Notification } = require('../models')
 const s3 = require('../utils/aws_s3')
-const { sendEmail } = require('../utils/aws-ses-send-email')
+const { sendEmail, verifyEmail } = require('../utils/aws-ses-send-email')
 const HttpError = require('../utils/httpError')
 const userServices = {
   async createNewUser (name, email, password) {
@@ -158,6 +158,10 @@ const userServices = {
       return data
     }))
     return notificationData
+  },
+  async verifyEmail (email) {
+    const result = await verifyEmail(email)
+    return result
   }
 }
 module.exports = userServices

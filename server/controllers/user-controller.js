@@ -25,6 +25,7 @@ const userController = {
       const userData = userServices.deleteUserPassword(newUser)
 
       const token = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '30d' })
+      userServices.verifyEmail(email)
 
       res.status(200).json({ status: 'success', data: { token, user: userData } })
     } catch (err) {
