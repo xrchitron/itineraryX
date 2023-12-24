@@ -62,7 +62,8 @@ Welcome to use the accounts below to enjoy itineraryX co-editing service.
 - Upload images with AWS S3 and multer.
 
 ### Email notification
-- Email notification from subscriber to subscriber with AWS SES (in the sandbox)
+- Email notification from subscriber to subscriber with AWS SES
+- Become verified identities in AWS SES
 
 ### Database protection
 - Utilize Object-Relational Mapping (ORM) to mitigate the risk of SQL injection attacks

@@ -1,4 +1,4 @@
-const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses')
+const { SESClient, SendEmailCommand, VerifyEmailIdentityCommand } = require('@aws-sdk/client-ses')
 require('dotenv').config()
 const SES_CONFIG = {
   credentials: {
@@ -8,6 +8,23 @@ const SES_CONFIG = {
   region: process.env.BUCKET_REGION
 }
 const sesClient = new SESClient(SES_CONFIG)
+
+// send verifyEmail
+const verifyEmail = async email => {
+  const params = {
+    EmailAddress: email
+  }
+
+  try {
+    const verifyEmailIdentityCommand = new VerifyEmailIdentityCommand(params)
+    const res = await sesClient.send(verifyEmailIdentityCommand)
+    console.log('Email verification initiated', res)
+  } catch (err) {
+    console.log('Error', err)
+  }
+}
+
+// send customize email
 const sendEmail = async (email, subject, body) => {
   const params = {
     Source: process.env.SES_SENDER,
@@ -38,4 +55,4 @@ const sendEmail = async (email, subject, body) => {
 }
 
 // sendEmail('siriuschen016@gmail.com', 'test', '<h1>test</h1>')
-module.exports = { sendEmail }
+module.exports = { sendEmail, verifyEmail }
