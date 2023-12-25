@@ -13,7 +13,7 @@ const userServices = {
     return user
   },
   async getUserByName (name) {
-    const user = await User.findOne({ where: { name } })
+    const user = await User.findOne({ where: { name }, raw: true })
     return user
   },
   async getUserWithFollows (id) {
