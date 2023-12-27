@@ -53,7 +53,7 @@ const routeController = {
       if (!createdRoute) throw new HttpError(500, 'Create route failed')
 
       // get related data from database
-      const route = await routeServices.getRoute(itineraryId, originId, destinationId)
+      const route = await routeServices.getRouteById(createdRoute.toJSON().id)
       if (!route) throw new HttpError(404, 'Route not found')
       // rename route data
       const routeData = routeServices.processGetRouteData(route)
